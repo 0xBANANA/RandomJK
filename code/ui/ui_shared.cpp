@@ -26,6 +26,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 // leave this at the top of all UI_xxxx files for PCH reasons...
 //
+#include <iostream>
 #include "../server/exe_headers.h"
 
 #include "ui_local.h"
@@ -40,6 +41,8 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "menudef.h"
 
 #include "qcommon/stringed_ingame.h"
+
+#include "globalShuffledTiers.h"
 
 void		UI_LoadMenus(const char *menuFile, qboolean reset);
 
@@ -5368,6 +5371,7 @@ menuDef_t *Menus_ActivateByName(const char *p)
 		if (Q_stricmp(Menus[i].window.name, p) == 0)
 		{
 			m = &Menus[i];
+
 			Menus_Activate(m);
 			if (openMenuCount < MAX_OPEN_MENUS && focus != NULL)
 			{
@@ -5862,6 +5866,23 @@ int PC_StartParseSession(const char *fileName,char **buffer)
 
 	// Try to open file and read it in.
 	len = ui.FS_ReadFile( fileName,(void **) buffer  );
+
+    // Randomizer Hack: use our menu lel
+	if(strcmp(fileName, "ui/ingameMissionSelect1.menu") == 0 && SHUFFLED_TIER_1.length() > 0) {
+        // inject the randomized menu into the buffer --> Win
+        *buffer = &SHUFFLED_TIER_1[0];
+        std::cout << "Using menu for tier1: " << std::endl << SHUFFLED_TIER_1 << std::endl;
+	}
+
+    if(strcmp(fileName, "ui/ingameMissionSelect2.menu") == 0 && SHUFFLED_TIER_2.length() > 0) {
+        *buffer = &SHUFFLED_TIER_2[0];
+        std::cout << "Using menu for tier2: " << std::endl << SHUFFLED_TIER_2 << std::endl;
+    }
+
+    if(strcmp(fileName, "ui/ingameMissionSelect3.menu") == 0 && SHUFFLED_TIER_3.length() > 0) {
+        *buffer = &SHUFFLED_TIER_3[0];
+        std::cout << "Using menu for tier3: " << std::endl << SHUFFLED_TIER_3 << std::endl;
+    }
 
 	// Not there?
 	if ( len>0 )

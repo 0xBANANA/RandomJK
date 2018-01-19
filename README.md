@@ -1,5 +1,21 @@
-# OpenJK
+# OpenJK - now with even moar randomness
 
+This version of OpenJK has some additional single player features implemented:
+
+* The missions of each tier will be randomized on every start of the single player game (after creating a character)
+* The randomized level pattern will be saved to a file called `pattern_file.txt` which you can edit and share
+* Random patterns will be restored from the last sessions as long as you don't start a new run of the story mode.
+* More to come :)
+
+# Building
+
+Please refer to the original notes on the build process of OpenJK. I added an option to the CMake project which allows you to pass the installation directory with an environment variable. Check the `CMakeList` files for additional info.
+
+# Credits
+Thanks go out to Raven, the JACoders and the JKA speedrunning community.
+
+- Joe Bananas (@JoeBananas1337_)
+--------------------------
 OpenJK is an effort by the JACoders group to maintain and improve the game engines on which the Jedi Academy (JA) and Jedi Outcast (JO) games run on, while maintaining *full backwards compatibility* with the existing games. *This project does not attempt to rebalance or otherwise modify core gameplay*.
 
 Our aims are to:
@@ -37,7 +53,7 @@ Installing and running OpenJK:
 1. [Download the latest build](http://builds.openjk.org) for your operating system.
 2. Extract the contents of the file into the Jedi Academy `GameData/` folder. For Steam users, this will be in `<Steam Folder>/steamapps/common/Jedi Academy/GameData`.
 3. Run `openjk.x86.exe` (Windows), `openjk.i386` (Linux 32-bit), `openjk.x86_64` (Linux 64-bit) or the `OpenJK` application (OS X), depending on your operating system.
- 
+
 **Linux Instructions**
 
 If you do not have a windows partition and need to download the game base.
@@ -52,12 +68,12 @@ If you do not have a windows partition and need to download the game base.
 
 **OS X Instructions**
 
-If you have the Mac App Store Version of Jedi Academy, follow these steps to get OpenJK runnning under OS X:  
+If you have the Mac App Store Version of Jedi Academy, follow these steps to get OpenJK runnning under OS X:
 
 1. Install [Homebrew](http://brew.sh/) if you don't have it.
 2. Open the Terminal app, and enter the command `brew install sdl2`.
 3. Extract the contents of the OpenJK DMG ([Download the latest build](http://builds.openjk.org)) into the game directory `/Applications/Star Wars Jedi Knight: Jedi Academy.app/Contents/`
-4. Run `openJK.app` or `openJK SP.app` 
+4. Run `openJK.app` or `openJK SP.app`
 5. Savegames, Config Files and Log Files are stored in `/Users/<USER>/Library/Application Support/OpenJK/`
 
 

@@ -28,6 +28,8 @@ local.properties
 # PDT-specific
 .buildpath
 
+# cmake files
+**/CMakeLists.txt
 
 #################
 ## Visual Studio

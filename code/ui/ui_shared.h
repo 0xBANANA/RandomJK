@@ -24,6 +24,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef __UI_SHARED_H
 #define __UI_SHARED_H
 
+
 enum {
 	SSF_JPEG = 0,
 	SSF_TGA,

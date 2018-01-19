@@ -247,8 +247,7 @@ set(SPGameFiles ${SPGameFiles} ${SPGameCGameFiles})
 
 set(SPGameUIFiles
 	"${SPDir}/ui/gameinfo.cpp"
-	"${SPDir}/ui/gameinfo.h"
-	)
+	"${SPDir}/ui/gameinfo.h" )
 source_group("ui" FILES ${SPGameUIFiles})
 set(SPGameFiles ${SPGameFiles} ${SPGameUIFiles})
 
@@ -369,7 +368,7 @@ if(WIN32)
 	set(SPGameWin32Files
 		"${SPDir}/win32/game.rc")
 	source_group("win32" FILES ${SPGameWin32Files})
-	set(SPGameFiles ${SPGameFiles} ${SPGameWin32Files})
+	set(SPGameFiles ${SPGameFiles} ${SPGameWin32Files} )
 endif(WIN32)
 
 add_library(${SPGame} SHARED ${SPGameFiles})

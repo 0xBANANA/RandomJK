@@ -16,6 +16,10 @@
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 #============================================================================
 
+if (NOT "$ENV{CMAKE_INSTALL_PREFIX}" STREQUAL "")
+    set(CMAKE_INSTALL_PREFIX "$ENV{CMAKE_INSTALL_PREFIX}" CACHE INTERNAL "Copied from environment variable")
+endif()
+
 # Make sure the user is not executing this script directly
 if(NOT InOpenJK)
 	message(FATAL_ERROR "Use the top-level cmake script!")
@@ -184,7 +188,7 @@ if(BuildSPEngine OR BuildJK2SPEngine)
 		)
 	source_group("common" FILES ${SPEngineCommonFiles})
 	set(SPEngineFiles ${SPEngineFiles} ${SPEngineCommonFiles})
-	
+
 	set(SPEngineCommonSafeFiles
 		"${SharedDir}/qcommon/safe/files.cpp"
 		"${SharedDir}/qcommon/safe/files.h"
@@ -297,6 +301,7 @@ if(BuildSPEngine OR BuildJK2SPEngine)
 		"${SPDir}/ui/ui_local.h"
 		"${SPDir}/ui/ui_public.h"
 		"${SPDir}/ui/ui_shared.h"
+		"${SPDir}/ui/globalShuffledTiers.h"
 		)
 	source_group("ui" FILES ${SPEngineUIFiles})
 	set(SPEngineFiles ${SPEngineFiles} ${SPEngineUIFiles})

@@ -31,6 +31,18 @@ USER INTERFACE MAIN
 
 #include <algorithm>
 #include <vector>
+#include <fstream>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <istream>
+#include <iterator>
+
+#include "globalShuffledTiers.h"
+// initialize the global variables
+std::string SHUFFLED_TIER_1;
+std::string SHUFFLED_TIER_2;
+std::string SHUFFLED_TIER_3;
 
 #include "../server/exe_headers.h"
 
@@ -1063,6 +1075,76 @@ static qboolean UI_RunMenuScript ( const char **args )
 #ifdef JK2_MODE
 			ui.Cmd_ExecuteText( EXEC_APPEND, "map kejim_post\n" );
 #else
+
+            // Randomizer hack: Generate a new pattern and save it to a file
+			// this gets called after choosing a hilt for a new game
+
+            // Seed it for maximum swag and randomness
+            srand(unsigned(time(NULL)));
+            // shuffle it like it has never been shuffled before
+            std::random_shuffle(MAP_NAMES.begin(), MAP_NAMES.end());
+
+            assert(MAP_NAMES.size() == 15);
+
+			// create 3 random tiers
+            std::vector<std::string> t1 = {
+                    MAP_NAMES[0],
+                    MAP_NAMES[1],
+                    MAP_NAMES[2],
+                    MAP_NAMES[3],
+                    MAP_NAMES[4],
+            };
+
+            std::vector<std::string> t2 = {
+                    MAP_NAMES[5],
+                    MAP_NAMES[6],
+                    MAP_NAMES[7],
+                    MAP_NAMES[8],
+                    MAP_NAMES[9],
+            };
+
+            std::vector<std::string> t3 = {
+                    MAP_NAMES[10],
+                    MAP_NAMES[11],
+                    MAP_NAMES[12],
+                    MAP_NAMES[13],
+                    MAP_NAMES[14],
+            };
+
+            assert(t1.size() == 5);
+            assert(t2.size() == 5);
+            assert(t3.size() == 5);
+
+            // get the pattern
+            std::string pattern = "";
+
+            for (unsigned int i = 0; i < t1.size(); i++) {
+                pattern += t1[i];
+                if (i + 1 != t1.size()) { pattern += " "; }
+            }
+
+            pattern += " ";
+            for (unsigned int i = 0; i < t2.size(); i++) {
+                pattern += t2[i];
+                if (i + 1 != t2.size()) { pattern += " "; }
+            }
+
+            pattern += " ";
+            for (unsigned int i = 0; i < t3.size(); i++) {
+                pattern += t3[i];
+                if (i + 1 != t3.size()) { pattern += " "; }
+            }
+
+            std::cout << "*** Random pattern: " << pattern << std::endl;
+
+            generateShuffledMenusFromTiers(t1, t2, t3);
+
+            // output the pattern into a file
+            std::ofstream patternFile;
+            patternFile.open(PATTERN_FILE_NAME);
+            patternFile << pattern;
+            patternFile.close();
+
 			ui.Cmd_ExecuteText( EXEC_APPEND, "map yavin1\n");
 #endif
 		}
@@ -2801,12 +2883,38 @@ UI_ParseMenu
 */
 void UI_ParseMenu(const char *menuFile)
 {
+
+
 	char	*buffer,*holdBuffer,*token2;
 	int len;
 //	pc_token_t token;
 
 	//Com_DPrintf("Parsing menu file: %s\n", menuFile);
 	len = PC_StartParseSession(menuFile,&buffer);
+
+
+    //Randomizer hack: Use our menu
+
+    // if we injected our own randomized menu or not
+    bool injected = false;
+
+    // Mission select menu gets loaded --> ITS A TRAP!!!
+    // disable free() because YOLO
+    if(strcmp(menuFile, "ui/ingameMissionSelect1.menu") == 0 && SHUFFLED_TIER_1.length() > 0) {
+
+        injected = true;
+    }
+
+	if(strcmp(menuFile, "ui/ingameMissionSelect2.menu") == 0 && SHUFFLED_TIER_2.length() > 0) {
+
+        injected = true;
+	}
+
+
+	if(strcmp(menuFile, "ui/ingameMissionSelect3.menu") == 0 && SHUFFLED_TIER_3.length() > 0) {
+        injected = true;
+	}
+
 
 	holdBuffer = buffer;
 
@@ -2861,7 +2969,13 @@ void UI_ParseMenu(const char *menuFile)
 		PC_ParseWarning(va("Invalid keyword '%s'",token2));
 	}
 
-	PC_EndParseSession(buffer);
+    // avoid the free() so we don't crash lol...
+    if(injected) {
+        COM_EndParseSession();
+    }
+    else {
+        PC_EndParseSession(buffer);
+    }
 
 }
 
@@ -4161,6 +4275,85 @@ and that local cinematics are killed
 */
 void UI_MainMenu(void)
 {
+
+    // Randomizer Hack (1): Load template and a pattern (if present)
+
+    // Read the template file because MSVC can't handle really long strings because of reasons
+    std::ifstream templateFileHandle(TEMPLATE_FILE_NAME.c_str());
+
+    // crash if the file isn't present
+    assert(templateFileHandle.good() && "Template file isn't present :(");
+
+
+    // read the tempalte from file
+    std::string templateRead((std::istreambuf_iterator<char>(templateFileHandle)),
+                            std::istreambuf_iterator<char>());
+
+    TMPLT = templateRead;
+
+
+    // Reload the previously generated random tier pattern
+    // (if it exists)
+    std::ifstream patternFileHandle(PATTERN_FILE_NAME.c_str());
+
+    if (patternFileHandle.good()) {
+
+        // read it from the file
+        std::string patternRead((std::istreambuf_iterator<char>(patternFileHandle)),
+                                std::istreambuf_iterator<char>());
+
+        // split it by spaces
+        std::stringstream ss(patternRead);
+        std::istream_iterator<std::string> begin(ss);
+        std::istream_iterator<std::string> end;
+        std::vector<std::string> splittedPattern(begin, end);
+
+		// check for valid map names
+		for(const auto mapname : splittedPattern) {
+			if (!(std::find(MAP_NAMES.begin(), MAP_NAMES.end(), mapname) != MAP_NAMES.end()))
+			{
+				// not a valid mapname
+				std::cout << "Invalid mapname: " << mapname << std::endl;
+				assert(false && "Invalid mapname detected :(");
+			}
+		}
+
+        assert(splittedPattern.size() == 15 && "15 Maps have to be present in the file!");
+
+		// split the pattern into 3 equally sized tiers
+        std::vector<std::string> t1 = {
+                splittedPattern[0],
+                splittedPattern[1],
+                splittedPattern[2],
+                splittedPattern[3],
+                splittedPattern[4],
+        };
+
+        std::vector<std::string> t2 = {
+                splittedPattern[5],
+                splittedPattern[6],
+                splittedPattern[7],
+                splittedPattern[8],
+                splittedPattern[9],
+        };
+
+        std::vector<std::string> t3 = {
+                splittedPattern[10],
+                splittedPattern[11],
+                splittedPattern[12],
+                splittedPattern[13],
+                splittedPattern[14],
+        };
+
+        assert(t1.size() == 5);
+        assert(t2.size() == 5);
+        assert(t3.size() == 5);
+
+        // recreate the menus
+        generateShuffledMenusFromTiers(t1, t2, t3);
+
+    }
+
 	char buf[256];
 	ui.Cvar_Set("sv_killserver", "1");	// let the demo server know it should shut down
 

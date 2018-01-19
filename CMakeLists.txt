@@ -1,17 +1,17 @@
 #============================================================================
 # Copyright (C) 2013 - 2015, OpenJK contributors
-# 
+#
 # This file is part of the OpenJK source code.
-# 
+#
 # OpenJK is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 2 as
 # published by the Free Software Foundation.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 #============================================================================
@@ -22,7 +22,9 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9" CACHE STRING "Minimum OS X deployment ver
 # For checks in subdirectories
 set(InOpenJK TRUE)
 
-
+if (NOT "$ENV{CMAKE_INSTALL_PREFIX}" STREQUAL "")
+    set(CMAKE_INSTALL_PREFIX "$ENV{CMAKE_INSTALL_PREFIX}" CACHE INTERNAL "Copied from environment variable")
+endif()
 
 # Project name
 set(ProjectName "OpenJK" CACHE STRING "Project Name")
@@ -240,7 +242,7 @@ elseif (("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU") OR ("${CMAKE_C_COMPILER_ID}" M
 
 	# enable somewhat modern C++
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-	
+
 	if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
 		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-comment")
@@ -373,3 +375,13 @@ if(BuildTests)
 	enable_testing()
 	add_subdirectory("tests")
 endif()
+
+add_custom_target(install_SP
+		"${CMAKE_COMMAND}" --build "${CMAKE_BINARY_DIR}" --target install
+		DEPENDS openjk_sp.x86_64
+		COMMENT "Installing ${PROJECT_NAME}")
+
+add_custom_target(install_MP
+        "${CMAKE_COMMAND}" --build "${CMAKE_BINARY_DIR}" --target install
+        DEPENDS openjk.x86_64
+        COMMENT "Installing ${PROJECT_NAME}")
