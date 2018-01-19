@@ -59,6 +59,9 @@ extern std::string SHUFFLED_TIER_1;
 extern std::string SHUFFLED_TIER_2;
 extern std::string SHUFFLED_TIER_3;
 
+// the modified main menu
+extern std::string MAIN_MENU;
+
 // template for the generated menu files
 // will be set on startup
 static std::string TMPLT;

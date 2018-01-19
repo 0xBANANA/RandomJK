@@ -29,6 +29,12 @@ local.properties
 .buildpath
 
 #################
+## Clion
+#################
+cmake-build-release/
+cmake-build-debug/
+
+#################
 ## Visual Studio
 #################
 

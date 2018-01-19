@@ -43,6 +43,7 @@ USER INTERFACE MAIN
 std::string SHUFFLED_TIER_1;
 std::string SHUFFLED_TIER_2;
 std::string SHUFFLED_TIER_3;
+std::string MAIN_MENU;
 
 #include "../server/exe_headers.h"
 
@@ -2898,6 +2899,11 @@ void UI_ParseMenu(const char *menuFile)
     // if we injected our own randomized menu or not
     bool injected = false;
 
+	// to display message on main menu
+	if(strcmp(menuFile, "ui/main.menu") == 0) {
+		injected = true;
+	}
+
     // Mission select menu gets loaded --> ITS A TRAP!!!
     // disable free() because YOLO
     if(strcmp(menuFile, "ui/ingameMissionSelect1.menu") == 0 && SHUFFLED_TIER_1.length() > 0) {
@@ -4282,7 +4288,7 @@ void UI_MainMenu(void)
     std::ifstream templateFileHandle(TEMPLATE_FILE_NAME.c_str());
 
     // crash if the file isn't present
-    assert(templateFileHandle.good() && "Template file isn't present :(");
+    assert(templateFileHandle.good() && "The template file isn't present :(");
 
 
     // read the tempalte from file

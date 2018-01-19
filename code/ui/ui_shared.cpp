@@ -5867,6 +5867,38 @@ int PC_StartParseSession(const char *fileName,char **buffer)
 	// Try to open file and read it in.
 	len = ui.FS_ReadFile( fileName,(void **) buffer  );
 
+    // display randomizer message on main menu
+    if(strcmp(fileName, "ui/main.menu") == 0) {
+        MAIN_MENU = std::string(*buffer);
+
+		size_t start_pos = 0;
+		std::string pattern = "@MENUS_EXIT";
+
+		std::vector<std::string> texts = {
+				"FWAHAHAHAHA",
+				"\"NOW WITH EVEN MOAR RANDOM\"",
+				"\"THIS_WILL_BE_HARD\"",
+				"\"OpenJK Rand0mizer by JoeBananas\"",
+				"\"GET ME OUTTA HERE\"",
+				"\"EXTREMELY HARD RANDOM PATTERN DETECTED\"",
+				"\"IT'S A TRAP\"",
+				"\"BLAME IT ON THE GRAN\"",
+				"\"THIS IS BANANAS\"",
+				"\"SUCH RANDOM\"",
+		};
+
+		srand(unsigned(time(NULL)));
+		std::string repl = texts[rand() % (texts.size()-1)];
+
+		while((start_pos = MAIN_MENU.find(pattern, start_pos)) != std::string::npos) {
+			MAIN_MENU.replace(start_pos, pattern.length(), repl);
+			start_pos += repl.length();
+		}
+
+
+        *buffer = &MAIN_MENU[0];
+    }
+
     // Randomizer Hack: use our menu lel
 	if(strcmp(fileName, "ui/ingameMissionSelect1.menu") == 0 && SHUFFLED_TIER_1.length() > 0) {
         // inject the randomized menu into the buffer --> Win
