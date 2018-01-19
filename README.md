@@ -7,9 +7,14 @@ This version of OpenJK has some additional single player features implemented:
 * Random patterns will be restored from the last sessions as long as you don't start a new run of the story mode.
 * More to come :)
 
+
 # Building
 
 Please refer to the original notes on the build process of OpenJK. I added an option to the CMake project which allows you to pass the installation directory with an environment variable. Check the `CMakeList` files for additional info.
+
+# Usage
+
+**After compiling this project, copy the file** `files/template_file.txt` **into the same directory your JKA executable lives in. If you don't do this, the game will crash as intended.**
 
 # Credits
 Thanks go out to Raven, the JACoders and the JKA speedrunning community.
