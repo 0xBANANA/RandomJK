@@ -25,8 +25,10 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 // leave this as first line for PCH reasons...
 //
+#include <iostream>
 #include "../server/exe_headers.h"
 #include "../ui/ui_shared.h"
+#include "../ui/globalShuffledTiers.h"
 
 #include "client.h"
 #include "vmachine.h"
@@ -409,6 +411,31 @@ Just adds default parameters that cgame doesn't need to know about
 void CL_CM_LoadMap( const char *mapname, qboolean subBSP ) {
 	int		checksum;
 
+    // Hack: Set mapname to apply force powers later on
+	// *mapname = e.g. "maps/t1_inter.bsp"
+	std::string _mapname(mapname);
+
+	// remove "maps/"
+	std::string::size_type whereToErase1 = _mapname.find("maps/");
+	if (whereToErase1 != std::string::npos) {
+		_mapname.erase(whereToErase1, 5);
+	}
+
+	// remove ".bsp"
+	std::string::size_type whereToErase2 = _mapname.find(".bsp");
+	if (whereToErase2 != std::string::npos) {
+		_mapname.erase(whereToErase2, 4);
+	}
+
+    UPCOMING_MAP_NAME = _mapname;
+
+    client_t* cl = &svs.clients[0];
+    if(cl && cl->gentity && cl->gentity->client) {
+        randomizeForcePowers(cl->gentity->client, _mapname);
+    }
+
+	// set it to false for the next map
+	randomizeForcePowersDoOnce = false;
 	CM_LoadMap( mapname, qtrue, &checksum, subBSP );
 }
 

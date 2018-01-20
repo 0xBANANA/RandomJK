@@ -5,7 +5,7 @@ This version of OpenJK has some additional single player features implemented:
 * The missions of each tier will be randomized on every start of the single player game (after creating a character)
 * The randomized level pattern will be saved to a file called `pattern_file.txt` which you can edit and share
 * Random patterns will be restored from the last sessions as long as you don't start a new run of the story mode.
-* More to come :)
+* Randomized force levels: For each level, you can edit the file `randomizerOptions.json` to specify the minumum force level required for each force power and level.
 
 
 # Building
@@ -14,10 +14,11 @@ Please refer to the original notes on the build process of OpenJK. I added an op
 
 # Usage
 
-**After compiling this project, copy the file** `files/template_file.txt` **into the same directory your JKA executable lives in. If you don't do this, the game will crash as intended.**
+**After compiling this project, copy the files** `files/template_file.txt` **and** `files/randomizerOptions.json` **into the same directory your JKA executable lives in. If you don't do this, the game will crash as intended.**
 
 # Credits
 Thanks go out to Raven, the JACoders and the JKA speedrunning community.
+Additionally, to nlohmann for the great JSON library.
 
 - Joe Bananas (@JoeBananas1337_)
 --------------------------

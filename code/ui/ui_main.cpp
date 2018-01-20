@@ -39,11 +39,18 @@ USER INTERFACE MAIN
 #include <iterator>
 
 #include "globalShuffledTiers.h"
+
 // initialize the global variables
 std::string SHUFFLED_TIER_1;
 std::string SHUFFLED_TIER_2;
 std::string SHUFFLED_TIER_3;
 std::string MAIN_MENU;
+std::string UPCOMING_MAP_NAME;
+json SETTINGS_JSON;
+bool randomizeForcePowersDoOnce = false;
+
+#include "json.h"
+using json = nlohmann::json;
 
 #include "../server/exe_headers.h"
 
@@ -1083,33 +1090,33 @@ static qboolean UI_RunMenuScript ( const char **args )
             // Seed it for maximum swag and randomness
             srand(unsigned(time(NULL)));
             // shuffle it like it has never been shuffled before
-            std::random_shuffle(MAP_NAMES.begin(), MAP_NAMES.end());
+            std::random_shuffle(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end());
 
-            assert(MAP_NAMES.size() == 15);
+            assert(TIER_MAP_NAMES.size() == 15);
 
 			// create 3 random tiers
             std::vector<std::string> t1 = {
-                    MAP_NAMES[0],
-                    MAP_NAMES[1],
-                    MAP_NAMES[2],
-                    MAP_NAMES[3],
-                    MAP_NAMES[4],
+                    TIER_MAP_NAMES[0],
+                    TIER_MAP_NAMES[1],
+                    TIER_MAP_NAMES[2],
+                    TIER_MAP_NAMES[3],
+                    TIER_MAP_NAMES[4],
             };
 
             std::vector<std::string> t2 = {
-                    MAP_NAMES[5],
-                    MAP_NAMES[6],
-                    MAP_NAMES[7],
-                    MAP_NAMES[8],
-                    MAP_NAMES[9],
+                    TIER_MAP_NAMES[5],
+                    TIER_MAP_NAMES[6],
+                    TIER_MAP_NAMES[7],
+                    TIER_MAP_NAMES[8],
+                    TIER_MAP_NAMES[9],
             };
 
             std::vector<std::string> t3 = {
-                    MAP_NAMES[10],
-                    MAP_NAMES[11],
-                    MAP_NAMES[12],
-                    MAP_NAMES[13],
-                    MAP_NAMES[14],
+                    TIER_MAP_NAMES[10],
+                    TIER_MAP_NAMES[11],
+                    TIER_MAP_NAMES[12],
+                    TIER_MAP_NAMES[13],
+                    TIER_MAP_NAMES[14],
             };
 
             assert(t1.size() == 5);
@@ -2894,7 +2901,7 @@ void UI_ParseMenu(const char *menuFile)
 	len = PC_StartParseSession(menuFile,&buffer);
 
 
-    //Randomizer hack: Use our menu
+    //Randomizer hack: Use our menu and apply force powers
 
     // if we injected our own randomized menu or not
     bool injected = false;
@@ -2907,12 +2914,10 @@ void UI_ParseMenu(const char *menuFile)
     // Mission select menu gets loaded --> ITS A TRAP!!!
     // disable free() because YOLO
     if(strcmp(menuFile, "ui/ingameMissionSelect1.menu") == 0 && SHUFFLED_TIER_1.length() > 0) {
-
         injected = true;
     }
 
 	if(strcmp(menuFile, "ui/ingameMissionSelect2.menu") == 0 && SHUFFLED_TIER_2.length() > 0) {
-
         injected = true;
 	}
 
@@ -4282,7 +4287,21 @@ and that local cinematics are killed
 void UI_MainMenu(void)
 {
 
-    // Randomizer Hack (1): Load template and a pattern (if present)
+    // Randomizer Hack (1): Load settings, template and a pattern (if present)
+
+	// Read the settings JSON file
+	std::ifstream settingsFileHandle(SETTINGS_FILE_NAME.c_str());
+
+	// crash if the file isn't present
+	assert(settingsFileHandle.good() && "The settings file isn't present :(");
+
+
+	// read the settings from file
+	std::string settingsJSONRead((std::istreambuf_iterator<char>(settingsFileHandle)),
+							 std::istreambuf_iterator<char>());
+
+	// parse json
+    SETTINGS_JSON = json::parse(settingsJSONRead);
 
     // Read the template file because MSVC can't handle really long strings because of reasons
     std::ifstream templateFileHandle(TEMPLATE_FILE_NAME.c_str());
@@ -4291,7 +4310,7 @@ void UI_MainMenu(void)
     assert(templateFileHandle.good() && "The template file isn't present :(");
 
 
-    // read the tempalte from file
+    // read the template from file
     std::string templateRead((std::istreambuf_iterator<char>(templateFileHandle)),
                             std::istreambuf_iterator<char>());
 
@@ -4316,7 +4335,7 @@ void UI_MainMenu(void)
 
 		// check for valid map names
 		for(const auto mapname : splittedPattern) {
-			if (!(std::find(MAP_NAMES.begin(), MAP_NAMES.end(), mapname) != MAP_NAMES.end()))
+			if (!(std::find(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), mapname) != TIER_MAP_NAMES.end()))
 			{
 				// not a valid mapname
 				std::cout << "Invalid mapname: " << mapname << std::endl;
@@ -4751,8 +4770,34 @@ static void UI_InitAllocForcePowers ( const char *forceName )
 		return;
 	}
 
-	client_t* cl = &svs.clients[0];	// 0 because only ever us as a player
+    client_t* cl = &svs.clients[0];	// 0 because only ever us as a player
 
+
+    if(!randomizeForcePowersDoOnce) {
+        // time to randomize force powers
+        // get the mapname selected in the previous menu
+        char buf[900];
+        DC->getCVarString("tier_mapname", buf, sizeof(buf));
+        std::string _mapname(buf);
+
+        // remove the command name from the string (e.g. maptransition t1_sour)
+        std::string::size_type whereToErase = _mapname.find("maptransition ");
+        if (whereToErase != std::string::npos) {
+            _mapname.erase(whereToErase, 14);
+        }
+
+        // has to be a valid mapname to make manipulations
+        bool mapNameValid = false;
+        if (std::find(ALL_MAP_NAMES.begin(), ALL_MAP_NAMES.end(), _mapname) != ALL_MAP_NAMES.end()) {
+            mapNameValid = true;
+            UPCOMING_MAP_NAME = _mapname;
+        }
+
+        if (mapNameValid) {
+            randomizeForcePowers(cl->gentity->client, _mapname);
+            randomizeForcePowersDoOnce = true;
+        }
+    }
 	// NOTE: this UIScript can be called outside the running game now, so handle that case
 	// by getting info frim UIInfo instead of PlayerState
 	if( cl )
@@ -5281,6 +5326,7 @@ void Item_MouseEnter(itemDef_t *item, float x, float y);
 // Try to increment force power level (Used by Force Power Allocation screen)
 static void UI_AffectForcePowerLevel ( const char *forceName )
 {
+
 	short forcePowerI=0,i;
 	menuDef_t	*menu;
 	itemDef_t	*item;

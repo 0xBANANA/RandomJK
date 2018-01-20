@@ -302,6 +302,7 @@ if(BuildSPEngine OR BuildJK2SPEngine)
 		"${SPDir}/ui/ui_public.h"
 		"${SPDir}/ui/ui_shared.h"
 		"${SPDir}/ui/globalShuffledTiers.h"
+		"${SPDir}/ui/json.h"
 		)
 	source_group("ui" FILES ${SPEngineUIFiles})
 	set(SPEngineFiles ${SPEngineFiles} ${SPEngineUIFiles})
