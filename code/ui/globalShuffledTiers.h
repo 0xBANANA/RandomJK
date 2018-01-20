@@ -339,8 +339,30 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
     for(auto fp : fps_player) {
         if(maxPoints == 0) { break; }
 
-        // from 0..3
-        int randomLevel = rand() % 4;
+        int randomLevel = 0;
+        // don't make it too easy ;)
+        if(fp == FP_LEVITATION) {
+            int randNo = rand() % 100;
+
+            if(randNo > 25) {
+                randomLevel = 1;
+            }
+
+            if(randNo > 60) {
+                randomLevel = 2;
+            }
+
+            if(randomLevel > 90) {
+                randomLevel = 3;
+            }
+
+        }
+        else {
+
+
+            // from 0..3
+            randomLevel = rand() % 4;
+        }
 
         // spend the rest
         if(maxPoints <= 3) { randomLevel = 3; }
@@ -369,10 +391,10 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
         json forcePowersUpcomingLevel = forcePowersJSON.at(mapname);
 
         // for each force power
-        if(pState->forcePowerLevel[FP_LEVITATION] < forcePowersUpcomingLevel.at("FP_LEVITATION")) {
-            pState->forcePowerLevel[FP_LEVITATION] = forcePowersUpcomingLevel.at("FP_LEVITATION");
+        if(pState->forcePowerLevel[FP_LEVITATION] < forcePowersUpcomingLevel.at("FP_JUMP")) {
+            pState->forcePowerLevel[FP_LEVITATION] = forcePowersUpcomingLevel.at("FP_JUMP");
         }
-        if(forcePowersUpcomingLevel.at("FP_LEVITATION") > 0) {
+        if(forcePowersUpcomingLevel.at("FP_JUMP") > 0) {
             // learn
             pState->forcePowersKnown |= ( 1 << FP_LEVITATION );
         }
@@ -441,10 +463,10 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
             pState->forcePowersKnown |= ( 0 << FP_SABER_OFFENSE );
         }
 
-        if(pState->forcePowerLevel[FP_SEE] < forcePowersUpcomingLevel.at("FP_SEE")) {
-            pState->forcePowerLevel[FP_SEE] = forcePowersUpcomingLevel.at("FP_SEE");
+        if(pState->forcePowerLevel[FP_SEE] < forcePowersUpcomingLevel.at("FP_SENSE")) {
+            pState->forcePowerLevel[FP_SEE] = forcePowersUpcomingLevel.at("FP_SENSE");
         }
-        if(forcePowersUpcomingLevel.at("FP_SEE") > 0) {
+        if(forcePowersUpcomingLevel.at("FP_SENSE") > 0) {
             // learn
             pState->forcePowersKnown |= ( 1 << FP_SEE );
         }
@@ -477,10 +499,10 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
             pState->forcePowersKnown |= ( 0 << FP_HEAL );
         }
 
-        if(pState->forcePowerLevel[FP_TELEPATHY] < forcePowersUpcomingLevel.at("FP_TELEPATHY")) {
-            pState->forcePowerLevel[FP_TELEPATHY] = forcePowersUpcomingLevel.at("FP_TELEPATHY");
+        if(pState->forcePowerLevel[FP_TELEPATHY] < forcePowersUpcomingLevel.at("FP_MINDTRICK")) {
+            pState->forcePowerLevel[FP_TELEPATHY] = forcePowersUpcomingLevel.at("FP_MINDTRICK");
         }
-        if(forcePowersUpcomingLevel.at("FP_TELEPATHY") > 0) {
+        if(forcePowersUpcomingLevel.at("FP_MINDTRICK") > 0) {
             // learn
             pState->forcePowersKnown |= ( 1 << FP_TELEPATHY );
         }
