@@ -8,6 +8,11 @@ This version of OpenJK has some additional single player features implemented:
 * Randomized force levels: For each level, you can edit the file `randomizerOptions.json` to specify the minumum force level required for each force power and level.
 
 
+# Force randomization modes
+In the file `randomizerOptions.json` you can choose the following force modes with `forceRandomizationMode`:
+- `0`: Progression mode: As you complete missions, you gain additional force points. You can spend one force point for each mission - the rest will be randomized
+- `1`: Chaos mode: Every force power will be randomized, you can gain from zero to the maximum amount of force points.
+
 # Building
 
 Please refer to the original notes on the build process of OpenJK. I added an option to the CMake project which allows you to pass the installation directory with an environment variable. Check the `CMakeList` files for additional info.
@@ -21,6 +26,11 @@ Thanks go out to Raven, the JACoders and the JKA speedrunning community.
 Additionally, to nlohmann for the great JSON library.
 
 - Joe Bananas (@JoeBananas1337_)
+
+# Todos
+* Instead of the chaos-force mode, implement a progression system and choose the mode via `settings.json`
+* Randomize weapons
+
 --------------------------
 OpenJK is an effort by the JACoders group to maintain and improve the game engines on which the Jedi Academy (JA) and Jedi Outcast (JO) games run on, while maintaining *full backwards compatibility* with the existing games. *This project does not attempt to rebalance or otherwise modify core gameplay*.
 

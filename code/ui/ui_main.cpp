@@ -41,13 +41,25 @@ USER INTERFACE MAIN
 #include "globalShuffledTiers.h"
 
 // initialize the global variables
+bool _seeded = false;
+// obtain a random number from hardware
+std::random_device _random_device;
+// mersienne twister --> PRNG
+std::mt19937 _rng;
+
 std::string SHUFFLED_TIER_1;
 std::string SHUFFLED_TIER_2;
 std::string SHUFFLED_TIER_3;
 std::string MAIN_MENU;
 std::string UPCOMING_MAP_NAME;
 json SETTINGS_JSON;
+
 bool randomizeForcePowersDoOnce = false;
+bool randomizeWeaponsDoOnce = false;
+
+int forceRandomizationMode = 0;
+int LEVELS_COMPLETED = 0;
+
 
 #include "json.h"
 using json = nlohmann::json;
@@ -1087,10 +1099,11 @@ static qboolean UI_RunMenuScript ( const char **args )
             // Randomizer hack: Generate a new pattern and save it to a file
 			// this gets called after choosing a hilt for a new game
 
-            // Seed it for maximum swag and randomness
+            // for other things using srand()
             srand(unsigned(time(NULL)));
+
             // shuffle it like it has never been shuffled before
-            std::random_shuffle(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end());
+            std::random_shuffle(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), GET_RANDOM_MAX);
 
             assert(TIER_MAP_NAMES.size() == 15);
 
@@ -4287,7 +4300,8 @@ and that local cinematics are killed
 void UI_MainMenu(void)
 {
 
-    // Randomizer Hack (1): Load settings, template and a pattern (if present)
+    // Randomizer Hack (1): Seed, Load settings, template and a pattern (if present)
+    INIT_PRNG();
 
 	// Read the settings JSON file
 	std::ifstream settingsFileHandle(SETTINGS_FILE_NAME.c_str());
@@ -4795,6 +4809,11 @@ static void UI_InitAllocForcePowers ( const char *forceName )
 
         if (mapNameValid) {
             randomizeForcePowers(cl->gentity->client, _mapname);
+
+            // We assume that this only gets called if a new map gets started --> increment counter
+            LEVELS_COMPLETED += 1;
+
+            // do it in the next map - not agian for this map
             randomizeForcePowersDoOnce = true;
         }
     }
@@ -5757,6 +5776,7 @@ static void	UI_WeaponHelpActive( void )
 	int	tier_storyinfo = Cvar_VariableIntegerValue( "tier_storyinfo" );
 	menuDef_t	*menu;
 
+
 	menu = Menu_GetFocused();	// Get current menu
 
 	if (!menu)
@@ -5783,7 +5803,7 @@ static void	UI_WeaponHelpActive( void )
 
 static void UI_InitWeaponSelect( void )
 {
-	UI_WeaponAllocBeginButton(qfalse);
+    UI_WeaponAllocBeginButton(qfalse);
 	uiInfo.selectedWeapon1 = NOWEAPON;
 	uiInfo.selectedWeapon2 = NOWEAPON;
 	uiInfo.selectedThrowWeapon = NOWEAPON;
@@ -5816,6 +5836,7 @@ static void UI_GiveWeapon ( const int weaponIndex )
 {
 	// Get player state
 	client_t* cl = &svs.clients[0];	// 0 because only ever us as a player
+
 
 	if (!cl)	// No client, get out
 	{
@@ -5987,6 +6008,35 @@ static void	UI_AddWeaponSelection ( const int weaponIndex, const int ammoIndex, 
 		if (cl->gentity && cl->gentity->client)
 		{
 			playerState_t*	pState = cl->gentity->client;
+
+
+            // time to randomize weapons before the menu gets loaded
+            if(!randomizeWeaponsDoOnce) {
+
+                // get the mapname selected in the previous menu
+                char buf[900];
+                DC->getCVarString("tier_mapname", buf, sizeof(buf));
+                std::string _mapname(buf);
+
+                // remove the command name from the string (e.g. maptransition t1_sour)
+                std::string::size_type whereToErase = _mapname.find("maptransition ");
+                if (whereToErase != std::string::npos) {
+                    _mapname.erase(whereToErase, 14);
+                }
+
+                // has to be a valid mapname to make manipulations
+                bool mapNameValid = false;
+                if (std::find(ALL_MAP_NAMES.begin(), ALL_MAP_NAMES.end(), _mapname) != ALL_MAP_NAMES.end()) {
+                    mapNameValid = true;
+                    UPCOMING_MAP_NAME = _mapname;
+                }
+
+                if (mapNameValid) {
+                    randomizeWeapons(pState, _mapname);
+                    // do it in the next map - not agian for this map
+                    randomizeWeaponsDoOnce = true;
+                }
+            }
 
 			if ((weaponIndex>0) && (weaponIndex<WP_NUM_WEAPONS))
 			{

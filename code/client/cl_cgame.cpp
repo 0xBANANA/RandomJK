@@ -411,31 +411,6 @@ Just adds default parameters that cgame doesn't need to know about
 void CL_CM_LoadMap( const char *mapname, qboolean subBSP ) {
 	int		checksum;
 
-    // Hack: Set mapname to apply force powers later on
-	// *mapname = e.g. "maps/t1_inter.bsp"
-	std::string _mapname(mapname);
-
-	// remove "maps/"
-	std::string::size_type whereToErase1 = _mapname.find("maps/");
-	if (whereToErase1 != std::string::npos) {
-		_mapname.erase(whereToErase1, 5);
-	}
-
-	// remove ".bsp"
-	std::string::size_type whereToErase2 = _mapname.find(".bsp");
-	if (whereToErase2 != std::string::npos) {
-		_mapname.erase(whereToErase2, 4);
-	}
-
-    UPCOMING_MAP_NAME = _mapname;
-
-    client_t* cl = &svs.clients[0];
-    if(cl && cl->gentity && cl->gentity->client) {
-        randomizeForcePowers(cl->gentity->client, _mapname);
-    }
-
-	// set it to false for the next map
-	randomizeForcePowersDoOnce = false;
 	CM_LoadMap( mapname, qtrue, &checksum, subBSP );
 }
 
@@ -1426,6 +1401,20 @@ void CL_InitCGame( void ) {
 	// find the current mapname
 	info = cl.gameState.stringData + cl.gameState.stringOffsets[ CS_SERVERINFO ];
 	mapname = Info_ValueForKey( info, "mapname" );
+
+	// Randomizer hack: get mapname and set force powers on load
+	UPCOMING_MAP_NAME = std::string(mapname);
+
+	client_t* _cl = &svs.clients[0];
+	if(_cl && _cl->gentity && _cl->gentity->client) {
+		randomizeForcePowers(_cl->gentity->client, UPCOMING_MAP_NAME);
+	}
+
+	// set it to false for the next map
+	randomizeForcePowersDoOnce = false;
+	randomizeWeaponsDoOnce = false;
+
+
 	Com_sprintf( cl.mapname, sizeof( cl.mapname ), "maps/%s.bsp", mapname );
 
 	cls.state = CA_LOADING;

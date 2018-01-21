@@ -1032,6 +1032,7 @@ void target_level_change_use(gentity_t *self, gentity_t *other, gentity_t *activ
 			{
 				gi.cvar_set("tiers_complete", level.mapname);	//set this level into the list
 			}
+
 		}
 		if (self->noise_index)
 		{
