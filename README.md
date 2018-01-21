@@ -5,13 +5,23 @@ This version of OpenJK has some additional single player features implemented:
 * The missions of each tier will be randomized on every start of the single player game (after creating a character)
 * The randomized level pattern will be saved to a file called `pattern_file.txt` which you can edit and share
 * Random patterns will be restored from the last sessions as long as you don't start a new run of the story mode.
-* Randomized force levels: For each level, you can edit the file `randomizerOptions.json` to specify the minumum force level required for each force power and level.
+* Randomized force levels: For each level, you can edit the file `randomizerOptions.json` to specify the minimum force level required for each force power and level.
 
 
-# Force randomization modes
+# Force randomization
 In the file `randomizerOptions.json` you can choose the following force modes with `forceRandomizationMode`:
 - `0`: Progression mode: As you complete missions, you gain additional force points. You can spend one force point for each mission - the rest will be randomized
 - `1`: Chaos mode: Every force power will be randomized, you can gain from zero to the maximum amount of force points.
+
+Additionally, the required force *levels* can be selected for each map and force power in the settings file. There you can select the level from 0 to 3.
+
+One user selectable force power can be chosen freely on level startup.
+
+# Weapons randomization
+
+This works comparable to the force randomization. The values in `randomizerOptions.json` range from 0 (weapon not required) to 1 (weapon required). The amount of ammo will always be random for weapons you didn't choose via the selection menu.
+
+One user selectable weapon can be chosen freely on level startup.
 
 # Building
 
@@ -28,8 +38,7 @@ Additionally, to nlohmann for the great JSON library.
 - Joe Bananas (@JoeBananas1337_)
 
 # Todos
-* Instead of the chaos-force mode, implement a progression system and choose the mode via `settings.json`
-* Randomize weapons
+* Make suggestions :)
 
 --------------------------
 OpenJK is an effort by the JACoders group to maintain and improve the game engines on which the Jedi Academy (JA) and Jedi Outcast (JO) games run on, while maintaining *full backwards compatibility* with the existing games. *This project does not attempt to rebalance or otherwise modify core gameplay*.
