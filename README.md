@@ -29,6 +29,20 @@ Please refer to the original notes on the build process of OpenJK. I added an op
 
 # Usage
 
+To use you own pattern file without it being overwritten on SP game startup, edit the pattern file as you please, e.g.:
+
+```
+t1_surprise t2_trip t2_dpred t1_danger t1_sour t3_hevil t2_wedge t3_stamp t3_byss t2_rogue t2_rancor t3_rift t1_fatal t1_rail t3_bounty
+```
+
+After that, add `NO_OVERWRITE` at the start of the line:
+
+```
+NO_OVERWRITE t1_surprise t2_trip t2_dpred t1_danger t1_sour t3_hevil t2_wedge t3_stamp t3_byss t2_rogue t2_rancor t3_rift t1_fatal t1_rail t3_bounty
+```
+
+Done.
+
 **After compiling this project, copy the files** `files/template_file.txt` **and** `files/randomizerOptions.json` **into the same directory your JKA executable lives in. If you don't do this, the game will crash as intended.**
 
 # Credits
@@ -38,6 +52,7 @@ Additionally, to nlohmann for the great JSON library.
 - Joe Bananas (@JoeBananas1337_)
 
 # Todos
+* Add CVar for `NO_OVERWRITE` and `forceRandomizationMode`
 * Make suggestions :)
 
 --------------------------

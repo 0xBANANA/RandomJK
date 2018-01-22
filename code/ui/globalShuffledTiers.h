@@ -27,6 +27,10 @@ extern std::random_device _random_device;
 extern std::mt19937 _rng;
 extern bool _seeded;
 
+// if the user specified pattern file is allowed to be overwritten
+// on SP game startup
+extern bool OVERWRITE_ALLOWED;
+
 // the filename of the pattern file to save
 static std::string PATTERN_FILE_NAME = "pattern_file.txt";
 static std::string TEMPLATE_FILE_NAME = "template_file.txt";
@@ -324,7 +328,12 @@ extern bool randomizeForcePowersDoOnce;
 extern int forceRandomizationMode;
 
 // How many levels the player has completed --> amount of force points available
-extern int LEVELS_COMPLETED;
+extern int TIER_MISSIONS_COMPLETED;
+
+
+// We will push the passed map strings in here
+// this currently ignores maps where no force points will be achieved
+extern std::vector<std::string> PASSED_LEVELS;
 
 // Helper method to set force powers with error checking
 static void _setRandomForcePower(playerState_t* pState, json forcePowersUpcomingLevel, int FP_enumType, const std::string FP_string) {
@@ -395,12 +404,12 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
 
     // progression mode
     if(forceRandomizationMode == 0) {
-        int playerPointsToSpend = LEVELS_COMPLETED;
+        int playerPointsToSpend = TIER_MISSIONS_COMPLETED;
 
         int corePointsToSpend = 0;
-        if(LEVELS_COMPLETED < 5) { corePointsToSpend = fps_core.size(); }
-        if(LEVELS_COMPLETED >= 5 && LEVELS_COMPLETED < 10) { corePointsToSpend = fps_core.size() * 2; }
-        if(LEVELS_COMPLETED >= 10) { corePointsToSpend = fps_core.size() *  3; }
+        if(TIER_MISSIONS_COMPLETED < 5) { corePointsToSpend = fps_core.size(); }
+        if(TIER_MISSIONS_COMPLETED >= 5 && TIER_MISSIONS_COMPLETED < 10) { corePointsToSpend = fps_core.size() * 2; }
+        if(TIER_MISSIONS_COMPLETED >= 10) { corePointsToSpend = fps_core.size() *  3; }
 
         for(auto fp: fps_core) {
 

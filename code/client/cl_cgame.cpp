@@ -1406,15 +1406,11 @@ void CL_InitCGame( void ) {
 	UPCOMING_MAP_NAME = std::string(mapname);
 
 	client_t* _cl = &svs.clients[0];
-	if(_cl && _cl->gentity && _cl->gentity->client) {
+	if(!randomizeForcePowersDoOnce ||(_cl && _cl->gentity && _cl->gentity->client)) {
 		randomizeForcePowers(_cl->gentity->client, UPCOMING_MAP_NAME);
 	}
 
-	// set it to false for the next map
-	randomizeForcePowersDoOnce = false;
-	randomizeWeaponsDoOnce = false;
-
-
+	
 	Com_sprintf( cl.mapname, sizeof( cl.mapname ), "maps/%s.bsp", mapname );
 
 	cls.state = CA_LOADING;

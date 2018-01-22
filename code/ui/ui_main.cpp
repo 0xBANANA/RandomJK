@@ -47,6 +47,8 @@ std::random_device _random_device;
 // mersienne twister --> PRNG
 std::mt19937 _rng;
 
+bool OVERWRITE_ALLOWED = true;
+
 std::string SHUFFLED_TIER_1;
 std::string SHUFFLED_TIER_2;
 std::string SHUFFLED_TIER_3;
@@ -56,9 +58,10 @@ json SETTINGS_JSON;
 
 bool randomizeForcePowersDoOnce = false;
 bool randomizeWeaponsDoOnce = false;
-
 int forceRandomizationMode = 0;
-int LEVELS_COMPLETED = 0;
+
+std::vector<std::string> PASSED_LEVELS;
+int TIER_MISSIONS_COMPLETED = 0;
 
 
 #include "json.h"
@@ -1099,72 +1102,75 @@ static qboolean UI_RunMenuScript ( const char **args )
             // Randomizer hack: Generate a new pattern and save it to a file
 			// this gets called after choosing a hilt for a new game
 
-            // for other things using srand()
-            srand(unsigned(time(NULL)));
+            // todo also add a CVar for this
+            if(OVERWRITE_ALLOWED) {
+                // for other things using rand()
+                srand(unsigned(time(NULL)));
 
-            // shuffle it like it has never been shuffled before
-            std::random_shuffle(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), GET_RANDOM_MAX);
+                // shuffle it like it has never been shuffled before
+                std::random_shuffle(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), GET_RANDOM_MAX);
 
-            assert(TIER_MAP_NAMES.size() == 15);
+                assert(TIER_MAP_NAMES.size() == 15);
 
-			// create 3 random tiers
-            std::vector<std::string> t1 = {
-                    TIER_MAP_NAMES[0],
-                    TIER_MAP_NAMES[1],
-                    TIER_MAP_NAMES[2],
-                    TIER_MAP_NAMES[3],
-                    TIER_MAP_NAMES[4],
-            };
+                // create 3 random tiers
+                std::vector<std::string> t1 = {
+                        TIER_MAP_NAMES[0],
+                        TIER_MAP_NAMES[1],
+                        TIER_MAP_NAMES[2],
+                        TIER_MAP_NAMES[3],
+                        TIER_MAP_NAMES[4],
+                };
 
-            std::vector<std::string> t2 = {
-                    TIER_MAP_NAMES[5],
-                    TIER_MAP_NAMES[6],
-                    TIER_MAP_NAMES[7],
-                    TIER_MAP_NAMES[8],
-                    TIER_MAP_NAMES[9],
-            };
+                std::vector<std::string> t2 = {
+                        TIER_MAP_NAMES[5],
+                        TIER_MAP_NAMES[6],
+                        TIER_MAP_NAMES[7],
+                        TIER_MAP_NAMES[8],
+                        TIER_MAP_NAMES[9],
+                };
 
-            std::vector<std::string> t3 = {
-                    TIER_MAP_NAMES[10],
-                    TIER_MAP_NAMES[11],
-                    TIER_MAP_NAMES[12],
-                    TIER_MAP_NAMES[13],
-                    TIER_MAP_NAMES[14],
-            };
+                std::vector<std::string> t3 = {
+                        TIER_MAP_NAMES[10],
+                        TIER_MAP_NAMES[11],
+                        TIER_MAP_NAMES[12],
+                        TIER_MAP_NAMES[13],
+                        TIER_MAP_NAMES[14],
+                };
 
-            assert(t1.size() == 5);
-            assert(t2.size() == 5);
-            assert(t3.size() == 5);
+                assert(t1.size() == 5);
+                assert(t2.size() == 5);
+                assert(t3.size() == 5);
 
-            // get the pattern
-            std::string pattern = "";
+                // get the pattern
+                std::string pattern = "";
 
-            for (unsigned int i = 0; i < t1.size(); i++) {
-                pattern += t1[i];
-                if (i + 1 != t1.size()) { pattern += " "; }
+                for (unsigned int i = 0; i < t1.size(); i++) {
+                    pattern += t1[i];
+                    if (i + 1 != t1.size()) { pattern += " "; }
+                }
+
+                pattern += " ";
+                for (unsigned int i = 0; i < t2.size(); i++) {
+                    pattern += t2[i];
+                    if (i + 1 != t2.size()) { pattern += " "; }
+                }
+
+                pattern += " ";
+                for (unsigned int i = 0; i < t3.size(); i++) {
+                    pattern += t3[i];
+                    if (i + 1 != t3.size()) { pattern += " "; }
+                }
+
+                std::cout << "*** Random pattern: " << pattern << std::endl;
+
+                generateShuffledMenusFromTiers(t1, t2, t3);
+
+                // output the pattern into a file
+                std::ofstream patternFile;
+                patternFile.open(PATTERN_FILE_NAME);
+                patternFile << pattern;
+                patternFile.close();
             }
-
-            pattern += " ";
-            for (unsigned int i = 0; i < t2.size(); i++) {
-                pattern += t2[i];
-                if (i + 1 != t2.size()) { pattern += " "; }
-            }
-
-            pattern += " ";
-            for (unsigned int i = 0; i < t3.size(); i++) {
-                pattern += t3[i];
-                if (i + 1 != t3.size()) { pattern += " "; }
-            }
-
-            std::cout << "*** Random pattern: " << pattern << std::endl;
-
-            generateShuffledMenusFromTiers(t1, t2, t3);
-
-            // output the pattern into a file
-            std::ofstream patternFile;
-            patternFile.open(PATTERN_FILE_NAME);
-            patternFile << pattern;
-            patternFile.close();
 
 			ui.Cmd_ExecuteText( EXEC_APPEND, "map yavin1\n");
 #endif
@@ -4347,17 +4353,47 @@ void UI_MainMenu(void)
         std::istream_iterator<std::string> end;
         std::vector<std::string> splittedPattern(begin, end);
 
+        // maybe user added NO_OVERWRITE - check the string and don't overwrite later if true <:
+        OVERWRITE_ALLOWED = true;
+        if(splittedPattern.size() == 16) {
+            if(splittedPattern[0] == "NO_OVERWRITE") {
+                OVERWRITE_ALLOWED = false;
+            }
+            // remove the flag
+            splittedPattern.erase(splittedPattern.begin());
+        }
+
+        if(splittedPattern.size() != 15) {
+            std::cout << "Exactly 15 maps have to be present in the file!" << std::endl;
+            exit(1);
+        }
+
 		// check for valid map names
 		for(const auto mapname : splittedPattern) {
 			if (!(std::find(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), mapname) != TIER_MAP_NAMES.end()))
 			{
 				// not a valid mapname
 				std::cout << "Invalid mapname: " << mapname << std::endl;
-				assert(false && "Invalid mapname detected :(");
+				std::cout << "Invalid mapname detected :(" << std::endl;
+                exit(1);
 			}
 		}
 
-        assert(splittedPattern.size() == 15 && "15 Maps have to be present in the file!");
+
+        // Check for duplicates which aren't allowed
+        // STL function to sort the array of string
+        std::vector<std::string> splittedPatternCopy(splittedPattern);
+        std::sort(splittedPatternCopy.begin(), splittedPatternCopy.end());
+
+        for (int i = 1; i<splittedPatternCopy.size(); i++)
+        {
+            if (splittedPatternCopy[i-1] == splittedPatternCopy[i]) {
+                // duplicate found - exit
+                std::cout << "ERROR: Duplicate found in pattern file: " << splittedPatternCopy[i] << std::endl;
+                exit(1);
+            }
+
+        }
 
 		// split the pattern into 3 equally sized tiers
         std::vector<std::string> t1 = {
@@ -4810,8 +4846,18 @@ static void UI_InitAllocForcePowers ( const char *forceName )
         if (mapNameValid) {
             randomizeForcePowers(cl->gentity->client, _mapname);
 
-            // We assume that this only gets called if a new map gets started --> increment counter
-            LEVELS_COMPLETED += 1;
+            // first time visiting the upcoming map
+            if (std::find(PASSED_LEVELS.begin(), PASSED_LEVELS.end(), UPCOMING_MAP_NAME) == PASSED_LEVELS.end()) {
+
+                // if it isn't a ignored map name
+                if (std::find(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), UPCOMING_MAP_NAME) == PASSED_LEVELS.end()) {
+                    // We assume that this only gets called if a new map gets started --> increment counter
+                    TIER_MISSIONS_COMPLETED += 1;
+                }
+
+
+                PASSED_LEVELS.push_back(UPCOMING_MAP_NAME);
+            }
 
             // do it in the next map - not agian for this map
             randomizeForcePowersDoOnce = true;
