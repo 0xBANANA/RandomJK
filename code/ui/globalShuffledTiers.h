@@ -199,13 +199,24 @@ static std::map<std::string, std::string> MAP_ITEMTEXT_NAMES = {
 
 
 // to generate random weapon select menus
-static std::vector<std::string> PLACEHOLDERS_WEAPON_SELECT = {
+// all shootable weapons
+static std::vector<std::string> PLACEHOLDERS_WEAPON_SELECT_PEWPEW = {
         "XX_WEAPON_PLACEHOLDER_1_XX",
         "XX_WEAPON_PLACEHOLDER_2_XX",
         "XX_WEAPON_PLACEHOLDER_3_XX",
         "XX_WEAPON_PLACEHOLDER_4_XX",
+        "XX_WEAPON_PLACEHOLDER_5_XX",
+        "XX_WEAPON_PLACEHOLDER_6_XX",
+        "XX_WEAPON_PLACEHOLDER_7_XX",
+        "XX_WEAPON_PLACEHOLDER_8_XX",
 };
 
+// all throwable weapons
+static std::vector<std::string> PLACEHOLDERS_WEAPON_SELECT_THROW = {
+        "XX_WEAPON_PLACEHOLDER_9_XX",
+        "XX_WEAPON_PLACEHOLDER_10_XX",
+        "XX_WEAPON_PLACEHOLDER_11_XX",
+};
 
 static void INIT_PRNG() {
     // seed the mersienne twister
@@ -657,30 +668,35 @@ static void randomizeWeapons(playerState_t* pState, const std::string mapname) {
     pState->weapon = WP_NONE;
 
     weaponRandomizationMode = SETTINGS_JSON.at("weaponRandomizationMode");
-    // get random amount of weapons
-    // this doesn't mean 3 added weapons max - e.g. there's a chance WP_SABER gets picked again
-    // with no effect in the end
-    for(int i = 0; i < GET_RANDOM(1, 3); i++) {
 
-        auto randomWeapon = allWeapons[GET_RANDOM(0, allWeapons.size()-1)];
+    // chaos mode
+    if(weaponRandomizationMode == 1) {
+        // get random amount of weapons
+        // this doesn't mean 3 added weapons max - e.g. there's a chance WP_SABER gets picked again
+        // with no effect in the end
+        for(int i = 0; i < GET_RANDOM(1, 3); i++) {
 
-        if (randomWeapon<WP_NUM_WEAPONS)
-        {
-            pState->stats[ STAT_WEAPONS ] |= ( 1 << randomWeapon );
+            auto randomWeapon = allWeapons[GET_RANDOM(0, allWeapons.size()-1)];
 
+            if (randomWeapon<WP_NUM_WEAPONS)
+            {
+                pState->stats[ STAT_WEAPONS ] |= ( 1 << randomWeapon );
+
+            }
         }
-    }
 
-    // Give random ammo
-    for(auto i = 0; i < AMMO_MAX; i++) {
+        // Give random ammo
+        for(auto i = 0; i < AMMO_MAX; i++) {
 
-        // dont get like 500 rockets
-        if(i == AMMO_ROCKETS || i == AMMO_EMPLACED || i == AMMO_THERMAL || i == AMMO_TRIPMINE || i == AMMO_DETPACK) {
-            pState->ammo[i] = GET_RANDOM(0, 20);
+            // dont get like 500 rockets
+            if(i == AMMO_ROCKETS || i == AMMO_EMPLACED || i == AMMO_THERMAL || i == AMMO_TRIPMINE || i == AMMO_DETPACK) {
+                pState->ammo[i] = GET_RANDOM(0, 20);
+            }
+            else {
+                pState->ammo[i] = GET_RANDOM(1, GET_RANDOM(100, 500));
+            }
         }
-        else {
-            pState->ammo[i] = GET_RANDOM(1, GET_RANDOM(100, 500));
-        }
+
     }
 
     // assure all user specified weapons are OK
@@ -710,30 +726,123 @@ static void randomizeWeapons(playerState_t* pState, const std::string mapname) {
     }
 }
 
+// if this works without ever blocking someone call be jesus
 static void generateRandomWeaponMenu() {
     CURRENT_WEAPON_MENU = WEAPON_TMPLT;
 
-    std::cout << CURRENT_WEAPON_MENU << std::endl;
 
-    for(int i = 0; i < PLACEHOLDERS_WEAPON_SELECT.size(); i++) {
+    std::vector<std::string> patternsShootable;
+    // one pattern for each shootable weapon
+    for(int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_PEWPEW.size(); i++) {
+        patternsShootable.push_back("");
+    }
 
-        // todo generate a new menu string pattern
-        // e.g. "7"; "8"; "9"; "10"; "11"; "12"; "13"; "14"; "15"; "16"; "17"; "18"; "19";
-        std::string newMenuString = "\"1\"; \"2\"; \"3\"; \"4\"; \"5\"; \"6\"; \"7\"; \"8\"; \"9\"; \"10\"; \"11\"; \"12\"; \"13\"; \"14\"; \"15\"; \"16\"; \"17\"; \"18\"; \"19\";";
+    std::vector<std::string> patternsThrowable;
+    // one pattern for each throwable weapon
+    for(int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_THROW.size(); i++) {
+        patternsThrowable.push_back("\"0\"; ");
+    }
 
-        std::string currentPlaceholder = PLACEHOLDERS_WEAPON_SELECT[i];
 
-        for( size_t pos = 0; ; pos += newMenuString.length() ) {
+    // for shootable weapons first
+    // for each level: choose 2 shootable weapons (at least) and add them
+    for(int level = 0; level < 20; level++) {
+
+        // choose 2 random weapons (or more)
+        int amountOfWeapons = GET_RANDOM(2, GET_RANDOM(2, 3));
+
+        // keep track which weapons we added to prevent duplicates and therefore blocks
+        std::vector<int> affectedWeapons;
+        // for each weapon
+        for(int weaponCount = 0; weaponCount < amountOfWeapons; weaponCount++) {
+
+            int randomWeaponIndex = 0;
+            while(true) {
+                // get the random weapon
+                randomWeaponIndex = GET_RANDOM(0, patternsShootable.size()-1);
+                // only if we haven't added it yet
+                if(std::find(affectedWeapons.begin(), affectedWeapons.end(), randomWeaponIndex) == affectedWeapons.end()) {
+                    break;
+                }
+                // else try again
+            }
+
+            affectedWeapons.push_back(randomWeaponIndex);
+            // add the level to the weapon
+            std::string stringToAdd = "\"";
+            stringToAdd += std::to_string(level);
+            stringToAdd += "\"; ";
+            patternsShootable[randomWeaponIndex] = patternsShootable[randomWeaponIndex] + stringToAdd;
+
+        }
+    }
+
+    // write the pattern for each level
+
+    for(int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_PEWPEW.size(); i++) {
+        std::string currentPlaceholder = PLACEHOLDERS_WEAPON_SELECT_PEWPEW[i];
+
+        // replace the current placeholder with the random pattern we generated
+        for( size_t pos = 0; ; pos += patternsShootable[i].length() ) {
             // Locate the substring to replace
             pos = CURRENT_WEAPON_MENU.find( currentPlaceholder, pos );
             if( pos == std::string::npos ) break;
             // Replace by erasing and inserting
             CURRENT_WEAPON_MENU.erase( pos, currentPlaceholder.length() );
-            CURRENT_WEAPON_MENU.insert( pos, newMenuString );
+            CURRENT_WEAPON_MENU.insert( pos, patternsShootable[i] );
         }
 
+    }
 
-        std::cout << CURRENT_WEAPON_MENU << std::endl;
+
+    // do the same for throwable weapons (we need at least one)
+
+    for(int level = 0; level < 20; level++) {
+
+        // choose 1 random throwable weapons (or more)
+        int amountOfWeapons = GET_RANDOM(1, GET_RANDOM(2, 3));
+
+        // keep track which weapons we added to prevent duplicates and therefore blocks
+        std::vector<int> affectedWeapons;
+        // for each weapon
+        for(int weaponCount = 0; weaponCount < amountOfWeapons; weaponCount++) {
+
+            int randomWeaponIndex = 0;
+            while(true) {
+                // get the random weapon
+                randomWeaponIndex = GET_RANDOM(0, patternsThrowable.size()-1);
+                // only if we haven't added it yet
+                if(std::find(affectedWeapons.begin(), affectedWeapons.end(), randomWeaponIndex) == affectedWeapons.end()) {
+                    break;
+                }
+                // else try again
+            }
+
+            affectedWeapons.push_back(randomWeaponIndex);
+            // add the level to the weapon
+            std::string stringToAdd = "\"";
+            stringToAdd += std::to_string(level);
+            stringToAdd += "\"; ";
+            patternsThrowable[randomWeaponIndex] = patternsThrowable[randomWeaponIndex] + stringToAdd;
+
+        }
+    }
+
+    // write the pattern for each level
+
+    for(int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_THROW.size(); i++) {
+        std::string currentPlaceholder = PLACEHOLDERS_WEAPON_SELECT_THROW[i];
+
+        // replace the current placeholder with the random pattern we generated
+        for( size_t pos = 0; ; pos += patternsThrowable[i].length() ) {
+            // Locate the substring to replace
+            pos = CURRENT_WEAPON_MENU.find( currentPlaceholder, pos );
+            if( pos == std::string::npos ) break;
+            // Replace by erasing and inserting
+            CURRENT_WEAPON_MENU.erase( pos, currentPlaceholder.length() );
+            CURRENT_WEAPON_MENU.insert( pos, patternsThrowable[i] );
+        }
+
     }
 }
 

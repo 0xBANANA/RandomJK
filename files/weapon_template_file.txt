@@ -373,6 +373,11 @@
             forecolor           0 .5 0 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_1_XX
+            }
         }
 
         itemDef
@@ -385,6 +390,11 @@
             forecolor           1 1 1 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_1_XX
+            }
         }
 
         itemDef
@@ -408,6 +418,11 @@
             forecolor           1 1 1 1
             desctext            @MENUS_CLICKSELECT
             visible         1
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_1_XX
+            }
             mouseEnter
             {
                 hide            brifle_icon
@@ -446,6 +461,11 @@
             forecolor           0 .5 0 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_2_XX
+            }
         }
 
         itemDef
@@ -458,6 +478,11 @@
             forecolor           1 1 1 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_2_XX
+            }
         }
 
         itemDef
@@ -481,6 +506,11 @@
             forecolor           1 1 1 1
             desctext            @MENUS_CLICKSELECT
             visible         1
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_2_XX
+            }
             mouseEnter
             {
                 hide            disruptor_icon
@@ -518,6 +548,11 @@
             forecolor           0 .5 0 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_3_XX
+            }
         }
 
         itemDef
@@ -530,6 +565,11 @@
             forecolor           1 1 1 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_3_XX
+            }
         }
 
         itemDef
@@ -553,6 +593,11 @@
             forecolor           1 1 1 1
             desctext            @MENUS_CLICKSELECT
             visible         1
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_3_XX
+            }
             mouseEnter
             {
                 hide            bowcaster_icon
@@ -590,6 +635,11 @@
             forecolor           0 .5 0 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_4_XX
+            }
         }
 
         itemDef
@@ -602,6 +652,11 @@
             forecolor           1 1 1 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_4_XX
+            }
         }
 
         itemDef
@@ -625,6 +680,11 @@
             forecolor           1 1 1 1
             desctext            @MENUS_CLICKSELECT
             visible         1
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_4_XX
+            }
             mouseEnter
             {
                 hide            demp_icon
@@ -665,7 +725,7 @@
             cvartest            "tier_storyinfo"
             showcvar
             {
-                XX_WEAPON_PLACEHOLDER_1_XX
+                XX_WEAPON_PLACEHOLDER_5_XX
             }
         }
 
@@ -682,7 +742,7 @@
             cvartest            "tier_storyinfo"
             showcvar
             {
-                XX_WEAPON_PLACEHOLDER_1_XX
+                XX_WEAPON_PLACEHOLDER_5_XX
             }
         }
 
@@ -710,7 +770,7 @@
             cvartest            "tier_storyinfo"
             showcvar
             {
-                XX_WEAPON_PLACEHOLDER_1_XX
+                XX_WEAPON_PLACEHOLDER_5_XX
             }
             mouseEnter
             {
@@ -752,7 +812,7 @@
             cvartest            "tier_storyinfo"
             showcvar
             {
-                XX_WEAPON_PLACEHOLDER_2_XX
+                XX_WEAPON_PLACEHOLDER_6_XX
             }
         }
 
@@ -769,7 +829,7 @@
             cvartest            "tier_storyinfo"
             showcvar
             {
-                XX_WEAPON_PLACEHOLDER_2_XX
+                XX_WEAPON_PLACEHOLDER_6_XX
             }
         }
 
@@ -797,7 +857,7 @@
             cvartest            "tier_storyinfo"
             showcvar
             {
-                XX_WEAPON_PLACEHOLDER_2_XX
+                XX_WEAPON_PLACEHOLDER_6_XX
             }
             mouseEnter
             {
@@ -839,7 +899,7 @@
             cvartest            "tier_storyinfo"
             showcvar
             {
-                XX_WEAPON_PLACEHOLDER_3_XX
+                XX_WEAPON_PLACEHOLDER_7_XX
             }
         }
 
@@ -856,7 +916,7 @@
             cvartest            "tier_storyinfo"
             showcvar
             {
-                XX_WEAPON_PLACEHOLDER_3_XX
+                XX_WEAPON_PLACEHOLDER_7_XX
             }
         }
 
@@ -884,7 +944,7 @@
             cvartest            "tier_storyinfo"
             showcvar
             {
-                XX_WEAPON_PLACEHOLDER_3_XX
+                XX_WEAPON_PLACEHOLDER_7_XX
             }
             mouseEnter
             {
@@ -926,7 +986,7 @@
             cvartest            "tier_storyinfo"
             showcvar
             {
-                XX_WEAPON_PLACEHOLDER_4_XX
+                XX_WEAPON_PLACEHOLDER_8_XX
             }
         }
 
@@ -943,7 +1003,7 @@
             cvartest            "tier_storyinfo"
             showcvar
             {
-                XX_WEAPON_PLACEHOLDER_4_XX
+                XX_WEAPON_PLACEHOLDER_8_XX
             }
         }
 
@@ -971,7 +1031,7 @@
             cvartest            "tier_storyinfo"
             showcvar
             {
-                XX_WEAPON_PLACEHOLDER_4_XX
+                XX_WEAPON_PLACEHOLDER_8_XX
             }
             mouseEnter
             {
@@ -1010,6 +1070,11 @@
             forecolor           0 0 .5 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_9_XX
+            }
         }
 
         itemDef
@@ -1022,6 +1087,11 @@
             forecolor           1 1 1 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_9_XX
+            }
         }
 
         itemDef
@@ -1045,6 +1115,11 @@
             forecolor           1 1 1 1
             desctext            @MENUS_CLICKSELECT
             visible         1
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_9_XX
+            }
             mouseEnter
             {
                 hide            thermal_icon
@@ -1082,6 +1157,11 @@
             forecolor           0 0 .5 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_10_XX
+            }
         }
 
         itemDef
@@ -1094,6 +1174,11 @@
             forecolor           1 1 1 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_10_XX
+            }
         }
 
         itemDef
@@ -1117,6 +1202,11 @@
             forecolor           1 1 1 1
             desctext            @MENUS_CLICKSELECT
             visible             1
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_10_XX
+            }
             mouseEnter
             {
                 hide            detpack_icon
@@ -1154,6 +1244,11 @@
             forecolor           0 0 .5 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_11_XX
+            }
         }
 
         itemDef
@@ -1166,6 +1261,11 @@
             forecolor           1 1 1 1
             visible         1
             decoration
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_11_XX
+            }
         }
 
         itemDef
@@ -1189,6 +1289,11 @@
             forecolor           1 1 1 1
             desctext            @MENUS_CLICKSELECT
             visible         1
+            cvartest            "tier_storyinfo"
+            showcvar
+            {
+                XX_WEAPON_PLACEHOLDER_11-dddfff1_XX
+            }
             mouseEnter
             {
                 hide            tripmine_icon
