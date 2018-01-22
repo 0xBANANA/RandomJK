@@ -798,6 +798,8 @@ int main ( int argc, char* argv[] )
 		}
 
 		// run the game
+
+
 		Com_Frame();
 	}
 

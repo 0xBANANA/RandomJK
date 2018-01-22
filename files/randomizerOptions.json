@@ -1,5 +1,6 @@
 {
   "forceRandomizationMode" : 0,
+  "weaponRandomizationMode" : 0,
 
   "weapons": {
     "t1_sour": {

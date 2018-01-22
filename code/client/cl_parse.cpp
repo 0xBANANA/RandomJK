@@ -23,6 +23,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 // cl_parse.c  -- parse a message received from the server
 
+#include <iostream>
 #include "../server/exe_headers.h"
 
 #include "client.h"
@@ -431,6 +432,7 @@ void CL_ParseGamestate( msg_t *msg ) {
 
 	// make sure the game starts
 	Cvar_Set( "cl_paused", "0" );
+
 }
 
 

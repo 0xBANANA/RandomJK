@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <map>
 #include <random>
+#include <iostream>
+#include <regex>
 
 #include "../qcommon/qcommon.h"
 
@@ -33,7 +35,8 @@ extern bool OVERWRITE_ALLOWED;
 
 // the filename of the pattern file to save
 static std::string PATTERN_FILE_NAME = "pattern_file.txt";
-static std::string TEMPLATE_FILE_NAME = "template_file.txt";
+static std::string MISSION_TEMPLATE_FILE_NAME = "mission_template_file.txt";
+static std::string WEAPON_TEMPLATE_FILE_NAME = "weapon_template_file.txt";
 static std::string SETTINGS_FILE_NAME = "randomizerOptions.json";
 
 // JSON object storing the user supplied settings via `SETTINGS_FILE_NAME`
@@ -119,12 +122,20 @@ extern std::string SHUFFLED_TIER_1;
 extern std::string SHUFFLED_TIER_2;
 extern std::string SHUFFLED_TIER_3;
 
+// the modified menu to choose weapons
+static std::string CURRENT_WEAPON_MENU;
+
 // the modified main menu
 extern std::string MAIN_MENU;
 
 // template for the generated menu files
 // will be set on startup
-static std::string TMPLT;
+static std::string MISSION_TMPLT;
+
+// template for the generated weapon menu files
+// will be set on startup
+extern std::string WEAPON_TMPLT;
+
 
 static std::string tierMenuNamePlaceholder = "ingameMissionSelectX";
 
@@ -186,6 +197,16 @@ static std::map<std::string, std::string> MAP_ITEMTEXT_NAMES = {
         {"ordman", "ORD_MANTELL"},
 };
 
+
+// to generate random weapon select menus
+static std::vector<std::string> PLACEHOLDERS_WEAPON_SELECT = {
+        "XX_WEAPON_PLACEHOLDER_1_XX",
+        "XX_WEAPON_PLACEHOLDER_2_XX",
+        "XX_WEAPON_PLACEHOLDER_3_XX",
+        "XX_WEAPON_PLACEHOLDER_4_XX",
+};
+
+
 static void INIT_PRNG() {
     // seed the mersienne twister
     _rng = std::mt19937(_random_device());
@@ -213,7 +234,7 @@ static std::string _getMenuFileFromTier(std::vector<std::string> tier, int tierI
     assert(tierIndex >= 1 && tierIndex <= 3);
 
     // initialize the menu string with the template
-    std::string menu_result = TMPLT;
+    std::string menu_result = MISSION_TMPLT;
 
     // set the correct menu name for the current tier
     size_t start_pos = 0;
@@ -327,6 +348,10 @@ extern bool randomizeForcePowersDoOnce;
 // 1 = Chaos mode aka yolo mode
 extern int forceRandomizationMode;
 
+// 0 = Choose two weapons from a random pool
+// 1 = Chaos mode aka yolo mode
+extern int weaponRandomizationMode;
+
 // How many levels the player has completed --> amount of force points available
 extern int TIER_MISSIONS_COMPLETED;
 
@@ -336,7 +361,7 @@ extern int TIER_MISSIONS_COMPLETED;
 extern std::vector<std::string> PASSED_LEVELS;
 
 // Helper method to set force powers with error checking
-static void _setRandomForcePower(playerState_t* pState, json forcePowersUpcomingLevel, int FP_enumType, const std::string FP_string) {
+static void _setRandomForcePower(playerState_t* pState, json forcePowersUpcomingLevel, int FP_enumType, std::string FP_string) {
 
     int newLevel = forcePowersUpcomingLevel.at(FP_string);
     // if we need to modify it
@@ -404,7 +429,7 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
 
     // progression mode
     if(forceRandomizationMode == 0) {
-        int playerPointsToSpend = TIER_MISSIONS_COMPLETED;
+        int playerPointsToSpend = TIER_MISSIONS_COMPLETED > 0 ? TIER_MISSIONS_COMPLETED : 0;
 
         int corePointsToSpend = 0;
         if(TIER_MISSIONS_COMPLETED < 5) { corePointsToSpend = fps_core.size(); }
@@ -426,7 +451,7 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
                     randomLevel = 1;
                 }
 
-                if (randNo > 75) {
+                if (randNo > 85) {
                     randomLevel = 2;
                 }
 
@@ -485,11 +510,13 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
             if (fp == FP_LEVITATION) {
                 int randNo = GET_RANDOM(0, 100);
 
+                // todo make these global
+
                 if (randNo > 25) {
                     randomLevel = 1;
                 }
 
-                if (randNo > 75) {
+                if (randNo > 80) {
                     randomLevel = 2;
                 }
 
@@ -501,7 +528,7 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
 
 
                 // from 0..3
-                randomLevel = GET_RANDOM(0, 3);
+                randomLevel = GET_RANDOM(0, GET_RANDOM(1, 3));
             }
 
             pState->forcePowerLevel[fp] = randomLevel;
@@ -574,6 +601,7 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
 
     }
 
+
     // re-check all if at least one point is unused -- avoid soft block
     int scoreEnd = 0;
     for (auto fp : fps_player) {
@@ -586,6 +614,7 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
         auto randomFP = fps_player[GET_RANDOM(0, fps_player.size() - 1)];
         pState->forcePowerLevel[randomFP] = pState->forcePowerLevel[randomFP] - 1;
     }
+
 }
 
 // Helper method to set weapons with error checking
@@ -627,8 +656,11 @@ static void randomizeWeapons(playerState_t* pState, const std::string mapname) {
     pState->stats[ STAT_WEAPONS ] = 0;
     pState->weapon = WP_NONE;
 
+    weaponRandomizationMode = SETTINGS_JSON.at("weaponRandomizationMode");
     // get random amount of weapons
-    for(int i = 0; i < GET_RANDOM(1, 5); i++) {
+    // this doesn't mean 3 added weapons max - e.g. there's a chance WP_SABER gets picked again
+    // with no effect in the end
+    for(int i = 0; i < GET_RANDOM(1, 3); i++) {
 
         auto randomWeapon = allWeapons[GET_RANDOM(0, allWeapons.size()-1)];
 
@@ -678,5 +710,31 @@ static void randomizeWeapons(playerState_t* pState, const std::string mapname) {
     }
 }
 
+static void generateRandomWeaponMenu() {
+    CURRENT_WEAPON_MENU = WEAPON_TMPLT;
+
+    std::cout << CURRENT_WEAPON_MENU << std::endl;
+
+    for(int i = 0; i < PLACEHOLDERS_WEAPON_SELECT.size(); i++) {
+
+        // todo generate a new menu string pattern
+        // e.g. "7"; "8"; "9"; "10"; "11"; "12"; "13"; "14"; "15"; "16"; "17"; "18"; "19";
+        std::string newMenuString = "\"1\"; \"2\"; \"3\"; \"4\"; \"5\"; \"6\"; \"7\"; \"8\"; \"9\"; \"10\"; \"11\"; \"12\"; \"13\"; \"14\"; \"15\"; \"16\"; \"17\"; \"18\"; \"19\";";
+
+        std::string currentPlaceholder = PLACEHOLDERS_WEAPON_SELECT[i];
+
+        for( size_t pos = 0; ; pos += newMenuString.length() ) {
+            // Locate the substring to replace
+            pos = CURRENT_WEAPON_MENU.find( currentPlaceholder, pos );
+            if( pos == std::string::npos ) break;
+            // Replace by erasing and inserting
+            CURRENT_WEAPON_MENU.erase( pos, currentPlaceholder.length() );
+            CURRENT_WEAPON_MENU.insert( pos, newMenuString );
+        }
+
+
+        std::cout << CURRENT_WEAPON_MENU << std::endl;
+    }
+}
 
 #endif //OPENJK_GLOBALSHUFFLEDTIERS_H

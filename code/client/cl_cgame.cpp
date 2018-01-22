@@ -1405,12 +1405,6 @@ void CL_InitCGame( void ) {
 	// Randomizer hack: get mapname and set force powers on load
 	UPCOMING_MAP_NAME = std::string(mapname);
 
-	client_t* _cl = &svs.clients[0];
-	if(!randomizeForcePowersDoOnce ||(_cl && _cl->gentity && _cl->gentity->client)) {
-		randomizeForcePowers(_cl->gentity->client, UPCOMING_MAP_NAME);
-	}
-
-	
 	Com_sprintf( cl.mapname, sizeof( cl.mapname ), "maps/%s.bsp", mapname );
 
 	cls.state = CA_LOADING;

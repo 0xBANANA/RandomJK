@@ -5903,18 +5903,26 @@ int PC_StartParseSession(const char *fileName,char **buffer)
 	if(strcmp(fileName, "ui/ingameMissionSelect1.menu") == 0 && SHUFFLED_TIER_1.length() > 0) {
         // inject the randomized menu into the buffer --> Win
         *buffer = &SHUFFLED_TIER_1[0];
-        std::cout << "Using menu for tier1: " << std::endl << SHUFFLED_TIER_1 << std::endl;
 	}
 
     if(strcmp(fileName, "ui/ingameMissionSelect2.menu") == 0 && SHUFFLED_TIER_2.length() > 0) {
         *buffer = &SHUFFLED_TIER_2[0];
-        std::cout << "Using menu for tier2: " << std::endl << SHUFFLED_TIER_2 << std::endl;
     }
 
     if(strcmp(fileName, "ui/ingameMissionSelect3.menu") == 0 && SHUFFLED_TIER_3.length() > 0) {
         *buffer = &SHUFFLED_TIER_3[0];
-        std::cout << "Using menu for tier3: " << std::endl << SHUFFLED_TIER_3 << std::endl;
     }
+
+
+	// maybe randomize the menu - based on the settings file
+	if(strcmp(fileName, "ui/ingameWpnSelect.menu") == 0) {
+		if(SETTINGS_JSON.at("weaponRandomizationMode") == 0) {
+			generateRandomWeaponMenu();
+			*buffer = &CURRENT_WEAPON_MENU[0];
+		}
+	}
+
+
 
 	// Not there?
 	if ( len>0 )

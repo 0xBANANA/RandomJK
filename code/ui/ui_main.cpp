@@ -54,14 +54,19 @@ std::string SHUFFLED_TIER_2;
 std::string SHUFFLED_TIER_3;
 std::string MAIN_MENU;
 std::string UPCOMING_MAP_NAME;
+std::string WEAPON_TMPLT;
 json SETTINGS_JSON;
 
 bool randomizeForcePowersDoOnce = false;
 bool randomizeWeaponsDoOnce = false;
 int forceRandomizationMode = 0;
+int weaponRandomizationMode = 0;
 
 std::vector<std::string> PASSED_LEVELS;
-int TIER_MISSIONS_COMPLETED = 0;
+
+// this is -1 and not 0 because for the first started map
+// the player can already spend one point --> no need to add one
+int TIER_MISSIONS_COMPLETED = -1;
 
 
 #include "json.h"
@@ -2945,6 +2950,11 @@ void UI_ParseMenu(const char *menuFile)
         injected = true;
 	}
 
+    if(strcmp(menuFile, "ui/ingameWpnSelect.menu") == 0 && WEAPON_TMPLT.length() > 0) {
+        if(SETTINGS_JSON.at("weaponRandomizationMode") == 0) {
+            injected = true;
+        }
+    }
 
 	holdBuffer = buffer;
 
@@ -4323,19 +4333,37 @@ void UI_MainMenu(void)
 	// parse json
     SETTINGS_JSON = json::parse(settingsJSONRead);
 
-    // Read the template file because MSVC can't handle really long strings because of reasons
-    std::ifstream templateFileHandle(TEMPLATE_FILE_NAME.c_str());
+    // Read the weapon menu file because MSVC can't handle really long strings because of reasons
+    std::ifstream weaponTemplateFileHandle(WEAPON_TEMPLATE_FILE_NAME.c_str());
 
     // crash if the file isn't present
-    assert(templateFileHandle.good() && "The template file isn't present :(");
+    if(!weaponTemplateFileHandle.good()) {
+        std::cout << "The weapon template file isn't present :(" << std::endl;
+        exit(1);
+    }
 
 
-    // read the template from file
-    std::string templateRead((std::istreambuf_iterator<char>(templateFileHandle)),
+    // read the weapon template from file
+    std::string weaponTemplateRead((std::istreambuf_iterator<char>(weaponTemplateFileHandle)),
+                                    std::istreambuf_iterator<char>());
+
+    WEAPON_TMPLT = weaponTemplateRead;
+
+    // Read the mission template file because MSVC can't handle really long strings because of reasons
+    std::ifstream missionTemplateFileHandle(MISSION_TEMPLATE_FILE_NAME.c_str());
+
+    // crash if the file isn't present
+    if(!missionTemplateFileHandle.good()) {
+        std::cout << "The mission template file isn't present :(" << std::endl;
+        exit(1);
+    }
+
+
+    // read the mission template from file
+    std::string missionTemplateRead((std::istreambuf_iterator<char>(missionTemplateFileHandle)),
                             std::istreambuf_iterator<char>());
 
-    TMPLT = templateRead;
-
+    MISSION_TMPLT = missionTemplateRead;
 
     // Reload the previously generated random tier pattern
     // (if it exists)

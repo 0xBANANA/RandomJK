@@ -24,6 +24,8 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 // common.c -- misc functions used in client and server
 
+#include <ui/globalShuffledTiers.h>
+#include <server/server.h>
 #include "q_shared.h"
 #include "qcommon.h"
 #include "sstring.h"	// to get Gil's string class, because MS's doesn't compile properly in here
@@ -1351,6 +1353,7 @@ void G2Time_ReportTimers(void);
 void Com_Frame( void ) {
 	try
 	{
+
 		int		timeBeforeFirstEvents = 0, timeBeforeServer = 0, timeBeforeEvents = 0, timeBeforeClient = 0, timeAfter = 0;
 		int		msec, minMsec;
 		int		timeVal;

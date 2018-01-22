@@ -21,7 +21,9 @@ One user selectable force power can be chosen freely on level startup.
 
 This works comparable to the force randomization. The values in `randomizerOptions.json` range from 0 (weapon not required) to 1 (weapon required). The amount of ammo will always be random for weapons you didn't choose via the selection menu.
 
-One user selectable weapon can be chosen freely on level startup.
+In the file `randomizerOptions.json` you can choose the weapon modes with `weaponRandomizationMode`:
+- `0`: You can choose two weapons from a random pool
+- `1`: Chaos mode: Every weapon will be randomized
 
 # Building
 
