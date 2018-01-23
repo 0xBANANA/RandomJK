@@ -224,6 +224,7 @@ static void INIT_PRNG() {
     _seeded = true;
 }
 
+// from <= x <= to (--> inclusive)
 static int GET_RANDOM(int from, int to) {
     assert(_seeded);
     // define the range
@@ -232,6 +233,7 @@ static int GET_RANDOM(int from, int to) {
     return distr(_rng);
 }
 
+// inclusive max
 static int GET_RANDOM_MAX(int max) {
     assert(_seeded);
     // define the range
@@ -299,10 +301,25 @@ static std::string _getMenuFileFromTier(std::vector<std::string> tier, int tierI
 
         // long names lower
         start_pos = 0;
+
+        // to track how many times the placeholder has been replaced because for t1_rail we have to inject
+        // a different string the first time it will be replaced :S
+        int timesReplaced = 0;
         // Replace e.g. XX_MAP_1_LONG_NAME_LOWER_XX with tatooine
         while((start_pos = menu_result.find(PLACEHOLDERS_LONG_NAMES_LOWER[i], start_pos)) != std::string::npos) {
-            menu_result.replace(start_pos, PLACEHOLDERS_LONG_NAMES_LOWER[i].length(), MAP_TITLE_NAME_CONVERSION[tier[i]]);
-            start_pos += tier[i].length();
+
+            if(tier[i] == "t1_rail" && timesReplaced == 0) {
+                menu_result.replace(start_pos, PLACEHOLDERS_LONG_NAMES_LOWER[i].length(), "core");
+                start_pos += 4;
+                timesReplaced++;
+            }
+            else {
+                menu_result.replace(start_pos, PLACEHOLDERS_LONG_NAMES_LOWER[i].length(), MAP_TITLE_NAME_CONVERSION[tier[i]]);
+                start_pos += tier[i].length();
+                timesReplaced++;
+            }
+
+
         }
 
         // long names upper
@@ -669,6 +686,20 @@ static void randomizeWeapons(playerState_t* pState, const std::string mapname) {
 
     weaponRandomizationMode = SETTINGS_JSON.at("weaponRandomizationMode");
 
+    if(weaponRandomizationMode == 0) {
+        // Give random ammo only - the rest will be handled via menu and settings file
+        for(auto i = 0; i < AMMO_MAX; i++) {
+
+            // dont get like 500 rockets
+            if(i == AMMO_ROCKETS || i == AMMO_EMPLACED || i == AMMO_THERMAL || i == AMMO_TRIPMINE || i == AMMO_DETPACK) {
+                pState->ammo[i] = GET_RANDOM(0, 20);
+            }
+            else {
+                pState->ammo[i] = GET_RANDOM(1, GET_RANDOM(100, 500));
+            }
+        }
+    }
+
     // chaos mode
     if(weaponRandomizationMode == 1) {
         // get random amount of weapons
@@ -726,11 +757,13 @@ static void randomizeWeapons(playerState_t* pState, const std::string mapname) {
     }
 }
 
-// if this works without ever blocking someone call be jesus
+// if this works without ever blocking someone call me jesus
 static void generateRandomWeaponMenu() {
+
+    // get the template
     CURRENT_WEAPON_MENU = WEAPON_TMPLT;
 
-
+    // set a pattern for each weapon
     std::vector<std::string> patternsShootable;
     // one pattern for each shootable weapon
     for(int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_PEWPEW.size(); i++) {
@@ -749,7 +782,7 @@ static void generateRandomWeaponMenu() {
     for(int level = 0; level < 20; level++) {
 
         // choose 2 random weapons (or more)
-        int amountOfWeapons = GET_RANDOM(2, GET_RANDOM(2, 3));
+        int amountOfWeapons = GET_RANDOM(2, GET_RANDOM(2, 4));
 
         // keep track which weapons we added to prevent duplicates and therefore blocks
         std::vector<int> affectedWeapons;
@@ -778,7 +811,6 @@ static void generateRandomWeaponMenu() {
     }
 
     // write the pattern for each level
-
     for(int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_PEWPEW.size(); i++) {
         std::string currentPlaceholder = PLACEHOLDERS_WEAPON_SELECT_PEWPEW[i];
 
@@ -796,7 +828,6 @@ static void generateRandomWeaponMenu() {
 
 
     // do the same for throwable weapons (we need at least one)
-
     for(int level = 0; level < 20; level++) {
 
         // choose 1 random throwable weapons (or more)
@@ -829,7 +860,6 @@ static void generateRandomWeaponMenu() {
     }
 
     // write the pattern for each level
-
     for(int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_THROW.size(); i++) {
         std::string currentPlaceholder = PLACEHOLDERS_WEAPON_SELECT_THROW[i];
 
@@ -844,6 +874,7 @@ static void generateRandomWeaponMenu() {
         }
 
     }
+
 }
 
 #endif //OPENJK_GLOBALSHUFFLEDTIERS_H

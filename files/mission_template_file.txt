@@ -120,11 +120,11 @@
 
         itemDef
         {
-            name                dosuun
+            name                XX_MAP_5_LONG_NAME_LOWER_XX
             group               none
             style               WINDOW_STYLE_FILLED
             rect                320 148 0 0
-            background          "gfx/menus/planets/dosuun"
+            background          "gfx/menus/planets/XX_MAP_5_LONG_NAME_LOWER_XX"
             backcolor           1 1 1 1
             visible         1
             decoration
@@ -518,7 +518,7 @@
 
                 hide            XX_MAP_3_LONG_NAME_LOWER_XX
                 hide            XX_MAP_1_LONG_NAME_LOWER_XX
-                hide            dosuun
+                hide            XX_MAP_5_LONG_NAME_LOWER_XX
                 hide            XX_MAP_2_LONG_NAME_LOWER_XX
                 hide            XX_MAP_4_LONG_NAME_LOWER_XX
 
@@ -895,7 +895,7 @@
                 transition2     loc_but03_off 270 114 0 0 20 25
                 transition2     loc_but04_off 348 104 0 0 20 25
                 transition2     loc_but05_off 164 164 0 0 20 25
-                transition2     dosuun 192 20 256 256 10 15
+                transition2     XX_MAP_5_LONG_NAME_LOWER_XX 192 20 256 256 10 15
                 hide            mission_button
                 hide            loc_but01_on
                 hide            loc_but02_on

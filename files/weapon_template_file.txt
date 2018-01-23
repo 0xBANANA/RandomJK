@@ -1292,7 +1292,7 @@
             cvartest            "tier_storyinfo"
             showcvar
             {
-                XX_WEAPON_PLACEHOLDER_11-dddfff1_XX
+                XX_WEAPON_PLACEHOLDER_11_XX
             }
             mouseEnter
             {
