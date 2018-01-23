@@ -37,7 +37,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 //==================================================================
 
 // the "gameversion" client command will print this plus compile date
-#define	GAMEVERSION	"OpenJK"
+#define	GAMEVERSION	"RandomJK by JoeBananas"
 
 #define BODY_QUEUE_SIZE		8
 
@@ -100,7 +100,7 @@ public:
 
 
 	void sg_export(
-		ojk::SavedGameHelper& saved_game) const
+	    ojk::SavedGameHelper& saved_game) const
 	{
 		saved_game.write<int8_t>(filename);
 		saved_game.write<>(animations);
@@ -112,7 +112,7 @@ public:
 	}
 
 	void sg_import(
-		ojk::SavedGameHelper& saved_game)
+	    ojk::SavedGameHelper& saved_game)
 	{
 		saved_game.read<int8_t>(filename);
 		saved_game.read<>(animations);
@@ -124,7 +124,7 @@ public:
 	}
 }; // animFileSet_t
 
-extern stringID_table_t animTable [MAX_ANIMATIONS+1];
+extern stringID_table_t animTable [MAX_ANIMATIONS + 1];
 
 //Interest points
 
@@ -187,7 +187,7 @@ public:
 
 
 	void sg_export(
-		ojk::SavedGameHelper& saved_game) const
+	    ojk::SavedGameHelper& saved_game) const
 	{
 		saved_game.write<float>(position);
 		saved_game.write<float>(radius);
@@ -202,7 +202,7 @@ public:
 	}
 
 	void sg_import(
-		ojk::SavedGameHelper& saved_game)
+	    ojk::SavedGameHelper& saved_game)
 	{
 		saved_game.read<float>(position);
 		saved_game.read<float>(radius);
@@ -302,7 +302,7 @@ public:
 
 
 	void sg_export(
-		ojk::SavedGameHelper& saved_game) const
+	    ojk::SavedGameHelper& saved_game) const
 	{
 		saved_game.write<int32_t>(clients);
 		saved_game.write<int32_t>(maxclients);
@@ -324,7 +324,7 @@ public:
 	}
 
 	void sg_import(
-		ojk::SavedGameHelper& saved_game)
+	    ojk::SavedGameHelper& saved_game)
 	{
 		saved_game.read<int32_t>(clients);
 		saved_game.read<int32_t>(maxclients);
@@ -459,10 +459,10 @@ void	G_DebugLine(vec3_t A, vec3_t B, int duration, int color, qboolean deleteorn
 // g_combat.c
 //
 qboolean CanDamage (gentity_t *targ, const vec3_t origin);
-void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker, const vec3_t dir, const vec3_t point, int damage, int dflags, int mod, int hitLoc=HL_NONE );
+void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker, const vec3_t dir, const vec3_t point, int damage, int dflags, int mod, int hitLoc = HL_NONE );
 void G_RadiusDamage (const vec3_t origin, gentity_t *attacker, float damage, float radius, gentity_t *ignore, int mod);
 gentity_t *TossClientItems( gentity_t *self );
-void ExplodeDeath_Wait( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int meansOfDeath,int dFlags,int hitLoc );
+void ExplodeDeath_Wait( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int meansOfDeath, int dFlags, int hitLoc );
 void ExplodeDeath( gentity_t *self );
 void GoExplodeDeath( gentity_t *self, gentity_t *other, gentity_t *activator);
 void G_ApplyKnockback( gentity_t *targ, const vec3_t newDir, float knockback );
@@ -646,7 +646,7 @@ void G_WriteSessionData( void );
 //
 // NPC_senses.cpp
 //
-extern void AddSightEvent( gentity_t *owner, vec3_t position, float radius, alertEventLevel_e alertLevel, float addLight=0.0f );
+extern void AddSightEvent( gentity_t *owner, vec3_t position, float radius, alertEventLevel_e alertLevel, float addLight = 0.0f );
 extern void AddSoundEvent( gentity_t *owner, vec3_t position, float radius, alertEventLevel_e alertLevel, qboolean needLOS = qfalse, qboolean onGround = qfalse );
 extern qboolean G_CheckForDanger( gentity_t *self, int alertEvent );
 extern int G_CheckAlertEvents( gentity_t *self, qboolean checkSight, qboolean checkSound, float maxSeeDist, float maxHearDist, int ignoreAlert = -1, qboolean mustHaveOwner = qfalse, int minAlertLevel = AEL_MINOR, qboolean onGroundOnly = qfalse );

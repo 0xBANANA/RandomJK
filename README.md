@@ -7,29 +7,18 @@ This version of OpenJK has some additional single player features implemented:
 * Random patterns will be restored from the last sessions as long as you don't start a new run of the story mode.
 * Randomized force levels: For each level, you can edit the file `randomizerOptions.json` to specify the minimum force level required for each force power and level.
 
+# You can haz randomization too!
 
-# Force randomization
-In the file `randomizerOptions.json` you can choose the following force modes with `forceRandomizationMode`:
-- `0`: Progression mode: As you complete missions, you gain additional force points. You can spend one force point for each mission - the rest will be randomized
-- `1`: Chaos mode: Every force power will be randomized, you can gain from zero to the maximum amount of force points.
+* Download the latest release from the releases tab. Please never just git clone, compile and complain about the game not running.
+* Replace all the files of the specific archive you downloaded into your existing OpenJK folder - Keep backups in case you need them.
 
-Additionally, the required force *levels* can be selected for each map and force power in the settings file. There you can select the level from 0 to 3.
+## Troubleshooting on first runs
 
-One user selectable force power can be chosen freely on level startup.
+For initial troubleshooting, please verify that OpenJK runs without using my modifications. If this is true and it however fails with the binaries supplied in the latest release of this project, feel free to file an issue on GitHub.
 
-# Weapons randomization
+## Basic usage
 
-This works comparable to the force randomization. The values in `randomizerOptions.json` range from 0 (weapon not required) to 1 (weapon required). The amount of ammo will always be random for weapons you didn't choose via the selection menu.
-
-In the file `randomizerOptions.json` you can choose the weapon modes with `weaponRandomizationMode`:
-- `0`: You can choose two weapons from a random pool
-- `1`: Chaos mode: Every weapon will be randomized
-
-# Building
-
-Please refer to the original notes on the build process of OpenJK. I added an option to the CMake project which allows you to pass the installation directory with an environment variable. Check the `CMakeList` files for additional info.
-
-# Usage
+On initial SP game start, after creating your character, your first randomized mission pattern will be generated in the same folder your JKA executables are. This gets randomized each time you start a new story playthrough.
 
 To use you own pattern file without it being overwritten on SP game startup, edit the pattern file as you please, e.g.:
 
@@ -43,9 +32,29 @@ After that, add `NO_OVERWRITE` at the start of the line:
 NO_OVERWRITE t1_surprise t2_trip t2_dpred t1_danger t1_sour t3_hevil t2_wedge t3_stamp t3_byss t2_rogue t2_rancor t3_rift t1_fatal t1_rail t3_bounty
 ```
 
-Done.
+For additional configuration, check out the following sections and the supplied configuration file `randomizerOptions.json`.
 
-**After compiling this project, copy the files** `files/template_file.txt` **and** `files/randomizerOptions.json` **into the same directory your JKA executable lives in. If you don't do this, the game will crash as intended.**
+# Force randomization
+In the file `randomizerOptions.json` you can choose the following force modes with `forceRandomizationMode`:
+- `0`: Progression mode: As you complete missions, you gain additional force points. You can spend exactly one force point for each mission - the rest will be randomized, including the core force powers like force jump.
+- `1`: Chaos mode: Every force power will be randomized, you can gain from zero to the maximum amount of force points. One user selectable force power can be chosen freely.
+
+
+Additionally, the required force *levels* can be selected for each map and force power in the settings file. In there you can select the level from 0 to 3. This value will be guaranteed to be satisfied.
+
+# Weapons randomization
+
+This works comparable to the force randomization. The values in `randomizerOptions.json` range from 0 (weapon not required) to 1 (weapon required). The amount of ammo will always be random for weapons you didn't choose via the selection menu.
+
+In the file `randomizerOptions.json` you can choose the weapon modes with `weaponRandomizationMode`:
+- `0`: You can choose two weapons from a random pool
+- `1`: Chaos mode: Every weapon will be randomized
+
+# Building
+
+Please refer to the original notes on the build process of OpenJK. I added an option to the CMake project which allows you to pass the installation directory with an environment variable. Check the `CMakeList` files for additional info.
+
+**After compiling this project, copy the files** `files/template_file.txt` **and** `files/randomizerOptions.json` **into the same directory your JKA executable lives in. If you don't do this, the game will crash as intended.** Please refer to the troubleshooting sections in case of problems.
 
 # Credits
 Thanks go out to Raven, the JACoders and the JKA speedrunning community.
