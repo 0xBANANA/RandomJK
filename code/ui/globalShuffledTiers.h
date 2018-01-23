@@ -384,10 +384,6 @@ extern int weaponRandomizationMode;
 extern int TIER_MISSIONS_COMPLETED;
 
 
-// We will push the passed map strings in here
-// this currently ignores maps where no force points will be achieved
-extern std::vector<std::string> PASSED_LEVELS;
-
 // Helper method to set force powers with error checking
 static void _setRandomForcePower(playerState_t* pState, json forcePowersUpcomingLevel, int FP_enumType, std::string FP_string) {
 
@@ -412,8 +408,13 @@ static void _setRandomForcePower(playerState_t* pState, json forcePowersUpcoming
 
 static void randomizeForcePowers(playerState_t* pState, const std::string mapname) {
 
+    // has to be a valid mapname
+    if (std::find(ALL_MAP_NAMES.begin(), ALL_MAP_NAMES.end(), mapname) == ALL_MAP_NAMES.end()) {
+        return;
+    }
+
     // core powers - player can't choose these
-    std::vector<int> fps_core = {
+    std::vector<int> fps_core_shuffled = {
             FP_LEVITATION,
             FP_PUSH,
             FP_PULL,
@@ -423,10 +424,10 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
             FP_SEE,
             FP_SPEED,
     };
-
+    std::random_shuffle(fps_core_shuffled.begin(), fps_core_shuffled.end(), GET_RANDOM_MAX);
 
     // the force powers the player can choose
-    std::vector<int> fps_player = {
+    std::vector<int> fps_player_shuffled = {
             FP_HEAL,
             FP_TELEPATHY,
             FP_GRIP,
@@ -436,13 +437,14 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
             FP_ABSORB,
             FP_DRAIN,
     };
+    std::random_shuffle(fps_player_shuffled.begin(), fps_player_shuffled.end(), GET_RANDOM_MAX);
 
     // reset the force powers to zero first
-    for(auto fp: fps_core) {
+    for(auto fp: fps_core_shuffled) {
         pState->forcePowerLevel[fp] = 0;
         pState->forcePowersKnown &= (0 << fp);
     }
-    for(auto fp: fps_player) {
+    for(auto fp: fps_player_shuffled) {
         pState->forcePowerLevel[fp] = 0;
         pState->forcePowersKnown &= (0 << fp);
     }
@@ -460,11 +462,11 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
         int playerPointsToSpend = TIER_MISSIONS_COMPLETED > 0 ? TIER_MISSIONS_COMPLETED : 0;
 
         int corePointsToSpend = 0;
-        if(TIER_MISSIONS_COMPLETED < 5) { corePointsToSpend = fps_core.size(); }
-        if(TIER_MISSIONS_COMPLETED >= 5 && TIER_MISSIONS_COMPLETED < 10) { corePointsToSpend = fps_core.size() * 2; }
-        if(TIER_MISSIONS_COMPLETED >= 10) { corePointsToSpend = fps_core.size() *  3; }
+        if(TIER_MISSIONS_COMPLETED < 5) { corePointsToSpend = fps_core_shuffled.size(); }
+        if(TIER_MISSIONS_COMPLETED >= 5 && TIER_MISSIONS_COMPLETED < 10) { corePointsToSpend = fps_core_shuffled.size() * 2; }
+        if(TIER_MISSIONS_COMPLETED >= 10) { corePointsToSpend = fps_core_shuffled.size() *  3; }
 
-        for(auto fp: fps_core) {
+        for(auto fp: fps_core_shuffled) {
 
             // finished
             if(corePointsToSpend <= 0) { break; }
@@ -505,7 +507,7 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
             }
         }
 
-        for(auto fp: fps_player) {
+        for(auto fp: fps_player_shuffled) {
 
             // finished
             if(playerPointsToSpend <= 0) { break; }
@@ -531,7 +533,7 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
     // chaos mode
     if(forceRandomizationMode == 1) {
         // allocate random core powers first
-        for (auto fp : fps_core) {
+        for (auto fp : fps_core_shuffled) {
 
             int randomLevel = 0;
             // don't make it too easy ;)
@@ -574,12 +576,12 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
 
         // allocate random force powers for the player powers
         // Max points to spend so we don't soft block
-        auto maxPoints_bkp = ((fps_player.size() * 3) - 1);
+        auto maxPoints_bkp = ((fps_player_shuffled.size() * 3) - 1);
 
         // don't use all possible points all the time
         auto maxPoints = Q_min((maxPoints_bkp - (GET_RANDOM(0, maxPoints_bkp)) + 8), maxPoints_bkp);
 
-        for (auto fp : fps_player) {
+        for (auto fp : fps_player_shuffled) {
             if (maxPoints == 0) { break; }
 
             int randomLevel = Q_min(GET_RANDOM(0, 3), maxPoints);
@@ -632,14 +634,14 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
 
     // re-check all if at least one point is unused -- avoid soft block
     int scoreEnd = 0;
-    for (auto fp : fps_player) {
+    for (auto fp : fps_player_shuffled) {
         scoreEnd += pState->forcePowerLevel[fp];
     }
 
     // if blocked
-    if (scoreEnd == (fps_player.size()) * 3) {
+    if (scoreEnd == (fps_player_shuffled.size()) * 3) {
         // remove random point from player force level
-        auto randomFP = fps_player[GET_RANDOM(0, fps_player.size() - 1)];
+        auto randomFP = fps_player_shuffled[GET_RANDOM(0, fps_player_shuffled.size() - 1)];
         pState->forcePowerLevel[randomFP] = pState->forcePowerLevel[randomFP] - 1;
     }
 
@@ -690,7 +692,7 @@ static void randomizeWeapons(playerState_t* pState, const std::string mapname) {
         // Give random ammo only - the rest will be handled via menu and settings file
         for(auto i = 0; i < AMMO_MAX; i++) {
 
-            // dont get like 500 rockets
+            // don't get like 500 rockets
             if(i == AMMO_ROCKETS || i == AMMO_EMPLACED || i == AMMO_THERMAL || i == AMMO_TRIPMINE || i == AMMO_DETPACK) {
                 pState->ammo[i] = GET_RANDOM(0, 20);
             }

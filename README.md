@@ -63,6 +63,7 @@ Additionally, to nlohmann for the great JSON library.
 - Joe Bananas (@JoeBananas1337_)
 
 # Todos
+* Clean this project from MP files and folders
 * Add CVar for `NO_OVERWRITE` and `forceRandomizationMode`
 * Make suggestions :)
 

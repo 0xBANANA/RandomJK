@@ -64,9 +64,7 @@ int weaponRandomizationMode = 0;
 
 std::vector<std::string> PASSED_LEVELS;
 
-// this is -1 and not 0 because for the first started map
-// the player can already spend one point --> no need to add one
-int TIER_MISSIONS_COMPLETED = -1;
+int TIER_MISSIONS_COMPLETED = 0;
 
 
 #include "json.h"
@@ -4858,6 +4856,7 @@ static void UI_InitAllocForcePowers ( const char *forceName )
         DC->getCVarString("tier_mapname", buf, sizeof(buf));
         std::string _mapname(buf);
 
+
         // remove the command name from the string (e.g. maptransition t1_sour)
         std::string::size_type whereToErase = _mapname.find("maptransition ");
         if (whereToErase != std::string::npos) {
@@ -4872,21 +4871,26 @@ static void UI_InitAllocForcePowers ( const char *forceName )
         }
 
         if (mapNameValid) {
+
+			// get amount of missions completed
+			// check how many missions we have completed
+			char completedMapsString[2048];
+			DC->getCVarString("tiers_complete", completedMapsString, sizeof(completedMapsString));
+
+			// split it by spaces
+			std::stringstream ss(completedMapsString);
+			std::istream_iterator<std::string> begin(ss);
+			std::istream_iterator<std::string> end;
+			std::vector<std::string> completedMapsVector(begin, end);
+
+			TIER_MISSIONS_COMPLETED = 0;
+			for(auto cm : completedMapsVector) {
+				if (std::find(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), cm) != TIER_MAP_NAMES.end()) {
+					TIER_MISSIONS_COMPLETED++;
+				}
+			}
+
             randomizeForcePowers(cl->gentity->client, _mapname);
-
-            // first time visiting the upcoming map
-            if (std::find(PASSED_LEVELS.begin(), PASSED_LEVELS.end(), UPCOMING_MAP_NAME) == PASSED_LEVELS.end()) {
-
-                // if it isn't a ignored map name
-                if (std::find(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), UPCOMING_MAP_NAME) == PASSED_LEVELS.end()) {
-                    // We assume that this only gets called if a new map gets started --> increment counter
-                    TIER_MISSIONS_COMPLETED += 1;
-                }
-
-
-                PASSED_LEVELS.push_back(UPCOMING_MAP_NAME);
-            }
-
             // do it in the next map - not agian for this map
             randomizeForcePowersDoOnce = true;
         }
