@@ -199,10 +199,9 @@ void SV_SpawnServer( const char *server, ForceReload_e eForceReload, qboolean bA
 	int			i;
 	int			checksum;
 
-	re.RegisterMedia_LevelLoadBegin( server, eForceReload, bAllowScreenDissolve );
+    re.RegisterMedia_LevelLoadBegin( server, eForceReload, bAllowScreenDissolve );
 
-
-	Cvar_SetValue( "cl_paused", 0 );
+    Cvar_SetValue( "cl_paused", 0 );
 	Cvar_Set( "timescale", "1" );//jic we were skipping
 
 	// shut down the existing game if it is running
@@ -273,7 +272,8 @@ void SV_SpawnServer( const char *server, ForceReload_e eForceReload, qboolean bA
 	// server has changed
 //!@	svs.snapFlagServerBit ^= SNAPFLAG_SERVERCOUNT;
 
-	// set nextmap to the same map, but it may be overriden
+
+    // set nextmap to the same map, but it may be overriden
 	// by the game startup or another console command
 	Cvar_Set( "nextmap", va("map %s", server) );
 
@@ -324,7 +324,7 @@ void SV_SpawnServer( const char *server, ForceReload_e eForceReload, qboolean bA
 	SV_CreateBaseline ();
 
 	for (i=0 ; i<1 ; i++) {
-		// clear all time counters, because we have reset sv.time
+        // clear all time counters, because we have reset sv.time
 		svs.clients[i].lastPacketTime = 0;
 		svs.clients[i].lastConnectTime = 0;
 
@@ -369,7 +369,7 @@ void SV_SpawnServer( const char *server, ForceReload_e eForceReload, qboolean bA
 	Z_Validate();
 	Z_Validate();
 
-	Com_Printf ("-----------------------------------\n");
+    Com_Printf ("-----------------------------------\n");
 }
 
 #define G2_VERT_SPACE_SIZE 256

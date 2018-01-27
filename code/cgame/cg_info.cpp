@@ -21,6 +21,10 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 ===========================================================================
 */
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iterator>
 #include "cg_headers.h"
 
 #include "cg_media.h"
@@ -669,42 +673,77 @@ static void CG_GetLoadScreenInfo(int *weaponBits,int *forceBits)
 	float	fDummy;
 	const char	*var;
 
-	gi.Cvar_VariableStringBuffer( sCVARNAME_PLAYERSAVE, s, sizeof(s) );
+    std::string KNOWN_FORCE_POWERS_FILE_NAME = "tmp_knownForcePowers.txt";
+    std::string FORCE_POWER_LEVELS_FILE_NAME = "tmp_forcePowerLevels.txt";
 
-	// Get player weapons and force powers known
-	if (s[0])
-	{
-	//				|general info				  |-force powers
-		sscanf( s, "%i %i %i %i %i %i %i %f %f %f %i %i",
-				&iDummy,	//	&client->ps.stats[STAT_HEALTH],
-				&iDummy,	//	&client->ps.stats[STAT_ARMOR],
-				&*weaponBits,//	&client->ps.stats[STAT_WEAPONS],
-				&iDummy,	//	&client->ps.stats[STAT_ITEMS],
-				&iDummy,	//	&client->ps.weapon,
-				&iDummy,	//	&client->ps.weaponstate,
-				&iDummy,	//	&client->ps.batteryCharge,
-				&fDummy,	//	&client->ps.viewangles[0],
-				&fDummy,	//	&client->ps.viewangles[1],
-				&fDummy,	//	&client->ps.viewangles[2],
-							//force power data
-				&*forceBits,	//	&client->ps.forcePowersKnown,
-				&iDummy		//	&client->ps.forcePower,
+    std::ifstream knownForcePowersFileHandle(KNOWN_FORCE_POWERS_FILE_NAME.c_str());
+    std::ifstream forcePowerLevelsFileHandle(FORCE_POWER_LEVELS_FILE_NAME.c_str());
 
-				);
-	}
+    // randomizer mode
+    if(knownForcePowersFileHandle.good() && forcePowerLevelsFileHandle.good()) {
+        // read
+        std::string knownForcePowersRead((std::istreambuf_iterator<char>(knownForcePowersFileHandle)),
+                                     std::istreambuf_iterator<char>());
 
-	// the new JK2 stuff - force powers, etc...
-	//
-	gi.Cvar_VariableStringBuffer( "playerfplvl", s, sizeof(s) );
-	i=0;
-	var = strtok( s, " " );
-	while( var != NULL )
-	{
-		/* While there are tokens in "s" */
-		loadForcePowerLevel[i++] = atoi(var);
-		/* Get next token: */
-		var = strtok( NULL, " " );
-	}
+        std::string forcePowerLevelsRead((std::istreambuf_iterator<char>(forcePowerLevelsFileHandle)),
+                                         std::istreambuf_iterator<char>());
+
+        int knownForcePowers = std::stoi(knownForcePowersRead);
+        *forceBits = knownForcePowers;
+
+        // split it by spaces
+        std::stringstream ss(forcePowerLevelsRead);
+        std::istream_iterator<std::string> begin(ss);
+        std::istream_iterator<std::string> end;
+        std::vector<std::string> splittedForcePowerLevels(begin, end);
+
+        i = 0;
+        for(auto fpl : splittedForcePowerLevels) {
+            loadForcePowerLevel[i++] = std::stoi(fpl);
+        }
+    }
+
+    // normal mode
+    else {
+
+        gi.Cvar_VariableStringBuffer( sCVARNAME_PLAYERSAVE, s, sizeof(s) );
+
+        // Get player weapons and force powers known
+        if (s[0])
+        {
+        //				|general info				  |-force powers
+            sscanf( s, "%i %i %i %i %i %i %i %f %f %f %i %i",
+                    &iDummy,	//	&client->ps.stats[STAT_HEALTH],
+                    &iDummy,	//	&client->ps.stats[STAT_ARMOR],
+                    &*weaponBits,//	&client->ps.stats[STAT_WEAPONS],
+                    &iDummy,	//	&client->ps.stats[STAT_ITEMS],
+                    &iDummy,	//	&client->ps.weapon,
+                    &iDummy,	//	&client->ps.weaponstate,
+                    &iDummy,	//	&client->ps.batteryCharge,
+                    &fDummy,	//	&client->ps.viewangles[0],
+                    &fDummy,	//	&client->ps.viewangles[1],
+                    &fDummy,	//	&client->ps.viewangles[2],
+                                //force power data
+                    &*forceBits,	//	&client->ps.forcePowersKnown,
+                    &iDummy		//	&client->ps.forcePower,
+
+                    );
+        }
+
+        // the new JK2 stuff - force powers, etc...
+        //
+        gi.Cvar_VariableStringBuffer( "playerfplvl", s, sizeof(s) );
+        i=0;
+        var = strtok( s, " " );
+        while( var != NULL )
+        {
+            /* While there are tokens in "s" */
+            loadForcePowerLevel[i++] = atoi(var);
+            /* Get next token: */
+            var = strtok( NULL, " " );
+        }
+
+    }
 }
 
 /*

@@ -23,12 +23,13 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 // Filename:-	sv_savegame.cpp
 #include <memory>
 #include "../server/exe_headers.h"
+#include "ui/globalShuffledTiers.h"
 
 #define JPEG_IMAGE_QUALITY 95
 
 //#define USE_LAST_SAVE_FROM_THIS_MAP	// enable this if you want to use the last explicity-loaded savegame from this map
-				 						//	when respawning after dying, else it'll just load "auto" regardless
-										//	(EF1 behaviour). I should maybe time/date check them though?
+//	when respawning after dying, else it'll just load "auto" regardless
+//	(EF1 behaviour). I should maybe time/date check them though?
 
 #include "server.h"
 #include "../qcommon/stringed_ingame.h"
@@ -110,10 +111,10 @@ static const char *GetString_FailedToOpenSaveGame(const char *psFilename, qboole
 }
 
 void SG_WipeSavegame(
-	const char* psPathlessBaseName)
+		const char* psPathlessBaseName)
 {
 	ojk::SavedGame::remove(
-		psPathlessBaseName);
+			psPathlessBaseName);
 }
 
 // called from the ERR_DROP stuff just in case the error occured during loading of a saved game, because if
@@ -148,7 +149,7 @@ void SV_WipeGame_f(void)
 		return;
 	}
 	SG_WipeSavegame(Cmd_Argv(1));
-//	Com_Printf("%s has been wiped\n", Cmd_Argv(1));	// wurde gelöscht in german, but we've only got one string
+//	Com_Printf("%s has been wiped\n", Cmd_Argv(1));	// wurde gelï¿½scht in german, but we've only got one string
 //	Com_Printf("Ok\n"); // no localization of this
 }
 
@@ -399,11 +400,11 @@ void SV_SaveGame_f(void)
 static void WriteGame(qboolean autosave)
 {
 	ojk::SavedGameHelper saved_game(
-		&ojk::SavedGame::get_instance());
+			&ojk::SavedGame::get_instance());
 
 	saved_game.write_chunk<int32_t>(
-		INT_ID('G', 'A', 'M', 'E'),
-		autosave);
+			INT_ID('G', 'A', 'M', 'E'),
+			autosave);
 
 	if (autosave)
 	{
@@ -420,8 +421,8 @@ static void WriteGame(qboolean autosave)
 		Cvar_VariableStringBuffer( sCVARNAME_PLAYERSAVE, s, sizeof(s) );
 
 		saved_game.write_chunk(
-			INT_ID('C', 'V', 'S', 'V'),
-			s);
+				INT_ID('C', 'V', 'S', 'V'),
+				s);
 
 		// write ammo...
 		//
@@ -429,8 +430,8 @@ static void WriteGame(qboolean autosave)
 		Cvar_VariableStringBuffer( "playerammo", s, sizeof(s) );
 
 		saved_game.write_chunk(
-			INT_ID('A', 'M', 'M', 'O'),
-			s);
+				INT_ID('A', 'M', 'M', 'O'),
+				s);
 
 		// write inventory...
 		//
@@ -438,8 +439,8 @@ static void WriteGame(qboolean autosave)
 		Cvar_VariableStringBuffer( "playerinv", s, sizeof(s) );
 
 		saved_game.write_chunk(
-			INT_ID('I', 'V', 'T', 'Y'),
-			s);
+				INT_ID('I', 'V', 'T', 'Y'),
+				s);
 
 		// the new JK2 stuff - force powers, etc...
 		//
@@ -447,8 +448,8 @@ static void WriteGame(qboolean autosave)
 		Cvar_VariableStringBuffer( "playerfplvl", s, sizeof(s) );
 
 		saved_game.write_chunk(
-			INT_ID('F', 'P', 'L', 'V'),
-			s);
+				INT_ID('F', 'P', 'L', 'V'),
+				s);
 	}
 }
 
@@ -457,11 +458,11 @@ static qboolean ReadGame (void)
 	qboolean qbAutoSave = qfalse;
 
 	ojk::SavedGameHelper saved_game(
-		&ojk::SavedGame::get_instance());
+			&ojk::SavedGame::get_instance());
 
 	saved_game.read_chunk<int32_t>(
-		INT_ID('G', 'A', 'M', 'E'),
-		qbAutoSave);
+			INT_ID('G', 'A', 'M', 'E'),
+			qbAutoSave);
 
 	if (qbAutoSave)
 	{
@@ -472,8 +473,8 @@ static qboolean ReadGame (void)
 		memset(s,0,sizeof(s));
 
 		saved_game.read_chunk(
-			INT_ID('C', 'V', 'S', 'V'),
-			s);
+				INT_ID('C', 'V', 'S', 'V'),
+				s);
 
 		Cvar_Set( sCVARNAME_PLAYERSAVE, s );
 
@@ -482,8 +483,8 @@ static qboolean ReadGame (void)
 		memset(s,0,sizeof(s));
 
 		saved_game.read_chunk(
-			INT_ID('A', 'M', 'M', 'O'),
-			s);
+				INT_ID('A', 'M', 'M', 'O'),
+				s);
 
 		Cvar_Set( "playerammo", s);
 
@@ -492,8 +493,8 @@ static qboolean ReadGame (void)
 		memset(s,0,sizeof(s));
 
 		saved_game.read_chunk(
-			INT_ID('I', 'V', 'T', 'Y'),
-			s);
+				INT_ID('I', 'V', 'T', 'Y'),
+				s);
 
 		Cvar_Set( "playerinv", s);
 
@@ -502,8 +503,8 @@ static qboolean ReadGame (void)
 		memset(s,0,sizeof(s));
 
 		saved_game.read_chunk(
-			INT_ID('F', 'P', 'L', 'V'),
-			s);
+				INT_ID('F', 'P', 'L', 'V'),
+				s);
 
 		Cvar_Set( "playerfplvl", s );
 	}
@@ -525,7 +526,7 @@ void SG_WriteCvars(void)
 	int		iCount = 0;
 
 	ojk::SavedGameHelper saved_game(
-		&ojk::SavedGame::get_instance());
+			&ojk::SavedGame::get_instance());
 
 	// count the cvars...
 	//
@@ -545,8 +546,8 @@ void SG_WriteCvars(void)
 	// store count...
 	//
 	saved_game.write_chunk<int32_t>(
-		INT_ID('C', 'V', 'C', 'N'),
-		iCount);
+			INT_ID('C', 'V', 'C', 'N'),
+			iCount);
 
 	// write 'em...
 	//
@@ -562,14 +563,14 @@ void SG_WriteCvars(void)
 		}
 
 		saved_game.write_chunk(
-			INT_ID('C', 'V', 'A', 'R'),
-			var->name,
-			static_cast<int>(strlen(var->name) + 1));
+				INT_ID('C', 'V', 'A', 'R'),
+				var->name,
+				static_cast<int>(strlen(var->name) + 1));
 
 		saved_game.write_chunk(
-			INT_ID('V', 'A', 'L', 'U'),
-			var->string,
-			static_cast<int>(strlen(var->string) + 1));
+				INT_ID('V', 'A', 'L', 'U'),
+				var->string,
+				static_cast<int>(strlen(var->string) + 1));
 	}
 }
 
@@ -580,26 +581,26 @@ void SG_ReadCvars()
 	const char* psValue;
 
 	ojk::SavedGameHelper saved_game(
-		&ojk::SavedGame::get_instance());
+			&ojk::SavedGame::get_instance());
 
 	saved_game.read_chunk<int32_t>(
-		INT_ID('C', 'V', 'C', 'N'),
-		iCount);
+			INT_ID('C', 'V', 'C', 'N'),
+			iCount);
 
 	for (int i = 0; i < iCount; ++i)
 	{
 		saved_game.read_chunk(
-			INT_ID('C', 'V', 'A', 'R'));
+				INT_ID('C', 'V', 'A', 'R'));
 
 		psName = reinterpret_cast<const char*>(
-			saved_game.get_buffer_data());
+				saved_game.get_buffer_data());
 
 
 		saved_game.read_chunk(
-			INT_ID('V', 'A', 'L', 'U'));
+				INT_ID('V', 'A', 'L', 'U'));
 
 		psValue = reinterpret_cast<const char*>(
-			saved_game.get_buffer_data());
+				saved_game.get_buffer_data());
 
 		::Cvar_Set(psName.c_str(), psValue);
 	}
@@ -608,7 +609,7 @@ void SG_ReadCvars()
 void SG_WriteServerConfigStrings()
 {
 	ojk::SavedGameHelper saved_game(
-		&ojk::SavedGame::get_instance());
+			&ojk::SavedGame::get_instance());
 
 	int iCount = 0;
 	int i;	// not in FOR statement in case compiler goes weird by reg-optimising it then failing to get the address later
@@ -627,8 +628,8 @@ void SG_WriteServerConfigStrings()
 	}
 
 	saved_game.write_chunk<int32_t>(
-		INT_ID('C', 'S', 'C', 'N'),
-		iCount);
+			INT_ID('C', 'S', 'C', 'N'),
+			iCount);
 
 	// now write 'em...
 	//
@@ -639,13 +640,13 @@ void SG_WriteServerConfigStrings()
 			if (sv.configstrings[i]	&& strlen(sv.configstrings[i]))
 			{
 				saved_game.write_chunk<int32_t>(
-					INT_ID('C', 'S', 'I', 'N'),
-					i);
+						INT_ID('C', 'S', 'I', 'N'),
+						i);
 
 				saved_game.write_chunk(
-					INT_ID('C', 'S', 'D', 'A'),
-					::sv.configstrings[i],
-					static_cast<int>(strlen(::sv.configstrings[i]) + 1));
+						INT_ID('C', 'S', 'D', 'A'),
+						::sv.configstrings[i],
+						static_cast<int>(strlen(::sv.configstrings[i]) + 1));
 			}
 		}
 	}
@@ -672,11 +673,11 @@ void SG_ReadServerConfigStrings( void )
 	int iCount = 0;
 
 	ojk::SavedGameHelper saved_game(
-		&ojk::SavedGame::get_instance());
+			&ojk::SavedGame::get_instance());
 
 	saved_game.read_chunk<int32_t>(
-		INT_ID('C', 'S', 'C', 'N'),
-		iCount);
+			INT_ID('C', 'S', 'C', 'N'),
+			iCount);
 
 	Com_DPrintf( "Reading %d configstrings...\n",iCount);
 
@@ -686,14 +687,14 @@ void SG_ReadServerConfigStrings( void )
 		const char *psName;
 
 		saved_game.read_chunk<int32_t>(
-			INT_ID('C', 'S', 'I', 'N'),
-			iIndex);
+				INT_ID('C', 'S', 'I', 'N'),
+				iIndex);
 
 		saved_game.read_chunk(
-			INT_ID('C', 'S', 'D', 'A'));
+				INT_ID('C', 'S', 'D', 'A'));
 
 		psName = reinterpret_cast<const char*>(
-			saved_game.get_buffer_data());
+				saved_game.get_buffer_data());
 
 		Com_DPrintf( "Cfg str %d = %s\n",iIndex, psName);
 
@@ -710,7 +711,7 @@ static unsigned int SG_UnixTimestamp ( const time_t& t )
 static void SG_WriteComment(qboolean qbAutosave, const char *psMapName)
 {
 	ojk::SavedGameHelper saved_game(
-		&ojk::SavedGame::get_instance());
+			&ojk::SavedGame::get_instance());
 
 	char	sComment[iSG_COMMENT_SIZE];
 
@@ -724,15 +725,15 @@ static void SG_WriteComment(qboolean qbAutosave, const char *psMapName)
 	}
 
 	saved_game.write_chunk(
-		INT_ID('C', 'O', 'M', 'M'),
-		sComment);
+			INT_ID('C', 'O', 'M', 'M'),
+			sComment);
 
 	// Add Date/Time/Map stamp
 	unsigned int timestamp = SG_UnixTimestamp (time (NULL));
 
 	saved_game.write_chunk<uint32_t>(
-		INT_ID('C', 'M', 'T', 'M'),
-		timestamp);
+			INT_ID('C', 'M', 'T', 'M'),
+			timestamp);
 
 	Com_DPrintf("Saving: current (%s)\n", sComment);
 }
@@ -746,19 +747,19 @@ static time_t SG_GetTime ( unsigned int timestamp )
 // then grab the comment if it's there
 //
 int SG_GetSaveGameComment(
-	const char* psPathlessBaseName,
-	char* sComment,
-	char* sMapName)
+		const char* psPathlessBaseName,
+		char* sComment,
+		char* sMapName)
 {
 	int ret = 0;
 
 	ojk::SavedGame& saved_game = ojk::SavedGame::get_instance();
 
 	ojk::SavedGameHelper sgh(
-		&ojk::SavedGame::get_instance());
+			&ojk::SavedGame::get_instance());
 
 	if (!saved_game.open(
-		psPathlessBaseName))
+			psPathlessBaseName))
 	{
 		return 0;
 	}
@@ -768,7 +769,7 @@ int SG_GetSaveGameComment(
 	// Read description
 	//
 	is_succeed = sgh.try_read_chunk(
-		INT_ID('C', 'O', 'M', 'M'));
+			INT_ID('C', 'O', 'M', 'M'));
 
 	if (is_succeed)
 	{
@@ -777,9 +778,9 @@ int SG_GetSaveGameComment(
 			if (sgh.get_buffer_size() == iSG_COMMENT_SIZE)
 			{
 				std::uninitialized_copy_n(
-					static_cast<const char*>(sgh.get_buffer_data()),
-					iSG_COMMENT_SIZE,
-					sComment);
+						static_cast<const char*>(sgh.get_buffer_data()),
+						iSG_COMMENT_SIZE,
+						sComment);
 			}
 			else
 			{
@@ -797,13 +798,13 @@ int SG_GetSaveGameComment(
 		unsigned int fileTime = 0;
 
 		is_succeed = sgh.try_read_chunk<uint32_t>(
-			INT_ID('C', 'M', 'T', 'M'),
-			fileTime);
+				INT_ID('C', 'M', 'T', 'M'),
+				fileTime);
 
 		if (is_succeed)
 		{
 			tFileTime = ::SG_GetTime(
-				fileTime);
+					fileTime);
 		}
 	}
 
@@ -832,7 +833,7 @@ int SG_GetSaveGameComment(
 	if (is_succeed)
 	{
 		is_succeed = sgh.try_read_chunk(
-			INT_ID('M', 'P', 'C', 'M'));
+				INT_ID('M', 'P', 'C', 'M'));
 
 		if (is_succeed)
 		{
@@ -841,9 +842,9 @@ int SG_GetSaveGameComment(
 				if (sgh.get_buffer_size() == iSG_MAPCMD_SIZE)
 				{
 					std::uninitialized_copy_n(
-						static_cast<const char*>(sgh.get_buffer_data()),
-						iSG_MAPCMD_SIZE,
-						sMapName);
+							static_cast<const char*>(sgh.get_buffer_data()),
+							iSG_MAPCMD_SIZE,
+							sMapName);
 				}
 				else
 				{
@@ -1162,7 +1163,7 @@ qboolean SG_WriteSavegame(const char *psPathlessBaseName, qboolean qbAutosave)
 //END JLF
 
 	ojk::SavedGameHelper sgh(
-		&saved_game);
+			&saved_game);
 
 	char   sMapCmd[iSG_MAPCMD_SIZE]={0};
 	Q_strncpyz( sMapCmd,psMapName, sizeof(sMapCmd));	// need as array rather than ptr because const strlen needed for MPCM chunk
@@ -1173,8 +1174,8 @@ qboolean SG_WriteSavegame(const char *psPathlessBaseName, qboolean qbAutosave)
 #endif
 
 	sgh.write_chunk(
-		INT_ID('M', 'P', 'C', 'M'),
-		sMapCmd);
+			INT_ID('M', 'P', 'C', 'M'),
+			sMapCmd);
 
 	SG_WriteCvars();
 
@@ -1185,12 +1186,12 @@ qboolean SG_WriteSavegame(const char *psPathlessBaseName, qboolean qbAutosave)
 	if (!qbAutosave)
 	{
 		sgh.write_chunk<int32_t>(
-			INT_ID('T', 'I', 'M', 'E'),
-			::sv.time);
+				INT_ID('T', 'I', 'M', 'E'),
+				::sv.time);
 
 		sgh.write_chunk<int32_t>(
-			INT_ID('T', 'I', 'M', 'R'),
-			::sv.timeResidual);
+				INT_ID('T', 'I', 'M', 'R'),
+				::sv.timeResidual);
 
 		CM_WritePortalState();
 		SG_WriteServerConfigStrings();
@@ -1210,15 +1211,15 @@ qboolean SG_WriteSavegame(const char *psPathlessBaseName, qboolean qbAutosave)
 	}
 
 	ojk::SavedGame::rename(
-		"current",
-		psPathlessBaseName);
+			"current",
+			psPathlessBaseName);
 
 	sv_testsave->integer = iPrevTestSave;
 	return qtrue;
 }
 
 qboolean SG_ReadSavegame(
-	const char* psPathlessBaseName)
+		const char* psPathlessBaseName)
 {
 	char sComment[iSG_COMMENT_SIZE];
 	char sMapCmd[iSG_MAPCMD_SIZE];
@@ -1229,25 +1230,28 @@ qboolean SG_ReadSavegame(
 		"0");
 #endif
 
+	// Randomizer Hack: Check if quickloaded or nay
+	WAS_QUICKLOAD = (std::string(psPathlessBaseName) == "quick");
+
 	ojk::SavedGame& saved_game = ojk::SavedGame::get_instance();
 
 	ojk::SavedGameHelper sgh(
-		&saved_game);
+			&saved_game);
 
 	const int iPrevTestSave = ::sv_testsave->integer;
 
 	ojk::ScopeGuard scope_guard(
-		[&]()
-	{
-		::sv_testsave->integer = 0;
-	},
+			[&]()
+			{
+				::sv_testsave->integer = 0;
+			},
 
-		[&]()
-	{
-		saved_game.close();
+			[&]()
+			{
+				saved_game.close();
 
-		::sv_testsave->integer = iPrevTestSave;
-	}
+				::sv_testsave->integer = iPrevTestSave;
+			}
 	);
 
 
@@ -1255,9 +1259,9 @@ qboolean SG_ReadSavegame(
 	{
 		//S_COLOR_RED "Failed to open savegame \"%s\"\n", psPathlessBaseName);
 		::Com_Printf(
-			::GetString_FailedToOpenSaveGame(
-				psPathlessBaseName,
-				qtrue));
+				::GetString_FailedToOpenSaveGame(
+						psPathlessBaseName,
+						qtrue));
 
 		return qfalse;
 	}
@@ -1267,23 +1271,23 @@ qboolean SG_ReadSavegame(
 	if (psPathlessBaseName != sLastSaveFileLoaded)
 	{
 		::Q_strncpyz(
-			::sLastSaveFileLoaded,
-			psPathlessBaseName,
-			sizeof(sLastSaveFileLoaded));
+				::sLastSaveFileLoaded,
+				psPathlessBaseName,
+				sizeof(sLastSaveFileLoaded));
 	}
 
 	// Read in all the server data...
 	//
 	sgh.read_chunk(
-		INT_ID('C', 'O', 'M', 'M'),
-		sComment);
+			INT_ID('C', 'O', 'M', 'M'),
+			sComment);
 
 	::Com_DPrintf(
-		"Reading: %s\n",
-		sComment);
+			"Reading: %s\n",
+			sComment);
 
 	sgh.read_chunk(
-		INT_ID('C', 'M', 'T', 'M'));
+			INT_ID('C', 'M', 'T', 'M'));
 
 #ifdef JK2_MODE
 	::SG_ReadScreenshot(
@@ -1292,8 +1296,8 @@ qboolean SG_ReadSavegame(
 #endif
 
 	sgh.read_chunk(
-		INT_ID('M', 'P', 'C', 'M'),
-		sMapCmd);
+			INT_ID('M', 'P', 'C', 'M'),
+			sMapCmd);
 
 	::SG_ReadCvars();
 
@@ -1304,21 +1308,21 @@ qboolean SG_ReadSavegame(
 
 	// note that this also trashes the whole G_Alloc pool as well (of course)
 	::SV_SpawnServer(
-		sMapCmd,
-		eForceReload_NOTHING,
-		(::eSavedGameJustLoaded != eFULL ? qtrue : qfalse));
+			sMapCmd,
+			eForceReload_NOTHING,
+			(::eSavedGameJustLoaded != eFULL ? qtrue : qfalse));
 
 	// read in all the level data...
 	//
 	if (!qbAutosave)
 	{
 		sgh.read_chunk<int32_t>(
-			INT_ID('T', 'I', 'M', 'E'),
-			::sv.time);
+				INT_ID('T', 'I', 'M', 'E'),
+				::sv.time);
 
 		sgh.read_chunk<int32_t>(
-			INT_ID('T', 'I', 'M', 'R'),
-			::sv.timeResidual);
+				INT_ID('T', 'I', 'M', 'R'),
+				::sv.timeResidual);
 
 		::CM_ReadPortalState();
 		::SG_ReadServerConfigStrings();
@@ -1326,8 +1330,8 @@ qboolean SG_ReadSavegame(
 
 	// always done now, but ent reader only does player if auto
 	::ge->ReadLevel(
-		qbAutosave,
-		qbLoadTransition);
+			qbAutosave,
+			qbLoadTransition);
 
 	return qtrue;
 }

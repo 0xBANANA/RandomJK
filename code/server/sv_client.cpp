@@ -24,6 +24,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 // sv_client.c -- server code for dealing with clients
 
 #include "../server/exe_headers.h"
+#include "ui/globalShuffledTiers.h"
 
 #include "server.h"
 
@@ -263,6 +264,135 @@ void SV_ClientEnterWorld( client_t *client, usercmd_t *cmd, SavedGameJustLoaded_
 
 	// call the game begin function
 	ge->ClientBegin( client - svs.clients, cmd, eSavedGameJustLoaded );
+
+    // Randomizer hack: New map loaded, player about to be able to control character --> restore force from loading screen
+    // only if we don't come from a load --> quickloads don't alter the force powers
+
+	client_t* _cl = &svs.clients[0];
+	playerState_t* pState = nullptr;
+
+	if(_cl && _cl->gentity && _cl->gentity->client) {
+		pState = _cl->gentity->client;
+	}
+
+    // normal load or quickload: Don't do anything
+    if(eSavedGameJustLoaded > eNO || WAS_QUICKLOAD) {
+
+    }
+
+    // no randomization yet (e.g. vjun2 with no menu --> randomize now)
+    // todo blank out loading screen in this case --> cgame (or sth like that): write to file and check in jagame
+
+    // todo maybe replace this with "restore", booleans can stay the same?
+        // todo but where to restore from?
+
+    else if(!randomizeWeaponsDoOnce || !randomizeWeaponsDoOnce) {
+        if(pState) {
+
+            if(!randomizeForcePowersDoOnce) {
+                randomizeForcePowers(pState);
+                randomizeForcePowersDoOnce = true;
+            }
+
+            if(!randomizeWeaponsDoOnce) {
+                randomizeWeapons(pState);
+                randomizeWeaponsDoOnce = true;
+            }
+        }
+    }
+
+	/*if(!randomizeForcePowersDoOnce && !WAS_QUICKLOAD && eSavedGameJustLoaded == eNO) {
+		if(pState) {
+			randomizeForcePowers(pState);
+		}
+	}
+
+	if(!randomizeWeaponsDoOnce && !WAS_QUICKLOAD && eSavedGameJustLoaded == eNO) {
+		if(pState) {
+			randomizeWeapons(pState);
+		}
+	}*/
+
+	// add 1 additional random point if it was a regular map load
+	// because the player choosable point has been lost
+	/*if(eSavedGameJustLoaded > eNO && !WAS_QUICKLOAD) {
+		bool success = false;
+		do {
+			auto randomFP = FORCE_POWERS_PLAYER[GET_RANDOM_MAX(FORCE_POWERS_PLAYER.size()-1)];
+
+			if(pState->forcePowerLevel[randomFP] <= 2) {
+				success = true;
+				pState->forcePowerLevel[randomFP] = pState->forcePowerLevel[randomFP]+1;
+				pState->forcePowersKnown |= (1 << randomFP);
+
+                CURRENT_FORCE_LEVELS.clear();
+                for(int i = 0; i < FORCE_POWERS_ALL.size(); i++) {
+                    CURRENT_FORCE_LEVELS.push_back(pState->forcePowerLevel[i]);
+                }
+			}
+		} while(!success);
+	}*/
+
+
+
+	// restore data
+    /*if(!WAS_QUICKLOAD && eSavedGameJustLoaded == eNO) {
+
+        if(pState) {
+
+			pState->forcePowersKnown = CURRENT_KNOWN_FORCE_POWERS;
+
+			if(CURRENT_FORCE_LEVELS.size() == 16) {
+                for(int i = 0; i < FORCE_POWERS_ALL.size(); i++) {
+					pState->forcePowerLevel[i] = CURRENT_FORCE_LEVELS[i];
+                }
+            }*/
+
+
+
+            /*if(PLAYER_STATE_WEAPONS_INTERCEPTED_AT_LOAD) {
+             *
+            }*/
+
+        /*}
+    }*/
+
+    //todo remove?
+    _updateForceData(pState);
+
+    // reset it
+    WAS_QUICKLOAD = false;
+
+	randomizeForcePowersDoOnce = false;
+	randomizeWeaponsDoOnce = false;
+
+    PLAYER_SPAWNED = true;
+
+	if(pState) {
+		// debugging
+		std::cout << "PL_SPWN:" << std::endl;
+        std::cout << "KNOWN " << _cl->gentity->client->forcePowersKnown << std::endl;
+		std::cout << "FP_HEAL " << _cl->gentity->client->forcePowerLevel[FP_HEAL] << std::endl;
+		std::cout << "FP_LEVITATION " << _cl->gentity->client->forcePowerLevel[FP_LEVITATION] << std::endl;
+		std::cout << "FP_SPEED " << _cl->gentity->client->forcePowerLevel[FP_SPEED] << std::endl;
+		std::cout << "FP_PUSH " << _cl->gentity->client->forcePowerLevel[FP_PUSH] << std::endl;
+		std::cout << "FP_PULL " << _cl->gentity->client->forcePowerLevel[FP_PULL] << std::endl;
+		std::cout << "FP_TELEPATHY " << _cl->gentity->client->forcePowerLevel[FP_TELEPATHY] << std::endl;
+		std::cout << "FP_GRIP " << _cl->gentity->client->forcePowerLevel[FP_GRIP] << std::endl;
+		std::cout << "FP_LIGHTNING " << _cl->gentity->client->forcePowerLevel[FP_LIGHTNING] << std::endl;
+		std::cout << "FP_SABERTHROW " << _cl->gentity->client->forcePowerLevel[FP_SABERTHROW] << std::endl;
+		std::cout << "FP_SABER_DEFENSE " << _cl->gentity->client->forcePowerLevel[FP_SABER_DEFENSE] << std::endl;
+		std::cout << "FP_SABER_OFFENSE " << _cl->gentity->client->forcePowerLevel[FP_SABER_OFFENSE] << std::endl;
+		std::cout << "FP_RAGE " << _cl->gentity->client->forcePowerLevel[FP_RAGE] << std::endl;
+		std::cout << "FP_PROTECT " << _cl->gentity->client->forcePowerLevel[FP_PROTECT] << std::endl;
+		std::cout << "FP_ABSORB " << _cl->gentity->client->forcePowerLevel[FP_ABSORB] << std::endl;
+		std::cout << "FP_DRAIN " << _cl->gentity->client->forcePowerLevel[FP_DRAIN] << std::endl;
+		std::cout << "FP_SEE " << _cl->gentity->client->forcePowerLevel[FP_SEE] << std::endl;
+
+	}
+
+	randomizeForcePowersDoOnce = false;
+	randomizeWeaponsDoOnce = false;
 }
 
 /*

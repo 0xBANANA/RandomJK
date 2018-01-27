@@ -221,6 +221,8 @@ extern char GoToMenu[];
 //
 // ui_syscalls.c
 //
+#ifndef __TRAPS
+#define __TRAPS
 int				trap_CIN_PlayCinematic( const char *arg0, int xpos, int ypos, int width, int height, int bits, const char *psAudioFile /* = NULL */);
 int				trap_CIN_StopCinematic(int handle);
 void			trap_Cvar_Set( const char *var_name, const char *value );
@@ -242,6 +244,7 @@ void			trap_S_StopSounds( void );
 sfxHandle_t		trap_S_RegisterSound( const char *sample, qboolean compressed );
 void			trap_S_StartLocalSound( sfxHandle_t sfx, int channelNum );
 
+#endif
 
 
 void _UI_Refresh( int realtime );

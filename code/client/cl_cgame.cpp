@@ -411,6 +411,7 @@ Just adds default parameters that cgame doesn't need to know about
 void CL_CM_LoadMap( const char *mapname, qboolean subBSP ) {
 	int		checksum;
 
+	PLAYER_SPAWNED = false;
 	CM_LoadMap( mapname, qtrue, &checksum, subBSP );
 }
 
@@ -1404,9 +1405,8 @@ void CL_InitCGame( void ) {
 
 	// Randomizer hack: get mapname and set force powers on load
 	UPCOMING_MAP_NAME = std::string(mapname);
+	PLAYER_SPAWNED = false;
 
-    // map is about to be loaded, randomize next time another map gets loaded
-    randomizeForcePowersDoOnce = false;
 
 	Com_sprintf( cl.mapname, sizeof( cl.mapname ), "maps/%s.bsp", mapname );
 

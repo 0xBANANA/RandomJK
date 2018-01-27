@@ -947,6 +947,7 @@ This is the only place that any of these functions are called from
 ============================
 */
 void CL_StartHunkUsers( void ) {
+
 	if ( !com_cl_running->integer ) {
 		return;
 	}

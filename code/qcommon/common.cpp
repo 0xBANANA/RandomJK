@@ -850,6 +850,7 @@ int Com_EventLoop( void ) {
 				CL_PacketEvent( evFrom, &buf );
 			}
 
+
 			while ( NET_GetLoopPacket( NS_SERVER, &evFrom, &buf ) ) {
 				// if the server just shut down, flush the events
 				if ( com_sv_running->integer ) {
@@ -1354,6 +1355,7 @@ void Com_Frame( void ) {
 	try
 	{
 
+
 		int		timeBeforeFirstEvents = 0, timeBeforeServer = 0, timeBeforeEvents = 0, timeBeforeClient = 0, timeAfter = 0;
 		int		msec, minMsec;
 		int		timeVal;
@@ -1400,9 +1402,9 @@ void Com_Frame( void ) {
 		IN_Frame();
 
 		lastTime = com_frameTime;
-		com_frameTime = Com_EventLoop();
+        com_frameTime = Com_EventLoop();
 
-		msec = com_frameTime - lastTime;
+        msec = com_frameTime - lastTime;
 
 		Cbuf_Execute ();
 

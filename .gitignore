@@ -1,4 +1,4 @@
-#################
+.#################
 ## Eclipse
 #################
 
@@ -33,6 +33,7 @@ local.properties
 #################
 cmake-build-release/
 cmake-build-debug/
+*.cmake
 
 #################
 ## Visual Studio

@@ -9,6 +9,7 @@
 #include <map>
 #include <random>
 #include <iostream>
+#include <fstream>
 #include <regex>
 
 #include "../qcommon/qcommon.h"
@@ -18,16 +19,50 @@
 
 
 #include "json.h"
+#include "ui_local.h"
+
 using json = nlohmann::json;
 
 #ifndef OPENJK_GLOBALSHUFFLEDTIERS_H
 #define OPENJK_GLOBALSHUFFLEDTIERS_H
+
+// to track if we already randomized the weapons because
+// this can happen mutliple times for one run
+// true: already randomized -- do nothing
+// false: randomize
+extern bool randomizeWeaponsDoOnce;
+
+// to track if we already randomized the force powers because
+// this can happen mutliple times for one run
+// true: already randomized -- do nothing
+// false: randomize
+extern bool randomizeForcePowersDoOnce;
+
+// 0 = Progression mode - 1 additional power per completed mission
+// 1 = Chaos mode aka yolo mode
+extern int forceRandomizationMode;
+
+// 0 = Choose weapons from a random pool
+// 1 = Chaos mode aka yolo mode
+extern int weaponRandomizationMode;
+
+// How many levels the player has completed --> amount of force points available
+extern int TIER_MISSIONS_COMPLETED;
 
 // obtain a random number from hardware
 extern std::random_device _random_device;
 // mersienne twister --> PRNG
 extern std::mt19937 _rng;
 extern bool _seeded;
+
+// to track if we quickloaded or did a full load
+// --> don't randomize for quickloads
+extern bool WAS_QUICKLOAD;
+
+extern bool PLAYER_SPAWNED;
+
+extern int CURRENT_KNOWN_FORCE_POWERS;
+extern std::vector<int> CURRENT_FORCE_LEVELS;
 
 // if the user specified pattern file is allowed to be overwritten
 // on SP game startup
@@ -39,11 +74,21 @@ static std::string MISSION_TEMPLATE_FILE_NAME = "mission_template_file.txt";
 static std::string WEAPON_TEMPLATE_FILE_NAME = "weapon_template_file.txt";
 static std::string SETTINGS_FILE_NAME = "randomizerOptions.json";
 
+// if you edit these, change them in `cg_info.cpp` too!
+static std::string KNOWN_FORCE_POWERS_FILE_NAME = "tmp_knownForcePowers.txt";
+static std::string FORCE_POWER_LEVELS_FILE_NAME = "tmp_forcePowerLevels.txt";
+
 // JSON object storing the user supplied settings via `SETTINGS_FILE_NAME`
 extern json SETTINGS_JSON;
 
 // name of the loaded map
 extern std::string UPCOMING_MAP_NAME;
+
+// to make e.g. force jump level 3 more unlikely
+// 75 percent
+static int _forceJumpOneProbability = 75;
+static int _forceJumpTwoProbability = 15;
+static int _forceJumpThreeProbability = 5;
 
 // the maps we will use to randomize tiers
 static std::vector<std::string> TIER_MAP_NAMES = {
@@ -95,8 +140,6 @@ static std::vector<std::string> ALL_MAP_NAMES = {
         "vjun3"
 };
 
-
-
 static std::map<std::string, std::string> MAP_TITLE_NAME_CONVERSION = {
         {"t1_sour", "tatooine"},
         {"t1_surprise", "tatooine"},
@@ -115,6 +158,67 @@ static std::map<std::string, std::string> MAP_TITLE_NAME_CONVERSION = {
         {"t3_hevil", "yalara"},
         {"t3_byss", "byss"},
         {"t3_bounty", "ordman"},
+};
+
+const static std::vector<int> FORCE_POWERS_ALL = {
+        FP_HEAL,
+        FP_LEVITATION,
+        FP_SPEED,
+        FP_PUSH,
+        FP_PULL,
+        FP_TELEPATHY,
+        FP_GRIP,
+        FP_LIGHTNING,
+        FP_SABERTHROW,
+        FP_SABER_DEFENSE,
+        FP_SABER_OFFENSE,
+        FP_RAGE,
+        FP_PROTECT,
+        FP_ABSORB,
+        FP_DRAIN,
+        FP_SEE
+};
+
+const static std::vector<int> FORCE_POWERS_PLAYER = {
+        FP_HEAL,
+        FP_TELEPATHY,
+        FP_GRIP,
+        FP_LIGHTNING,
+        FP_RAGE,
+        FP_PROTECT,
+        FP_ABSORB,
+        FP_DRAIN,
+};
+
+const static std::vector<int> FORCE_POWERS_CORE = {
+        FP_LEVITATION,
+        FP_PUSH,
+        FP_PULL,
+        FP_SABERTHROW,
+        FP_SABER_DEFENSE,
+        FP_SABER_OFFENSE,
+        FP_SEE,
+        FP_SPEED,
+};
+
+
+const static std::vector<int> ALL_WEAPONS = {
+        WP_BLASTER_PISTOL,
+        WP_BLASTER,
+        WP_DISRUPTOR,
+        WP_BOWCASTER,
+        WP_REPEATER,
+        WP_DEMP2,
+        WP_FLECHETTE,
+        WP_ROCKET_LAUNCHER,
+        WP_THERMAL,
+        WP_TRIP_MINE,
+        WP_DET_PACK,
+        WP_CONCUSSION,
+
+        //extras
+        WP_MELEE,
+        WP_STUN_BATON,
 };
 
 // contains the shuffled tier menus which will be hot-patched at runtime
@@ -360,36 +464,13 @@ static void generateShuffledMenusFromTiers(std::vector<std::string> t1, std::vec
     assert(SHUFFLED_TIER_3.length() > 0);
 }
 
-// to track if we already randomized the weapons because
-// this can happen mutliple times for one run
-// true: already randomized -- do nothing
-// false: randomize
-extern bool randomizeWeaponsDoOnce;
-
-// to track if we already randomized the force powers because
-// this can happen mutliple times for one run
-// true: already randomized -- do nothing
-// false: randomize
-extern bool randomizeForcePowersDoOnce;
-
-// 0 = Progression mode - 1 additional power per completed mission
-// 1 = Chaos mode aka yolo mode
-extern int forceRandomizationMode;
-
-// 0 = Choose two weapons from a random pool
-// 1 = Chaos mode aka yolo mode
-extern int weaponRandomizationMode;
-
-// How many levels the player has completed --> amount of force points available
-extern int TIER_MISSIONS_COMPLETED;
-
 
 // Helper method to set force powers with error checking
 static void _setRandomForcePower(playerState_t* pState, json forcePowersUpcomingLevel, int FP_enumType, std::string FP_string) {
 
     int newLevel = forcePowersUpcomingLevel.at(FP_string);
     // if we need to modify it
-    if (pState->forcePowerLevel[FP_enumType] < forcePowersUpcomingLevel.at(FP_string)) {
+    if (pState->forcePowerLevel[FP_enumType] < newLevel) {
 
         if(newLevel < 0) { newLevel = 0; }
         if(newLevel > 3) { newLevel = 3; }
@@ -397,56 +478,108 @@ static void _setRandomForcePower(playerState_t* pState, json forcePowersUpcoming
         pState->forcePowerLevel[FP_enumType] = newLevel;
     }
 
-    if (newLevel > 0) {
-        // learn
+    // always learn the force power if points > 0
+    if(newLevel > 0) {
         pState->forcePowersKnown |= (1 << FP_enumType);
-    } else {
-        // forget
-        pState->forcePowersKnown |= (0 << FP_enumType);
     }
 }
 
-static void randomizeForcePowers(playerState_t* pState, const std::string mapname) {
+static void _updateForceData(playerState_t *pState) {
+
+    CURRENT_KNOWN_FORCE_POWERS = pState->forcePowersKnown;
+
+    CURRENT_FORCE_LEVELS.clear();
+    for(int i = 0; i < FORCE_POWERS_ALL.size(); i++) {
+        CURRENT_FORCE_LEVELS.push_back(pState->forcePowerLevel[i]);
+    }
+
+    char buf[3000];
+    DC->getCVarString("playersave", buf, sizeof(buf));
+    std::string playersaveString(buf);
+
+    std::stringstream ps_ss(playersaveString);
+    std::istream_iterator<std::string> ps_begin(ps_ss);
+    std::istream_iterator<std::string> ps_end;
+    std::vector<std::string> splittedVar(ps_begin, ps_end);
+
+    std::string newState = "";
+    for(int i = 0; i < splittedVar.size(); i++) {
+
+        if(i == 10) {
+            newState += std::to_string(pState->forcePowersKnown) + " ";
+        }
+
+        else {
+            newState += splittedVar[i] + " ";
+        }
+
+    }
+
+    Cvar_Set( sCVARNAME_PLAYERSAVE, newState.c_str() );
+
+    // write to file to let jagame pick it up
+    std::ofstream forcePowersKnownFile;
+    forcePowersKnownFile.open(KNOWN_FORCE_POWERS_FILE_NAME);
+    forcePowersKnownFile << std::to_string(pState->forcePowersKnown);
+    forcePowersKnownFile.close();
+
+    std::string resultString = "";
+    if(CURRENT_FORCE_LEVELS.size() == 16) {
+        // e.g. " 0 1 0 1 3 0 0 0 0 0 0 0 0 0 0 3"
+        for(int i = 0; i < FORCE_POWERS_ALL.size(); i++) {
+            resultString += std::to_string(pState->forcePowerLevel[i]) + " ";
+        }
+        Cvar_Set( "playerfplvl", resultString.c_str() );
+
+        // write to file to let jagame pick it up
+        std::ofstream forcePowerLevelsFile;
+        forcePowerLevelsFile.open(FORCE_POWER_LEVELS_FILE_NAME);
+        forcePowerLevelsFile << resultString;
+        forcePowerLevelsFile.close();
+    }
+}
+
+// returns the known force powers
+static void randomizeForcePowers(playerState_t* pState, std::string mapname="") {
+
+    // if the optional parameter is not specified, use the (hopefully) previously set global variable instead
+    if(mapname.length() == 0) { mapname = UPCOMING_MAP_NAME; }
 
     // has to be a valid mapname
     if (std::find(ALL_MAP_NAMES.begin(), ALL_MAP_NAMES.end(), mapname) == ALL_MAP_NAMES.end()) {
         return;
     }
 
+    // get amount of missions completed
+    // check how many missions we have completed
+    char completedMapsString[2048];
+    ui.Cvar_VariableStringBuffer("tiers_complete", completedMapsString, sizeof(completedMapsString));
+
+    // split it by spaces
+    std::stringstream ss(completedMapsString);
+    std::istream_iterator<std::string> begin(ss);
+    std::istream_iterator<std::string> end;
+    std::vector<std::string> completedMapsVector(begin, end);
+
+    TIER_MISSIONS_COMPLETED = 0;
+    for(auto cm : completedMapsVector) {
+        if (std::find(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), cm) != TIER_MAP_NAMES.end()) {
+            TIER_MISSIONS_COMPLETED++;
+        }
+    }
+
     // core powers - player can't choose these
-    std::vector<int> fps_core_shuffled = {
-            FP_LEVITATION,
-            FP_PUSH,
-            FP_PULL,
-            FP_SABERTHROW,
-            FP_SABER_DEFENSE,
-            FP_SABER_OFFENSE,
-            FP_SEE,
-            FP_SPEED,
-    };
+    std::vector<int> fps_core_shuffled = FORCE_POWERS_CORE;
     std::random_shuffle(fps_core_shuffled.begin(), fps_core_shuffled.end(), GET_RANDOM_MAX);
 
     // the force powers the player can choose
-    std::vector<int> fps_player_shuffled = {
-            FP_HEAL,
-            FP_TELEPATHY,
-            FP_GRIP,
-            FP_LIGHTNING,
-            FP_RAGE,
-            FP_PROTECT,
-            FP_ABSORB,
-            FP_DRAIN,
-    };
+    std::vector<int> fps_player_shuffled = FORCE_POWERS_PLAYER;
     std::random_shuffle(fps_player_shuffled.begin(), fps_player_shuffled.end(), GET_RANDOM_MAX);
 
     // reset the force powers to zero first
-    for(auto fp: fps_core_shuffled) {
-        pState->forcePowerLevel[fp] = 0;
+    for(auto fp : FORCE_POWERS_ALL) {
         pState->forcePowersKnown &= (0 << fp);
-    }
-    for(auto fp: fps_player_shuffled) {
         pState->forcePowerLevel[fp] = 0;
-        pState->forcePowersKnown &= (0 << fp);
     }
 
     srand(unsigned(time(NULL)));
@@ -477,15 +610,15 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
             if (fp == FP_LEVITATION) {
                 int randNo = GET_RANDOM(0, 100);
 
-                if (randNo > 25) {
+                if (randNo > (100 -_forceJumpOneProbability)) {
                     randomLevel = 1;
                 }
 
-                if (randNo > 85) {
+                if (randNo > (100 -_forceJumpTwoProbability)) {
                     randomLevel = 2;
                 }
 
-                if (randomLevel > 95) {
+                if (randomLevel > (100 -_forceJumpThreeProbability)) {
                     randomLevel = 3;
                 }
 
@@ -540,17 +673,15 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
             if (fp == FP_LEVITATION) {
                 int randNo = GET_RANDOM(0, 100);
 
-                // todo make these global
-
-                if (randNo > 25) {
+                if (randNo > (100 -_forceJumpOneProbability)) {
                     randomLevel = 1;
                 }
 
-                if (randNo > 80) {
+                if (randNo > (100 -_forceJumpTwoProbability)) {
                     randomLevel = 2;
                 }
 
-                if (randomLevel > 95) {
+                if (randomLevel > (100 -_forceJumpThreeProbability)) {
                     randomLevel = 3;
                 }
 
@@ -628,14 +759,13 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
         _setRandomForcePower(pState, forcePowersUpcomingLevel, FP_PROTECT, "FP_PROTECT");
         _setRandomForcePower(pState, forcePowersUpcomingLevel, FP_ABSORB, "FP_ABSORB");
         _setRandomForcePower(pState, forcePowersUpcomingLevel, FP_DRAIN, "FP_DRAIN");
-
     }
-
 
     // re-check all if at least one point is unused -- avoid soft block
     int scoreEnd = 0;
     for (auto fp : fps_player_shuffled) {
-        scoreEnd += pState->forcePowerLevel[fp];
+        int lvl = pState->forcePowerLevel[fp];
+        scoreEnd += lvl;
     }
 
     // if blocked
@@ -644,6 +774,28 @@ static void randomizeForcePowers(playerState_t* pState, const std::string mapnam
         auto randomFP = fps_player_shuffled[GET_RANDOM(0, fps_player_shuffled.size() - 1)];
         pState->forcePowerLevel[randomFP] = pState->forcePowerLevel[randomFP] - 1;
     }
+
+    _updateForceData(pState);
+
+    // debugging
+    std::cout << "RND_FP:" << std::endl;
+    std::cout << "KNOWN " << pState->forcePowersKnown << std::endl;
+    std::cout << "FP_HEAL " << pState->forcePowerLevel[FP_HEAL] << std::endl;
+    std::cout << "FP_LEVITATION " << pState->forcePowerLevel[FP_LEVITATION] << std::endl;
+    std::cout << "FP_SPEED " << pState->forcePowerLevel[FP_SPEED] << std::endl;
+    std::cout << "FP_PUSH " << pState->forcePowerLevel[FP_PUSH] << std::endl;
+    std::cout << "FP_PULL " << pState->forcePowerLevel[FP_PULL] << std::endl;
+    std::cout << "FP_TELEPATHY " << pState->forcePowerLevel[FP_TELEPATHY] << std::endl;
+    std::cout << "FP_GRIP " << pState->forcePowerLevel[FP_GRIP] << std::endl;
+    std::cout << "FP_LIGHTNING " << pState->forcePowerLevel[FP_LIGHTNING] << std::endl;
+    std::cout << "FP_SABERTHROW " << pState->forcePowerLevel[FP_SABERTHROW] << std::endl;
+    std::cout << "FP_SABER_DEFENSE " << pState->forcePowerLevel[FP_SABER_DEFENSE] << std::endl;
+    std::cout << "FP_SABER_OFFENSE " << pState->forcePowerLevel[FP_SABER_OFFENSE] << std::endl;
+    std::cout << "FP_RAGE " << pState->forcePowerLevel[FP_RAGE] << std::endl;
+    std::cout << "FP_PROTECT " << pState->forcePowerLevel[FP_PROTECT] << std::endl;
+    std::cout << "FP_ABSORB " << pState->forcePowerLevel[FP_ABSORB] << std::endl;
+    std::cout << "FP_DRAIN " << pState->forcePowerLevel[FP_DRAIN] << std::endl;
+    std::cout << "FP_SEE " << pState->forcePowerLevel[FP_SEE] << std::endl;
 
 }
 
@@ -661,26 +813,10 @@ static void _setRandomWeapon(playerState_t* pState, json weaponsUpcomingLevel, i
     // ammo should be already applied
 }
 
-static void randomizeWeapons(playerState_t* pState, const std::string mapname) {
+static void randomizeWeapons(playerState_t* pState, std::string mapname="") {
 
-    std::vector<int> allWeapons = {
-            WP_BLASTER_PISTOL,
-            WP_BLASTER,
-            WP_DISRUPTOR,
-            WP_BOWCASTER,
-            WP_REPEATER,
-            WP_DEMP2,
-            WP_FLECHETTE,
-            WP_ROCKET_LAUNCHER,
-            WP_THERMAL,
-            WP_TRIP_MINE,
-            WP_DET_PACK,
-            WP_CONCUSSION,
-
-            //extras
-            WP_MELEE,
-            WP_STUN_BATON,
-    };
+    // if the optional parameter is not specified, use the (hopefully) previously set global variable instead
+    if(mapname.length() == 0) { mapname = UPCOMING_MAP_NAME; }
 
     // Clear out any weapons for the player
     pState->stats[ STAT_WEAPONS ] = 0;
@@ -709,7 +845,7 @@ static void randomizeWeapons(playerState_t* pState, const std::string mapname) {
         // with no effect in the end
         for(int i = 0; i < GET_RANDOM(1, 3); i++) {
 
-            auto randomWeapon = allWeapons[GET_RANDOM(0, allWeapons.size()-1)];
+            auto randomWeapon = ALL_WEAPONS[GET_RANDOM(0, ALL_WEAPONS.size()-1)];
 
             if (randomWeapon<WP_NUM_WEAPONS)
             {

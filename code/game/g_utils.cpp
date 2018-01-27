@@ -30,6 +30,8 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "g_navigator.h"
 #include "b_local.h"
 #include "g_nav.h"
+//#include <server/server.h>
+//#include <ui/globalShuffledTiers.h>
 
 #define ACT_ACTIVE		qtrue
 #define ACT_INACTIVE	qfalse
@@ -1862,6 +1864,7 @@ void G_ChangeMap (const char *mapname, const char *spawntarget, qboolean hub)
 		gi.cvar_set("timescale", "1");
 		return;
 	}
+
 
 	if ( spawntarget == NULL ) {
 		spawntarget = "";	//prevent it from becoming "(null)"

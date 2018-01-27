@@ -1190,6 +1190,7 @@ void	trap_R_GetLightStyle(int style, color4ub_t color);
 void	trap_R_SetLightStyle(int style, int color);
 
 int		trap_CIN_PlayCinematic( const char *arg0, int xpos, int ypos, int width, int height, int bits, const char *psAudioFile = NULL);
+
 e_status trap_CIN_StopCinematic(int handle);
 e_status trap_CIN_RunCinematic (int handle);
 void	trap_CIN_DrawCinematic (int handle);
