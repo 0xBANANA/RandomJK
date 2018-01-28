@@ -32,8 +32,6 @@ After that, add `NO_OVERWRITE` at the start of the line:
 NO_OVERWRITE t1_surprise t2_trip t2_dpred t1_danger t1_sour t3_hevil t2_wedge t3_stamp t3_byss t2_rogue t2_rancor t3_rift t1_fatal t1_rail t3_bounty
 ```
 
-Please note that for yavin1b, the force powers currently won't get randomized. Starting from yavin2, randomizations kicks in.
-
 For additional configuration, check out the following sections and the supplied configuration file `randomizerOptions.json`.
 
 # Force randomization
@@ -51,9 +49,10 @@ In the file `randomizerOptions.json` you can choose the weapon modes with `weapo
 - `0`: You can choose two shootable weapons and one throwable weapon from a random pool
 - `1`: Chaos mode: Like mode `0` but on top of that, random weapons will be added
 
-# Map loading
-
-Considering map loading: If you load from a previous save game, **NO** randomization will be performed as the savegame will be treated as is. Quicksaves will be treated the same.
+# Additional Notes
+* Considering map loading: If you load from a previous save game, **NO** randomization will be performed as the savegame will be treated as is. Quicksaves will be treated the same.
+* Please note that for yavin1b, the force powers currently won't get randomized. Starting from yavin2, randomizations kicks in.
+* It's intended that sometimes no information on force powers and/or available weapons will be displayed upon map loading. This simplifies randomization at some points in the game.
 
 # Building
 
