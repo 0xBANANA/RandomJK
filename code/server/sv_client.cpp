@@ -281,12 +281,7 @@ void SV_ClientEnterWorld( client_t *client, usercmd_t *cmd, SavedGameJustLoaded_
     }
 
     // no randomization yet (e.g. vjun2 with no menu --> randomize now)
-    // todo blank out loading screen in this case --> cgame (or sth like that): write to file and check in jagame
-
-    // todo maybe replace this with "restore", booleans can stay the same?
-        // todo but where to restore from?
-
-    else if(!randomizeWeaponsDoOnce || !randomizeWeaponsDoOnce) {
+    else if(!randomizeForcePowersDoOnce || !randomizeWeaponsDoOnce) {
         if(pState) {
 
             if(!randomizeForcePowersDoOnce) {
@@ -301,98 +296,24 @@ void SV_ClientEnterWorld( client_t *client, usercmd_t *cmd, SavedGameJustLoaded_
         }
     }
 
-	/*if(!randomizeForcePowersDoOnce && !WAS_QUICKLOAD && eSavedGameJustLoaded == eNO) {
-		if(pState) {
-			randomizeForcePowers(pState);
-		}
-	}
-
-	if(!randomizeWeaponsDoOnce && !WAS_QUICKLOAD && eSavedGameJustLoaded == eNO) {
-		if(pState) {
-			randomizeWeapons(pState);
-		}
-	}*/
-
-	// add 1 additional random point if it was a regular map load
-	// because the player choosable point has been lost
-	/*if(eSavedGameJustLoaded > eNO && !WAS_QUICKLOAD) {
-		bool success = false;
-		do {
-			auto randomFP = FORCE_POWERS_PLAYER[GET_RANDOM_MAX(FORCE_POWERS_PLAYER.size()-1)];
-
-			if(pState->forcePowerLevel[randomFP] <= 2) {
-				success = true;
-				pState->forcePowerLevel[randomFP] = pState->forcePowerLevel[randomFP]+1;
-				pState->forcePowersKnown |= (1 << randomFP);
-
-                CURRENT_FORCE_LEVELS.clear();
-                for(int i = 0; i < FORCE_POWERS_ALL.size(); i++) {
-                    CURRENT_FORCE_LEVELS.push_back(pState->forcePowerLevel[i]);
-                }
-			}
-		} while(!success);
-	}*/
-
-
-
-	// restore data
-    /*if(!WAS_QUICKLOAD && eSavedGameJustLoaded == eNO) {
-
-        if(pState) {
-
-			pState->forcePowersKnown = CURRENT_KNOWN_FORCE_POWERS;
-
-			if(CURRENT_FORCE_LEVELS.size() == 16) {
-                for(int i = 0; i < FORCE_POWERS_ALL.size(); i++) {
-					pState->forcePowerLevel[i] = CURRENT_FORCE_LEVELS[i];
-                }
-            }*/
-
-
-
-            /*if(PLAYER_STATE_WEAPONS_INTERCEPTED_AT_LOAD) {
-             *
-            }*/
-
-        /*}
-    }*/
-
-    //todo remove?
     _updateForceData(pState);
 
-    // reset it
+    // fill the temporary force configuration files with dummy data to prevent displaying garbage :D
+    std::ofstream forcePowersKnownFile;
+    forcePowersKnownFile.open(KNOWN_FORCE_POWERS_FILE_NAME);
+    forcePowersKnownFile << "0";
+    forcePowersKnownFile.close();
+
+    std::ofstream forcePowerLevelsFile;
+    forcePowerLevelsFile.open(FORCE_POWER_LEVELS_FILE_NAME);
+    forcePowerLevelsFile << "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ";
+    forcePowerLevelsFile.close();
+
+    // reset them boolz
     WAS_QUICKLOAD = false;
-
 	randomizeForcePowersDoOnce = false;
 	randomizeWeaponsDoOnce = false;
 
-    PLAYER_SPAWNED = true;
-
-	if(pState) {
-		// debugging
-		std::cout << "PL_SPWN:" << std::endl;
-        std::cout << "KNOWN " << _cl->gentity->client->forcePowersKnown << std::endl;
-		std::cout << "FP_HEAL " << _cl->gentity->client->forcePowerLevel[FP_HEAL] << std::endl;
-		std::cout << "FP_LEVITATION " << _cl->gentity->client->forcePowerLevel[FP_LEVITATION] << std::endl;
-		std::cout << "FP_SPEED " << _cl->gentity->client->forcePowerLevel[FP_SPEED] << std::endl;
-		std::cout << "FP_PUSH " << _cl->gentity->client->forcePowerLevel[FP_PUSH] << std::endl;
-		std::cout << "FP_PULL " << _cl->gentity->client->forcePowerLevel[FP_PULL] << std::endl;
-		std::cout << "FP_TELEPATHY " << _cl->gentity->client->forcePowerLevel[FP_TELEPATHY] << std::endl;
-		std::cout << "FP_GRIP " << _cl->gentity->client->forcePowerLevel[FP_GRIP] << std::endl;
-		std::cout << "FP_LIGHTNING " << _cl->gentity->client->forcePowerLevel[FP_LIGHTNING] << std::endl;
-		std::cout << "FP_SABERTHROW " << _cl->gentity->client->forcePowerLevel[FP_SABERTHROW] << std::endl;
-		std::cout << "FP_SABER_DEFENSE " << _cl->gentity->client->forcePowerLevel[FP_SABER_DEFENSE] << std::endl;
-		std::cout << "FP_SABER_OFFENSE " << _cl->gentity->client->forcePowerLevel[FP_SABER_OFFENSE] << std::endl;
-		std::cout << "FP_RAGE " << _cl->gentity->client->forcePowerLevel[FP_RAGE] << std::endl;
-		std::cout << "FP_PROTECT " << _cl->gentity->client->forcePowerLevel[FP_PROTECT] << std::endl;
-		std::cout << "FP_ABSORB " << _cl->gentity->client->forcePowerLevel[FP_ABSORB] << std::endl;
-		std::cout << "FP_DRAIN " << _cl->gentity->client->forcePowerLevel[FP_DRAIN] << std::endl;
-		std::cout << "FP_SEE " << _cl->gentity->client->forcePowerLevel[FP_SEE] << std::endl;
-
-	}
-
-	randomizeForcePowersDoOnce = false;
-	randomizeWeaponsDoOnce = false;
 }
 
 /*

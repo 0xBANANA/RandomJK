@@ -58,15 +58,11 @@ std::string WEAPON_TMPLT;
 json SETTINGS_JSON;
 
 bool WAS_QUICKLOAD = false;
+
 bool randomizeForcePowersDoOnce = false;
 bool randomizeWeaponsDoOnce = false;
 int forceRandomizationMode = 0;
 int weaponRandomizationMode = 0;
-
-bool PLAYER_STATE_MANIPULATE_FORCE_POWERS_NEEDED = true;
-bool PLAYER_STATE_MANIPULATE_WEAPONS_NEEDED = true;
-
-bool PLAYER_SPAWNED = false;
 
 std::vector<int> CURRENT_FORCE_LEVELS;
 int CURRENT_KNOWN_FORCE_POWERS = 0;
@@ -4463,6 +4459,17 @@ void UI_MainMenu(void)
         // recreate the menus
         generateShuffledMenusFromTiers(t1, t2, t3);
 
+        // fill the temporary force configuration files with dummy data to prevent displaying garbage :D
+        std::ofstream forcePowersKnownFile;
+        forcePowersKnownFile.open(KNOWN_FORCE_POWERS_FILE_NAME);
+        forcePowersKnownFile << "0";
+        forcePowersKnownFile.close();
+
+        std::ofstream forcePowerLevelsFile;
+        forcePowerLevelsFile.open(FORCE_POWER_LEVELS_FILE_NAME);
+        forcePowerLevelsFile << "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ";
+        forcePowerLevelsFile.close();
+
     }
 
     char buf[256];
@@ -4882,11 +4889,9 @@ static void UI_InitAllocForcePowers ( const char *forceName )
         }
 
         if (mapNameValid) {
-
+            randomizeForcePowers(cl->gentity->client, _mapname);
             // do it in the next map - not agian for this map
             randomizeForcePowersDoOnce = true;
-
-            randomizeForcePowers(cl->gentity->client, _mapname);
         }
     }
     // NOTE: this UIScript can be called outside the running game now, so handle that case
@@ -5464,6 +5469,7 @@ static void UI_AffectForcePowerLevel ( const char *forceName )
         pState->forcePowerLevel[powerEnums[forcePowerI].powerEnum]++;   // Increment it
         pState->forcePowersKnown |= ( 1 << powerEnums[forcePowerI].powerEnum );
         forcelevel = pState->forcePowerLevel[powerEnums[forcePowerI].powerEnum];
+
     }
     else
     {
@@ -5518,10 +5524,10 @@ static void UI_AffectForcePowerLevel ( const char *forceName )
         }
     }
 
+
     if(cl && cl->gentity && cl->gentity->client) {
         _updateForceData(cl->gentity->client);
     }
-
 }
 
 static void UI_DecrementForcePowerLevel( void )
@@ -6090,7 +6096,7 @@ static void UI_AddWeaponSelection ( const int weaponIndex, const int ammoIndex, 
             playerState_t*  pState = cl->gentity->client;
 
 
-            // time to randomize weapons before the menu gets loaded
+            // time to randomize weapons
             if (!randomizeWeaponsDoOnce) {
 
                 // get the mapname selected in the previous menu
@@ -6098,10 +6104,27 @@ static void UI_AddWeaponSelection ( const int weaponIndex, const int ammoIndex, 
                 DC->getCVarString("tier_mapname", buf, sizeof(buf));
                 std::string _mapname(buf);
 
-                // remove the command name from the string (e.g. maptransition t1_sour)
-                std::string::size_type whereToErase = _mapname.find("maptransition ");
-                if (whereToErase != std::string::npos) {
-                    _mapname.erase(whereToErase, 14);
+                // for these maps we won't explcitly choose a mapname --> manually set
+                // it via cutscene map names so weapons still get randomized
+
+                if(UPCOMING_MAP_NAME == "academy2") {
+                    _mapname = "hoth2";
+                }
+
+                if(UPCOMING_MAP_NAME == "academy4") {
+                    _mapname = "vjun1";
+                }
+
+                if(UPCOMING_MAP_NAME == "academy6") {
+                    _mapname = "taspir1";
+                }
+
+                else {
+                    // remove the command name from the string (e.g. maptransition t1_sour)
+                    std::string::size_type whereToErase = _mapname.find("maptransition ");
+                    if (whereToErase != std::string::npos) {
+                        _mapname.erase(whereToErase, 14);
+                    }
                 }
 
                 // has to be a valid mapname to make manipulations
