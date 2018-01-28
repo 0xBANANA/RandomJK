@@ -16,9 +16,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t1_surprise": {
       "WP_SABER" : 1,
@@ -33,9 +31,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t1_fatal": {
       "WP_SABER" : 1,
@@ -50,9 +46,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t1_danger": {
       "WP_SABER" : 1,
@@ -67,9 +61,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t1_rail": {
       "WP_SABER" : 1,
@@ -84,9 +76,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t2_rancor": {
       "WP_SABER" : 1,
@@ -101,9 +91,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t2_trip": {
       "WP_SABER" : 1,
@@ -118,9 +106,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t2_wedge": {
       "WP_SABER" : 1,
@@ -135,9 +121,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t2_rogue": {
       "WP_SABER" : 1,
@@ -152,9 +136,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t2_dpred": {
       "WP_SABER" : 1,
@@ -169,9 +151,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t3_rift": {
       "WP_SABER" : 1,
@@ -186,9 +166,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t3_stamp": {
       "WP_SABER" : 1,
@@ -203,9 +181,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t3_hevil": {
       "WP_SABER" : 1,
@@ -220,9 +196,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t3_byss": {
       "WP_SABER" : 1,
@@ -237,9 +211,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "t3_bounty": {
       "WP_SABER" : 1,
@@ -254,9 +226,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "yavin1": {
       "WP_SABER" : 1,
@@ -271,9 +241,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "yavin1b": {
       "WP_SABER" : 1,
@@ -288,9 +256,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "yavin2": {
       "WP_SABER" : 1,
@@ -305,9 +271,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "hoth2": {
       "WP_SABER" : 1,
@@ -322,9 +286,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "hoth3": {
       "WP_SABER" : 1,
@@ -339,9 +301,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "taspir1": {
       "WP_SABER" : 1,
@@ -356,9 +316,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "taspir2": {
       "WP_SABER" : 1,
@@ -373,9 +331,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "kor1": {
       "WP_SABER" : 1,
@@ -390,9 +346,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "kor2": {
       "WP_SABER" : 1,
@@ -407,9 +361,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "vjun1": {
       "WP_SABER" : 1,
@@ -424,9 +376,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "vjun2": {
       "WP_SABER" : 1,
@@ -441,9 +391,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     },
     "vjun3": {
       "WP_SABER" : 1,
@@ -458,9 +406,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0,
-      "WP_MELEE": 0,
-      "WP_STUN_BATON": 0
+      "WP_CONCUSSION": 0
     }
   },
 
