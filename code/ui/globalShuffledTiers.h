@@ -604,7 +604,7 @@ static void randomizeForcePowers(playerState_t* pState, std::string mapname="") 
             // finished
             if(corePointsToSpend <= 0) { break; }
 
-            int randomLevel = Q_min(GET_RANDOM(0, 3), corePointsToSpend);
+            int randomLevel = Q_min(GET_RANDOM(1, 3), corePointsToSpend);
 
             // don't make it too easy ;)
             if (fp == FP_LEVITATION) {
@@ -645,7 +645,7 @@ static void randomizeForcePowers(playerState_t* pState, std::string mapname="") 
             // finished
             if(playerPointsToSpend <= 0) { break; }
 
-            int randomLevel = Q_min(GET_RANDOM(0, 3), playerPointsToSpend);
+            int randomLevel = Q_min(GET_RANDOM(1, 3), playerPointsToSpend);
             playerPointsToSpend -= randomLevel;
 
             pState->forcePowerLevel[fp] = randomLevel;

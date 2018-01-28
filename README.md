@@ -32,11 +32,13 @@ After that, add `NO_OVERWRITE` at the start of the line:
 NO_OVERWRITE t1_surprise t2_trip t2_dpred t1_danger t1_sour t3_hevil t2_wedge t3_stamp t3_byss t2_rogue t2_rancor t3_rift t1_fatal t1_rail t3_bounty
 ```
 
+Please note that for yavin1b, the force powers currently won't get randomized. Starting from yavin2, randomizations kicks in.
+
 For additional configuration, check out the following sections and the supplied configuration file `randomizerOptions.json`.
 
 # Force randomization
 In the file `randomizerOptions.json` you can choose the following force modes with `forceRandomizationMode`:
-- `0`: Progression mode: As you complete missions, you gain additional force points. You can spend exactly one force point for each mission - the rest will be randomized, including the core force powers like force jump.
+- `0`: Progression mode: As you complete missions, you gain additional force points. You can spend exactly one force point for each mission - the rest will be randomized, including the core force powers like force jump. As you progress, the maximum points that can be spent randomly increase. However, RNG decides whether all points actually will be used.
 - `1`: Chaos mode: Every force power will be randomized, you can gain from zero to the maximum amount of force points. One user selectable force power can be chosen freely.
 
 
@@ -47,8 +49,8 @@ Additionally, the required force *levels* can be selected for each map and force
 This works comparable to the force randomization. The values in `randomizerOptions.json` range from 0 (weapon not required) to 1 (weapon required). The amount of ammo will always be random for weapons you didn't choose via the selection menu.
 
 In the file `randomizerOptions.json` you can choose the weapon modes with `weaponRandomizationMode`:
-- `0`: You can choose two weapons from a random pool
-- `1`: Chaos mode: Every weapon will be randomized
+- `0`: You can choose two shootable weapons and one throwable weapon from a random pool
+- `1`: Chaos mode: Like mode `0` but on top of that, random weapons will be added
 
 # Map loading
 

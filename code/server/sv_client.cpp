@@ -267,7 +267,6 @@ void SV_ClientEnterWorld( client_t *client, usercmd_t *cmd, SavedGameJustLoaded_
 
     // Randomizer hack: New map loaded, player about to be able to control character --> restore force from loading screen
     // only if we don't come from a load --> quickloads don't alter the force powers
-
 	client_t* _cl = &svs.clients[0];
 	playerState_t* pState = nullptr;
 
@@ -313,7 +312,6 @@ void SV_ClientEnterWorld( client_t *client, usercmd_t *cmd, SavedGameJustLoaded_
     WAS_QUICKLOAD = false;
 	randomizeForcePowersDoOnce = false;
 	randomizeWeaponsDoOnce = false;
-
 }
 
 /*

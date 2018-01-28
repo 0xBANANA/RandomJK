@@ -2928,7 +2928,7 @@ void UI_ParseMenu(const char *menuFile)
 
     //Randomizer hack: Use our menu and apply force powers
 
-    // if we injected our own randomized menu or not
+    // if we injected our own randomized menu or not for maximum memory leeeks
     bool injected = false;
 
     // to display message on main menu
@@ -2952,9 +2952,7 @@ void UI_ParseMenu(const char *menuFile)
     }
 
     if (strcmp(menuFile, "ui/ingameWpnSelect.menu") == 0 && WEAPON_TMPLT.length() > 0) {
-        if (SETTINGS_JSON.at("weaponRandomizationMode") == 0) {
-            injected = true;
-        }
+        injected = true;
     }
 
     holdBuffer = buffer;

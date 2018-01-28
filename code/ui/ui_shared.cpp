@@ -5914,12 +5914,10 @@ int PC_StartParseSession(const char *fileName,char **buffer)
     }
 
 
-	// maybe randomize the menu - based on the settings file
+	// randomize the weapons menu
 	if(strcmp(fileName, "ui/ingameWpnSelect.menu") == 0) {
-		if(SETTINGS_JSON.at("weaponRandomizationMode") == 0) {
-			generateRandomWeaponMenu();
-			*buffer = &CURRENT_WEAPON_MENU[0];
-		}
+		generateRandomWeaponMenu();
+		*buffer = &CURRENT_WEAPON_MENU[0];
 	}
 
 
