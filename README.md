@@ -50,6 +50,10 @@ In the file `randomizerOptions.json` you can choose the weapon modes with `weapo
 - `0`: You can choose two weapons from a random pool
 - `1`: Chaos mode: Every weapon will be randomized
 
+# Map loading
+
+Considering map loading: If you load a previous save game, **NO** randomization will be performed as the savegame will be treated as is. Quicksaves aren't affected by this.
+
 # Building
 
 Please refer to the original notes on the build process of OpenJK. I added an option to the CMake project which allows you to pass the installation directory with an environment variable. Check the `CMakeList` files for additional info.
