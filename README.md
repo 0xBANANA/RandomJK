@@ -10,11 +10,11 @@ This version of OpenJK has some additional single player features implemented:
 # You can haz randomization too!
 
 * Download the latest release from the releases tab. Please never just git clone, compile and complain about the game not running.
-* Replace all the files of the specific archive you downloaded into your existing OpenJK folder - Keep backups in case you need them.
+* Place all the files of the specific archive you downloaded into your existing OpenJK folder - Keep backups in case you need them. The `.json` and `.txt` files have to be in the same folder as your JKA executable.
 
 ## Troubleshooting on first runs
 
-For initial troubleshooting, please verify that OpenJK runs without using my modifications. If this is true and it however fails with the binaries supplied in the latest release of this project, feel free to file an issue on GitHub.
+For initial troubleshooting, please verify that OpenJK runs without using my modifications. If this is true and it however fails with the binaries and configuration files supplied in the latest release of this project, feel free to file an issue on GitHub.
 
 ## Basic usage
 
@@ -41,7 +41,6 @@ In the file `randomizerOptions.json` you can choose the following force modes wi
 - `0`: Progression mode: As you complete missions, you gain additional force points. You can spend exactly one force point for each mission - the rest will be randomized, including the core force powers like force jump. As you progress, the maximum points that can be spent randomly increase. However, RNG decides whether all points actually will be used.
 - `1`: Chaos mode: Every force power will be randomized, you can gain from zero to the maximum amount of force points. One user selectable force power can be chosen freely.
 
-
 Additionally, the required force *levels* can be selected for each map and force power in the settings file. In there you can select the level from 0 to 3. This value will be guaranteed to be satisfied.
 
 # Weapons randomization
@@ -54,7 +53,7 @@ In the file `randomizerOptions.json` you can choose the weapon modes with `weapo
 
 # Map loading
 
-Considering map loading: If you load a previous save game, **NO** randomization will be performed as the savegame will be treated as is. Quicksaves aren't affected by this.
+Considering map loading: If you load from a previous save game, **NO** randomization will be performed as the savegame will be treated as is. Quicksaves will be treated the same.
 
 # Building
 
@@ -66,11 +65,11 @@ Please refer to the original notes on the build process of OpenJK. I added an op
 Thanks go out to Raven, the JACoders and the JKA speedrunning community.
 Additionally, to nlohmann for the great JSON library.
 
-- Joe Bananas (@JoeBananas1337_)
+~ Joe Bananas (@JoeBananas1337_)
 
 # Todos
 * Clean this project from MP files and folders
-* Add CVar for `NO_OVERWRITE` and `forceRandomizationMode`
+* Add CVar for `NO_OVERWRITE`, `forceRandomizationMode` and `weaponRandomizationMode`
 * Make suggestions :)
 
 --------------------------
