@@ -33,7 +33,15 @@ local.properties
 #################
 cmake-build-release/
 cmake-build-debug/
+CMakeFiles/
+Makefile
 *.cmake
+OpenJK.cbp
+install_manifest.txt
+openjk.x86_64
+openjk_sp.x86_64
+openjkded.x86_64
+
 
 #################
 ## Visual Studio
