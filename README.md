@@ -34,6 +34,14 @@ NO_OVERWRITE t1_surprise t2_trip t2_dpred t1_danger t1_sour t3_hevil t2_wedge t3
 
 For additional configuration, check out the following sections and the supplied configuration file `randomizerOptions.json`.
 
+# Seed values
+
+You can specify the seed value you want for your next run in `randomizerOptions.json` via `PRNGSeed`. Please only use unsigned values (>= 0). If you want the randomizer to generate a new seed value for each start of JKA and for each start of a new story playthrough, just leave it at `0`. Each time a new seed value gets calculated/used, it will be written to `seedValue.txt`, so it's possible to recover the state of a previous run using the configuration file. Also, a file called `seedLog.txt` will be created to map seed dates to seed values of previous runs in case your `seedValue.txt` file gets overwritten by accident.
+
+In case you define your own seed, you don't need to provide the `pattern_file.txt` because this file will be re-generated using the user supplied PRNG seed.
+
+Note: Only the seed value of the `.json` configuration file will be used, don't edit `seedValue.txt` and expect it to be used.
+
 # Force randomization
 In the file `randomizerOptions.json` you can choose the following force modes with `forceRandomizationMode`:
 - `0`: Progression mode: As you complete missions, you gain additional force points. You can spend exactly one force point for each mission - the rest will be randomized, including the core force powers like force jump. As you progress, the maximum points that can be spent randomly increase. However, RNG decides whether all points actually will be used.

@@ -11,6 +11,8 @@
 #include <iostream>
 #include <fstream>
 #include <regex>
+#include <random>
+#include <ctime>
 
 #include "../qcommon/qcommon.h"
 
@@ -42,6 +44,10 @@ extern bool randomizeForcePowersDoOnce;
 // 1 = Chaos mode aka yolo mode
 extern int forceRandomizationMode;
 
+// 0 = PRNG using the provided seed
+// 1 = Randomization using secure random numbers
+static int RNGMode;
+
 // 0 = Choose weapons from a random pool
 // 1 = Chaos mode aka yolo mode
 extern int weaponRandomizationMode;
@@ -49,8 +55,6 @@ extern int weaponRandomizationMode;
 // How many levels the player has completed --> amount of force points available
 extern int TIER_MISSIONS_COMPLETED;
 
-// obtain a random number from hardware
-extern std::random_device _random_device;
 // mersienne twister --> PRNG
 extern std::mt19937 _rng;
 extern bool _seeded;
@@ -71,6 +75,9 @@ static std::string PATTERN_FILE_NAME = "pattern_file.txt";
 static std::string MISSION_TEMPLATE_FILE_NAME = "mission_template_file.txt";
 static std::string WEAPON_TEMPLATE_FILE_NAME = "weapon_template_file.txt";
 static std::string SETTINGS_FILE_NAME = "randomizerOptions.json";
+static std::string SEED_FILE_NAME = "seedValue.txt";
+static std::string SEED_LOG_FILE_NAME = "seedLog.txt";
+
 
 // if you edit these, change them in `cg_info.cpp` too!
 static std::string KNOWN_FORCE_POWERS_FILE_NAME = "tmp_knownForcePowers.txt";
@@ -321,8 +328,31 @@ static std::vector<std::string> PLACEHOLDERS_WEAPON_SELECT_THROW = {
 };
 
 static void INIT_PRNG() {
-    // seed the mersienne twister
-    _rng = std::mt19937(_random_device());
+
+    unsigned int seed = SETTINGS_JSON.at("PRNGSeed");
+
+    if(seed == 0) {
+        // get seed and write it to a file
+        auto time = std::time(nullptr);
+        seed = time;
+
+        // write `seedValue.txt`
+        std::ofstream seedValueFile;
+        seedValueFile.open(SEED_FILE_NAME);
+        seedValueFile << std::to_string(seed);
+        seedValueFile.close();
+
+        // append to `seedLog.txt`
+        auto tm = *std::localtime(&time);
+
+        std::ofstream seedLogFile;
+        seedLogFile.open(SEED_LOG_FILE_NAME, std::ios_base::app);
+        seedLogFile << std::put_time(&tm, "%d-%m-%Y %H-%M-%S");
+        seedLogFile << ": " << std::to_string(seed) << std::endl;
+        seedLogFile.close();
+    }
+
+    _rng = std::mt19937(seed);
     _seeded = true;
 }
 
@@ -581,8 +611,6 @@ static void randomizeForcePowers(playerState_t* pState, std::string mapname="") 
         pState->forcePowersKnown &= ~( 1 << fp );
         pState->forcePowerLevel[fp] = 0;
     }
-
-    srand(unsigned(time(NULL)));
 
     forceRandomizationMode = SETTINGS_JSON.at("forceRandomizationMode");
 

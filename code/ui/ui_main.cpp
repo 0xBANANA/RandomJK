@@ -1107,13 +1107,14 @@ static qboolean UI_RunMenuScript ( const char **args )
             ui.Cmd_ExecuteText( EXEC_APPEND, "map kejim_post\n" );
 #else
 
+            // New game --> Reseed
+            INIT_PRNG();
+
             // Randomizer hack: Generate a new pattern and save it to a file
             // this gets called after choosing a hilt for a new game
 
             // todo also add a CVar for this
             if (OVERWRITE_ALLOWED) {
-                // for other things using rand()
-                srand(unsigned(time(NULL)));
 
                 // shuffle it like it has never been shuffled before
                 std::random_shuffle(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), GET_RANDOM_MAX);
@@ -4316,7 +4317,6 @@ void UI_MainMenu(void)
 {
 
     // Randomizer Hack (1): Seed, Load settings, template and a pattern (if present)
-    INIT_PRNG();
 
     // Read the settings JSON file
     std::ifstream settingsFileHandle(SETTINGS_FILE_NAME.c_str());
@@ -4334,6 +4334,9 @@ void UI_MainMenu(void)
 
     // parse json
     SETTINGS_JSON = json::parse(settingsJSONRead);
+
+    // set the RNG mode
+    INIT_PRNG();
 
     // Read the weapon menu file because MSVC can't handle really long strings because of reasons
     std::ifstream weaponTemplateFileHandle(WEAPON_TEMPLATE_FILE_NAME.c_str());

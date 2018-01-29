@@ -5887,8 +5887,7 @@ int PC_StartParseSession(const char *fileName,char **buffer)
 				"\"SUCH RANDOM\"",
 		};
 
-		srand(unsigned(time(NULL)));
-		std::string repl = texts[rand() % (texts.size()-1)];
+		std::string repl = texts[GET_RANDOM_MAX(texts.size()-1)];
 
 		while((start_pos = MAIN_MENU.find(pattern, start_pos)) != std::string::npos) {
 			MAIN_MENU.replace(start_pos, pattern.length(), repl);
