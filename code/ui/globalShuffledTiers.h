@@ -97,25 +97,57 @@ static int _forceJumpThreeProbability = 5;
 
 // the maps we will use to randomize tiers
 static std::vector<std::string> TIER_MAP_NAMES = {
-        "t1_sour",
-        "t1_surprise",
-        "t1_fatal",
-        "t1_danger",
-        "t1_rail",
-        "t2_rancor",
-        "t2_trip",
-        "t2_wedge",
-        "t2_rogue",
-        "t2_dpred",
-        "t3_rift",
-        "t3_stamp",
-        "t3_hevil",
-        "t3_byss",
-        "t3_bounty"
+    "t1_sour",
+    "t1_surprise",
+    "t1_fatal",
+    "t1_danger",
+    "t1_rail",
+    "t2_rancor",
+    "t2_trip",
+    "t2_wedge",
+    "t2_rogue",
+    "t2_dpred",
+    "t3_rift",
+    "t3_stamp",
+    "t3_hevil",
+    "t3_byss",
+    "t3_bounty"
 };
 
 // every SP map
 static std::vector<std::string> ALL_MAP_NAMES = {
+    "t1_sour",
+    "t1_surprise",
+    "t1_fatal",
+    "t1_danger",
+    "t1_rail",
+    "t2_rancor",
+    "t2_trip",
+    "t2_wedge",
+    "t2_rogue",
+    "t2_dpred",
+    "t3_rift",
+    "t3_stamp",
+    "t3_hevil",
+    "t3_byss",
+    "t3_bounty",
+    "yavin1",
+    "yavin1b",
+    "yavin2",
+    "hoth2",
+    "hoth3",
+    "taspir1",
+    "taspir2",
+    "kor1",
+    "kor2",
+    "vjun1",
+    "vjun2",
+    "vjun3"
+};
+
+// every randomized SP map
+// e.g. no hoth3 is included to preserve weapons at some points
+static std::vector<std::string> RANDOMIZED_MAP_NAMES = {
         "t1_sour",
         "t1_surprise",
         "t1_fatal",
@@ -131,99 +163,93 @@ static std::vector<std::string> ALL_MAP_NAMES = {
         "t3_hevil",
         "t3_byss",
         "t3_bounty",
-        "yavin1",
         "yavin1b",
         "yavin2",
         "hoth2",
-        "hoth3",
         "taspir1",
-        "taspir2",
         "kor1",
-        "kor2",
         "vjun1",
-        "vjun2",
-        "vjun3"
 };
 
 static std::map<std::string, std::string> MAP_TITLE_NAME_CONVERSION = {
-        {"t1_sour", "tatooine"},
-        {"t1_surprise", "tatooine"},
-        {"t1_danger", "blenjeel"},
-        {"t1_rail", "corellia"},
-        {"t1_fatal", "bakura"},
+    {"t1_sour", "tatooine"},
+    {"t1_surprise", "tatooine"},
+    {"t1_danger", "blenjeel"},
+    {"t1_rail", "corellia"},
+    {"t1_fatal", "bakura"},
 
-        {"t2_wedge", "krildor"},
-        {"t2_trip", "zonju"},
-        {"t2_rogue", "coruscant"},
-        {"t2_dpred", "dosuun"},
-        {"t2_rancor", "narkreeta"},
+    {"t2_wedge", "krildor"},
+    {"t2_trip", "zonju"},
+    {"t2_rogue", "coruscant"},
+    {"t2_dpred", "dosuun"},
+    {"t2_rancor", "narkreeta"},
 
-        {"t3_rift", "chandrila"},
-        {"t3_stamp", "tanaab"},
-        {"t3_hevil", "yalara"},
-        {"t3_byss", "byss"},
-        {"t3_bounty", "ordman"},
+    {"t3_rift", "chandrila"},
+    {"t3_stamp", "tanaab"},
+    {"t3_hevil", "yalara"},
+    {"t3_byss", "byss"},
+    {"t3_bounty", "ordman"},
 };
 
 const static std::vector<int> FORCE_POWERS_ALL = {
-        FP_HEAL,
-        FP_LEVITATION,
-        FP_SPEED,
-        FP_PUSH,
-        FP_PULL,
-        FP_TELEPATHY,
-        FP_GRIP,
-        FP_LIGHTNING,
-        FP_SABERTHROW,
-        FP_SABER_DEFENSE,
-        FP_SABER_OFFENSE,
-        FP_RAGE,
-        FP_PROTECT,
-        FP_ABSORB,
-        FP_DRAIN,
-        FP_SEE
+    FP_HEAL,
+    FP_LEVITATION,
+    FP_SPEED,
+    FP_PUSH,
+    FP_PULL,
+    FP_TELEPATHY,
+    FP_GRIP,
+    FP_LIGHTNING,
+    FP_SABERTHROW,
+    FP_SABER_DEFENSE,
+    FP_SABER_OFFENSE,
+    FP_RAGE,
+    FP_PROTECT,
+    FP_ABSORB,
+    FP_DRAIN,
+    FP_SEE
 };
 
 const static std::vector<int> FORCE_POWERS_PLAYER = {
-        FP_HEAL,
-        FP_TELEPATHY,
-        FP_GRIP,
-        FP_LIGHTNING,
-        FP_RAGE,
-        FP_PROTECT,
-        FP_ABSORB,
-        FP_DRAIN,
+    FP_HEAL,
+    FP_TELEPATHY,
+    FP_GRIP,
+    FP_LIGHTNING,
+    FP_RAGE,
+    FP_PROTECT,
+    FP_ABSORB,
+    FP_DRAIN,
 };
 
 const static std::vector<int> FORCE_POWERS_CORE = {
-        FP_LEVITATION,
-        FP_PUSH,
-        FP_PULL,
-        FP_SABERTHROW,
-        FP_SABER_DEFENSE,
-        FP_SABER_OFFENSE,
-        FP_SEE,
-        FP_SPEED,
+    FP_LEVITATION,
+    FP_PUSH,
+    FP_PULL,
+    FP_SABERTHROW,
+    FP_SABER_DEFENSE,
+    FP_SABER_OFFENSE,
+    FP_SEE,
+    FP_SPEED,
 };
 
 
 const static std::vector<int> ALL_WEAPONS = {
-        WP_BLASTER_PISTOL,
-        WP_BLASTER,
-        WP_DISRUPTOR,
-        WP_BOWCASTER,
-        WP_REPEATER,
-        WP_DEMP2,
-        WP_FLECHETTE,
-        WP_ROCKET_LAUNCHER,
-        WP_THERMAL,
-        WP_TRIP_MINE,
-        WP_DET_PACK,
-        WP_CONCUSSION,
+    WP_BLASTER_PISTOL,
+    WP_BLASTER,
+    WP_DISRUPTOR,
+    WP_BOWCASTER,
+    WP_REPEATER,
+    WP_DEMP2,
+    WP_FLECHETTE,
+    WP_ROCKET_LAUNCHER,
+    WP_THERMAL,
+    WP_TRIP_MINE,
+    WP_DET_PACK,
+    WP_CONCUSSION,
 
-        //extras
-        WP_MELEE,
-        WP_STUN_BATON,
+    //extras
+    WP_MELEE,
+    WP_STUN_BATON,
 };
 
 // contains the shuffled tier menus which will be hot-patched at runtime
@@ -250,88 +276,88 @@ static std::string tierMenuNamePlaceholder = "ingameMissionSelectX";
 
 // will be replaced with e.g. t1_surprise
 static std::vector<std::string> PLACEHOLDERS_MAP_NAMES = {
-        "XX_MAP1_XX",
-        "XX_MAP2_XX",
-        "XX_MAP3_XX",
-        "XX_MAP4_XX",
-        "XX_MAP5_XX",
+    "XX_MAP1_XX",
+    "XX_MAP2_XX",
+    "XX_MAP3_XX",
+    "XX_MAP4_XX",
+    "XX_MAP5_XX",
 };
 
 // will be replaced with e.g. T1_SURPRISE
 static std::vector<std::string> PLACEHOLDERS_TITLES_BRIEFINGS = {
-        "XX_MAP1_TB_XX",
-        "XX_MAP2_TB_XX",
-        "XX_MAP3_TB_XX",
-        "XX_MAP4_TB_XX",
-        "XX_MAP5_TB_XX",
+    "XX_MAP1_TB_XX",
+    "XX_MAP2_TB_XX",
+    "XX_MAP3_TB_XX",
+    "XX_MAP4_TB_XX",
+    "XX_MAP5_TB_XX",
 };
 
 // will be replaced with e.g. tatooine
 static std::vector<std::string> PLACEHOLDERS_LONG_NAMES_LOWER = {
-        "XX_MAP_1_LONG_NAME_LOWER_XX",
-        "XX_MAP_2_LONG_NAME_LOWER_XX",
-        "XX_MAP_3_LONG_NAME_LOWER_XX",
-        "XX_MAP_4_LONG_NAME_LOWER_XX",
-        "XX_MAP_5_LONG_NAME_LOWER_XX",
+    "XX_MAP_1_LONG_NAME_LOWER_XX",
+    "XX_MAP_2_LONG_NAME_LOWER_XX",
+    "XX_MAP_3_LONG_NAME_LOWER_XX",
+    "XX_MAP_4_LONG_NAME_LOWER_XX",
+    "XX_MAP_5_LONG_NAME_LOWER_XX",
 };
 
 
 // will be replaced with e.g. TATOOINE
 // used for setitemtext planet_name @MENUS_...
 static std::vector<std::string> PLACEHOLDERS_LONG_NAMES_UPPER = {
-        "XX_MAP_1_LONG_NAME_UPPER_XX",
-        "XX_MAP_2_LONG_NAME_UPPER_XX",
-        "XX_MAP_3_LONG_NAME_UPPER_XX",
-        "XX_MAP_4_LONG_NAME_UPPER_XX",
-        "XX_MAP_5_LONG_NAME_UPPER_XX",
+    "XX_MAP_1_LONG_NAME_UPPER_XX",
+    "XX_MAP_2_LONG_NAME_UPPER_XX",
+    "XX_MAP_3_LONG_NAME_UPPER_XX",
+    "XX_MAP_4_LONG_NAME_UPPER_XX",
+    "XX_MAP_5_LONG_NAME_UPPER_XX",
 };
 
 // transform long lowercase names to long uppercase names (see the special cases with "_")
 static std::map<std::string, std::string> MAP_ITEMTEXT_NAMES = {
-        {"tatooine", "TATOOINE"},
-        {"blenjeel", "BLENJEEL"},
-        {"corellia", "CORELLIA"},
-        {"bakura", "BAKURA"},
+    {"tatooine", "TATOOINE"},
+    {"blenjeel", "BLENJEEL"},
+    {"corellia", "CORELLIA"},
+    {"bakura", "BAKURA"},
 
-        {"krildor", "KRIL_DOR"},
-        {"zonju", "ZONJU_V"},
-        {"coruscant", "CORUSCANT"},
-        {"dosuun", "DOSUUN"},
-        {"narkreeta", "NAR_KREETA"},
+    {"krildor", "KRIL_DOR"},
+    {"zonju", "ZONJU_V"},
+    {"coruscant", "CORUSCANT"},
+    {"dosuun", "DOSUUN"},
+    {"narkreeta", "NAR_KREETA"},
 
-        {"chandrila", "CHANDRILA"},
-        {"tanaab", "TANAAB"},
-        {"yalara", "YALARA"},
-        {"byss", "BYSS"},
-        {"ordman", "ORD_MANTELL"},
+    {"chandrila", "CHANDRILA"},
+    {"tanaab", "TANAAB"},
+    {"yalara", "YALARA"},
+    {"byss", "BYSS"},
+    {"ordman", "ORD_MANTELL"},
 };
 
 
 // to generate random weapon select menus
 // all shootable weapons
 static std::vector<std::string> PLACEHOLDERS_WEAPON_SELECT_PEWPEW = {
-        "XX_WEAPON_PLACEHOLDER_1_XX",
-        "XX_WEAPON_PLACEHOLDER_2_XX",
-        "XX_WEAPON_PLACEHOLDER_3_XX",
-        "XX_WEAPON_PLACEHOLDER_4_XX",
-        "XX_WEAPON_PLACEHOLDER_5_XX",
-        "XX_WEAPON_PLACEHOLDER_6_XX",
-        "XX_WEAPON_PLACEHOLDER_7_XX",
-        "XX_WEAPON_PLACEHOLDER_8_XX",
+    "XX_WEAPON_PLACEHOLDER_1_XX",
+    "XX_WEAPON_PLACEHOLDER_2_XX",
+    "XX_WEAPON_PLACEHOLDER_3_XX",
+    "XX_WEAPON_PLACEHOLDER_4_XX",
+    "XX_WEAPON_PLACEHOLDER_5_XX",
+    "XX_WEAPON_PLACEHOLDER_6_XX",
+    "XX_WEAPON_PLACEHOLDER_7_XX",
+    "XX_WEAPON_PLACEHOLDER_8_XX",
 };
 
 // all throwable weapons
 static std::vector<std::string> PLACEHOLDERS_WEAPON_SELECT_THROW = {
-        "XX_WEAPON_PLACEHOLDER_9_XX",
-        "XX_WEAPON_PLACEHOLDER_10_XX",
-        "XX_WEAPON_PLACEHOLDER_11_XX",
+    "XX_WEAPON_PLACEHOLDER_9_XX",
+    "XX_WEAPON_PLACEHOLDER_10_XX",
+    "XX_WEAPON_PLACEHOLDER_11_XX",
 };
 
 static void INIT_PRNG() {
 
     unsigned int seed = SETTINGS_JSON.at("PRNGSeed");
 
-    if(seed == 0) {
+    if (seed == 0) {
         // get seed and write it to a file
         auto time = std::time(nullptr);
         seed = time;
@@ -385,10 +411,10 @@ static std::string _getMenuFileFromTier(std::vector<std::string> tier, int tierI
     size_t start_pos = 0;
 
     std::string currentTierMenuName;
-    if(tierIndex == 1) {
+    if (tierIndex == 1) {
         currentTierMenuName = "ingameMissionSelect1";
     }
-    else if(tierIndex == 2) {
+    else if (tierIndex == 2) {
 
         currentTierMenuName = "ingameMissionSelect2";
     }
@@ -397,32 +423,32 @@ static std::string _getMenuFileFromTier(std::vector<std::string> tier, int tierI
         currentTierMenuName = "ingameMissionSelect3";
     }
 
-    while((start_pos = menu_result.find(tierMenuNamePlaceholder, start_pos)) != std::string::npos) {
+    while ((start_pos = menu_result.find(tierMenuNamePlaceholder, start_pos)) != std::string::npos) {
         menu_result.replace(start_pos, tierMenuNamePlaceholder.length(), currentTierMenuName);
         start_pos += currentTierMenuName.length();
     }
 
     // Just use a fixed value here - the asserts of the caller have checked for possible errors anyway
-    for(int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++) {
 
         // map names
         size_t start_pos = 0;
         // Replace e.g. XX_MAP1_XX with t1_sour
-        while((start_pos = menu_result.find(PLACEHOLDERS_MAP_NAMES[i], start_pos)) != std::string::npos) {
+        while ((start_pos = menu_result.find(PLACEHOLDERS_MAP_NAMES[i], start_pos)) != std::string::npos) {
             menu_result.replace(start_pos, PLACEHOLDERS_MAP_NAMES[i].length(), tier[i]);
             start_pos += tier[i].length();
         }
 
         // title and briefing placeholders
         start_pos = 0;
-        while((start_pos = menu_result.find(PLACEHOLDERS_TITLES_BRIEFINGS[i], start_pos)) != std::string::npos) {
+        while ((start_pos = menu_result.find(PLACEHOLDERS_TITLES_BRIEFINGS[i], start_pos)) != std::string::npos) {
 
             // convert mapname to uppercase
             std::string mapNameUpper = tier[i];
-            std::transform(mapNameUpper.begin(), mapNameUpper.end(),mapNameUpper.begin(), ::toupper);
+            std::transform(mapNameUpper.begin(), mapNameUpper.end(), mapNameUpper.begin(), ::toupper);
 
             // of course the briefing title for t3_stamp is called T3_STAMPEDE :D
-            if(mapNameUpper == "T3_STAMP") {
+            if (mapNameUpper == "T3_STAMP") {
                 mapNameUpper = "T3_STAMPEDE";
             }
 
@@ -438,9 +464,9 @@ static std::string _getMenuFileFromTier(std::vector<std::string> tier, int tierI
         // a different string the first time it will be replaced :S
         int timesReplaced = 0;
         // Replace e.g. XX_MAP_1_LONG_NAME_LOWER_XX with tatooine
-        while((start_pos = menu_result.find(PLACEHOLDERS_LONG_NAMES_LOWER[i], start_pos)) != std::string::npos) {
+        while ((start_pos = menu_result.find(PLACEHOLDERS_LONG_NAMES_LOWER[i], start_pos)) != std::string::npos) {
 
-            if(tier[i] == "t1_rail" && timesReplaced == 0) {
+            if (tier[i] == "t1_rail" && timesReplaced == 0) {
                 menu_result.replace(start_pos, PLACEHOLDERS_LONG_NAMES_LOWER[i].length(), "core");
                 start_pos += 4;
                 timesReplaced++;
@@ -457,7 +483,7 @@ static std::string _getMenuFileFromTier(std::vector<std::string> tier, int tierI
         // long names upper
         start_pos = 0;
         // Replace e.g. XX_MAP_1_LONG_NAME_UPPER_XX with TATOOINE
-        while((start_pos = menu_result.find(PLACEHOLDERS_LONG_NAMES_UPPER[i], start_pos)) != std::string::npos) {
+        while ((start_pos = menu_result.find(PLACEHOLDERS_LONG_NAMES_UPPER[i], start_pos)) != std::string::npos) {
 
             // e.g. get long name of t2_wedge --> krildor
             std::string longNameLower = MAP_TITLE_NAME_CONVERSION[tier[i]];
@@ -500,14 +526,14 @@ static void _setRandomForcePower(playerState_t* pState, json forcePowersUpcoming
     // if we need to modify it
     if (pState->forcePowerLevel[FP_enumType] < newLevel) {
 
-        if(newLevel < 0) { newLevel = 0; }
-        if(newLevel > 3) { newLevel = 3; }
+        if (newLevel < 0) { newLevel = 0; }
+        if (newLevel > 3) { newLevel = 3; }
 
         pState->forcePowerLevel[FP_enumType] = newLevel;
     }
 
     // always learn the force power if points > 0
-    if(newLevel > 0) {
+    if (newLevel > 0) {
         pState->forcePowersKnown |= (1 << FP_enumType);
     }
 }
@@ -519,7 +545,7 @@ static void _updateForceData(playerState_t *pState) {
     CURRENT_KNOWN_FORCE_POWERS = pState->forcePowersKnown;
 
     CURRENT_FORCE_LEVELS.clear();
-    for(int i = 0; i < FORCE_POWERS_ALL.size(); i++) {
+    for (int i = 0; i < FORCE_POWERS_ALL.size(); i++) {
         CURRENT_FORCE_LEVELS.push_back(pState->forcePowerLevel[i]);
     }
 
@@ -533,9 +559,9 @@ static void _updateForceData(playerState_t *pState) {
     std::vector<std::string> splittedVar(ps_begin, ps_end);
 
     std::string newState = "";
-    for(int i = 0; i < splittedVar.size(); i++) {
+    for (int i = 0; i < splittedVar.size(); i++) {
 
-        if(i == 10) {
+        if (i == 10) {
             newState += std::to_string(pState->forcePowersKnown) + " ";
         }
 
@@ -554,9 +580,9 @@ static void _updateForceData(playerState_t *pState) {
     forcePowersKnownFile.close();
 
     std::string resultString = "";
-    if(CURRENT_FORCE_LEVELS.size() == 16) {
+    if (CURRENT_FORCE_LEVELS.size() == 16) {
         // e.g. " 0 1 0 1 3 0 0 0 0 0 0 0 0 0 0 3"
-        for(int i = 0; i < FORCE_POWERS_ALL.size(); i++) {
+        for (int i = 0; i < FORCE_POWERS_ALL.size(); i++) {
             resultString += std::to_string(pState->forcePowerLevel[i]) + " ";
         }
         Cvar_Set( "playerfplvl", resultString.c_str() );
@@ -570,200 +596,211 @@ static void _updateForceData(playerState_t *pState) {
 }
 
 // returns the known force powers
-static void randomizeForcePowers(playerState_t* pState, std::string mapname="") {
+static void randomizeForcePowers(playerState_t* pState, std::string mapname = "") {
 
     // if the optional parameter is not specified, use the (hopefully) previously set global variable instead
-    if(mapname.length() == 0) { mapname = UPCOMING_MAP_NAME; }
+    if (mapname.length() == 0) { mapname = UPCOMING_MAP_NAME; }
 
     // has to be a valid mapname
     if (std::find(ALL_MAP_NAMES.begin(), ALL_MAP_NAMES.end(), mapname) == ALL_MAP_NAMES.end()) {
         return;
     }
 
-    // get amount of missions completed
-    // check how many missions we have completed
-    char completedMapsString[2048];
-    ui.Cvar_VariableStringBuffer("tiers_complete", completedMapsString, sizeof(completedMapsString));
+    // only check user specified mandatory force powers for e.g. hoth3 --> keep old force powers
+    bool preserveForcePowers = false;
 
-    // split it by spaces
-    std::stringstream ss(completedMapsString);
-    std::istream_iterator<std::string> begin(ss);
-    std::istream_iterator<std::string> end;
-    std::vector<std::string> completedMapsVector(begin, end);
+    // it's a valid mapname but not a randomized one --> don't randomize and only check required force powers
+    if (std::find(RANDOMIZED_MAP_NAMES.begin(), RANDOMIZED_MAP_NAMES.end(), mapname) == RANDOMIZED_MAP_NAMES.end()) {
+        preserveForcePowers = true;
+    }
 
-    TIER_MISSIONS_COMPLETED = 0;
-    for(auto cm : completedMapsVector) {
-        if (std::find(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), cm) != TIER_MAP_NAMES.end()) {
-            TIER_MISSIONS_COMPLETED++;
+    if(!preserveForcePowers) {
+        // get amount of missions completed
+        // check how many missions we have completed
+        char completedMapsString[2048];
+        ui.Cvar_VariableStringBuffer("tiers_complete", completedMapsString, sizeof(completedMapsString));
+
+        // split it by spaces
+        std::stringstream ss(completedMapsString);
+        std::istream_iterator<std::string> begin(ss);
+        std::istream_iterator<std::string> end;
+        std::vector<std::string> completedMapsVector(begin, end);
+
+        TIER_MISSIONS_COMPLETED = 0;
+        for (auto cm : completedMapsVector) {
+            if (std::find(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), cm) != TIER_MAP_NAMES.end()) {
+                TIER_MISSIONS_COMPLETED++;
+            }
+        }
+
+        // core powers - player can't choose these
+        std::vector<int> fps_core_shuffled = FORCE_POWERS_CORE;
+        std::shuffle(fps_core_shuffled.begin(), fps_core_shuffled.end(), _rng);
+
+        // the force powers the player can choose
+        std::vector<int> fps_player_shuffled = FORCE_POWERS_PLAYER;
+        std::shuffle(fps_player_shuffled.begin(), fps_player_shuffled.end(), _rng);
+
+        // reset the force powers to zero first
+        for (auto fp : FORCE_POWERS_ALL) {
+            pState->forcePowersKnown &= ~( 1 << fp );
+            pState->forcePowerLevel[fp] = 0;
+        }
+
+        forceRandomizationMode = SETTINGS_JSON.at("forceRandomizationMode");
+
+        // only two modes for now
+        if (forceRandomizationMode < 0) { forceRandomizationMode = 0; }
+        if (forceRandomizationMode > 1) { forceRandomizationMode = 0; }
+
+        // progression mode
+        if (forceRandomizationMode == 0) {
+            int playerPointsToSpend = TIER_MISSIONS_COMPLETED > 0 ? TIER_MISSIONS_COMPLETED : 0;
+
+            int corePointsToSpend = 0;
+            if (TIER_MISSIONS_COMPLETED < 5) { corePointsToSpend = fps_core_shuffled.size(); }
+            if (TIER_MISSIONS_COMPLETED >= 5 && TIER_MISSIONS_COMPLETED < 10) { corePointsToSpend = fps_core_shuffled.size() * 2; }
+            if (TIER_MISSIONS_COMPLETED >= 10) { corePointsToSpend = fps_core_shuffled.size() *  3; }
+
+            for (auto fp : fps_core_shuffled) {
+
+                // finished
+                if (corePointsToSpend <= 0) { break; }
+
+                int randomLevel = Q_min(GET_RANDOM(1, 3), corePointsToSpend);
+
+                // don't make it too easy ;)
+                if (fp == FP_LEVITATION) {
+                    int randNo = GET_RANDOM(0, 100);
+
+                    if (randNo > (100 - _forceJumpOneProbability)) {
+                        randomLevel = 1;
+                    }
+
+                    if (randNo > (100 - _forceJumpTwoProbability)) {
+                        randomLevel = 2;
+                    }
+
+                    if (randomLevel > (100 - _forceJumpThreeProbability)) {
+                        randomLevel = 3;
+                    }
+
+                }
+
+                corePointsToSpend -= randomLevel;
+
+
+                pState->forcePowerLevel[fp] = randomLevel;
+
+                // enable or disable the force power
+                if (randomLevel > 0) {
+                    pState->forcePowersKnown |= (1 << fp);
+                }
+
+                    // disable of level is zero
+                else {
+                    pState->forcePowersKnown &= ~( 1 << fp );
+                }
+            }
+
+            for (auto fp : fps_player_shuffled) {
+
+                // finished
+                if (playerPointsToSpend <= 0) { break; }
+
+                int randomLevel = Q_min(GET_RANDOM(1, 3), playerPointsToSpend);
+                playerPointsToSpend -= randomLevel;
+
+                pState->forcePowerLevel[fp] = randomLevel;
+
+                // enable or disable the force power
+                if (randomLevel > 0) {
+                    pState->forcePowersKnown |= (1 << fp);
+                }
+
+                    // disable of level is zero
+                else {
+                    pState->forcePowersKnown &= ~( 1 << fp );
+                }
+            }
+
+        }
+
+        // chaos mode
+        if (forceRandomizationMode == 1) {
+            // allocate random core powers first
+            for (auto fp : fps_core_shuffled) {
+
+                if (GET_RANDOM_MAX(100) > 60) { continue; }
+
+                int randomLevel = 0;
+                // don't make it too easy ;)
+                if (fp == FP_LEVITATION) {
+                    int randNo = GET_RANDOM(0, 100);
+
+                    if (randNo > (100 - _forceJumpOneProbability)) {
+                        randomLevel = 1;
+                    }
+
+                    if (randNo > (100 - _forceJumpTwoProbability)) {
+                        randomLevel = 2;
+                    }
+
+                    if (randomLevel > (100 - _forceJumpThreeProbability)) {
+                        randomLevel = 3;
+                    }
+
+                } else {
+
+
+                    // from 0..3
+                    randomLevel = GET_RANDOM(0, GET_RANDOM(1, 3));
+                }
+
+                pState->forcePowerLevel[fp] = randomLevel;
+
+                // enable or disable the force power
+                if (randomLevel > 0) {
+                    pState->forcePowersKnown |= (1 << fp);
+                }
+
+                    // disable of level is zero
+                else {
+                    pState->forcePowersKnown &= ~( 1 << fp );
+                }
+            }
+
+            // allocate random force powers for the player powers
+            // Max points to spend so we don't soft block
+            auto maxPoints_bkp = ((fps_player_shuffled.size() * 3) - 1);
+
+            // don't use all possible points all the time
+            auto maxPoints = Q_min((maxPoints_bkp - (GET_RANDOM(0, maxPoints_bkp)) + 8), maxPoints_bkp);
+
+            for (auto fp : fps_player_shuffled) {
+                if (maxPoints == 0) { break; }
+
+                int randomLevel = Q_min(GET_RANDOM(0, GET_RANDOM(1, GET_RANDOM(2, 3))), maxPoints);
+
+                maxPoints -= randomLevel;
+
+                pState->forcePowerLevel[fp] = randomLevel;
+
+                // enable or disable the force power
+                if (randomLevel > 0) {
+                    pState->forcePowersKnown |= (1 << fp);
+                }
+
+                    // disable if level is zero
+                else {
+                    pState->forcePowersKnown &= ~( 1 << fp );
+                }
+
+            }
+
         }
     }
 
-    // core powers - player can't choose these
-    std::vector<int> fps_core_shuffled = FORCE_POWERS_CORE;
-    std::random_shuffle(fps_core_shuffled.begin(), fps_core_shuffled.end(), GET_RANDOM_MAX);
-
-    // the force powers the player can choose
-    std::vector<int> fps_player_shuffled = FORCE_POWERS_PLAYER;
-    std::random_shuffle(fps_player_shuffled.begin(), fps_player_shuffled.end(), GET_RANDOM_MAX);
-
-    // reset the force powers to zero first
-    for(auto fp : FORCE_POWERS_ALL) {
-        pState->forcePowersKnown &= ~( 1 << fp );
-        pState->forcePowerLevel[fp] = 0;
-    }
-
-    forceRandomizationMode = SETTINGS_JSON.at("forceRandomizationMode");
-
-    // only two modes for now
-    if(forceRandomizationMode < 0) { forceRandomizationMode = 0; }
-    if(forceRandomizationMode > 1) { forceRandomizationMode = 0; }
-
-    // progression mode
-    if(forceRandomizationMode == 0) {
-        int playerPointsToSpend = TIER_MISSIONS_COMPLETED > 0 ? TIER_MISSIONS_COMPLETED : 0;
-
-        int corePointsToSpend = 0;
-        if(TIER_MISSIONS_COMPLETED < 5) { corePointsToSpend = fps_core_shuffled.size(); }
-        if(TIER_MISSIONS_COMPLETED >= 5 && TIER_MISSIONS_COMPLETED < 10) { corePointsToSpend = fps_core_shuffled.size() * 2; }
-        if(TIER_MISSIONS_COMPLETED >= 10) { corePointsToSpend = fps_core_shuffled.size() *  3; }
-
-        for(auto fp: fps_core_shuffled) {
-
-            // finished
-            if(corePointsToSpend <= 0) { break; }
-
-            int randomLevel = Q_min(GET_RANDOM(1, 3), corePointsToSpend);
-
-            // don't make it too easy ;)
-            if (fp == FP_LEVITATION) {
-                int randNo = GET_RANDOM(0, 100);
-
-                if (randNo > (100 -_forceJumpOneProbability)) {
-                    randomLevel = 1;
-                }
-
-                if (randNo > (100 -_forceJumpTwoProbability)) {
-                    randomLevel = 2;
-                }
-
-                if (randomLevel > (100 -_forceJumpThreeProbability)) {
-                    randomLevel = 3;
-                }
-
-            }
-
-            corePointsToSpend -= randomLevel;
-
-
-            pState->forcePowerLevel[fp] = randomLevel;
-
-            // enable or disable the force power
-            if (randomLevel > 0) {
-                pState->forcePowersKnown |= (1 << fp);
-            }
-
-                // disable of level is zero
-            else {
-                pState->forcePowersKnown &= ~( 1 << fp );
-            }
-        }
-
-        for(auto fp: fps_player_shuffled) {
-
-            // finished
-            if(playerPointsToSpend <= 0) { break; }
-
-            int randomLevel = Q_min(GET_RANDOM(1, 3), playerPointsToSpend);
-            playerPointsToSpend -= randomLevel;
-
-            pState->forcePowerLevel[fp] = randomLevel;
-
-            // enable or disable the force power
-            if (randomLevel > 0) {
-                pState->forcePowersKnown |= (1 << fp);
-            }
-
-                // disable of level is zero
-            else {
-                pState->forcePowersKnown &= ~( 1 << fp );
-            }
-        }
-
-    }
-
-    // chaos mode
-    if(forceRandomizationMode == 1) {
-        // allocate random core powers first
-        for (auto fp : fps_core_shuffled) {
-
-            if(GET_RANDOM_MAX(100) > 60) { continue; }
-
-            int randomLevel = 0;
-            // don't make it too easy ;)
-            if (fp == FP_LEVITATION) {
-                int randNo = GET_RANDOM(0, 100);
-
-                if (randNo > (100 -_forceJumpOneProbability)) {
-                    randomLevel = 1;
-                }
-
-                if (randNo > (100 -_forceJumpTwoProbability)) {
-                    randomLevel = 2;
-                }
-
-                if (randomLevel > (100 -_forceJumpThreeProbability)) {
-                    randomLevel = 3;
-                }
-
-            } else {
-
-
-                // from 0..3
-                randomLevel = GET_RANDOM(0, GET_RANDOM(1, 3));
-            }
-
-            pState->forcePowerLevel[fp] = randomLevel;
-
-            // enable or disable the force power
-            if (randomLevel > 0) {
-                pState->forcePowersKnown |= (1 << fp);
-            }
-
-                // disable of level is zero
-            else {
-                pState->forcePowersKnown &= ~( 1 << fp );
-            }
-        }
-
-        // allocate random force powers for the player powers
-        // Max points to spend so we don't soft block
-        auto maxPoints_bkp = ((fps_player_shuffled.size() * 3) - 1);
-
-        // don't use all possible points all the time
-        auto maxPoints = Q_min((maxPoints_bkp - (GET_RANDOM(0, maxPoints_bkp)) + 8), maxPoints_bkp);
-
-        for (auto fp : fps_player_shuffled) {
-            if (maxPoints == 0) { break; }
-
-            int randomLevel = Q_min(GET_RANDOM(0, GET_RANDOM(1, GET_RANDOM(2, 3))), maxPoints);
-
-            maxPoints -= randomLevel;
-
-            pState->forcePowerLevel[fp] = randomLevel;
-
-            // enable or disable the force power
-            if (randomLevel > 0) {
-                pState->forcePowersKnown |= (1 << fp);
-            }
-
-                // disable if level is zero
-            else {
-                pState->forcePowersKnown &= ~( 1 << fp );
-            }
-
-        }
-
-    }
 
     // assure all user specified force levels are OK
     // if its a valid mapname, not like t1_inter
@@ -793,15 +830,15 @@ static void randomizeForcePowers(playerState_t* pState, std::string mapname="") 
 
     // re-check all if at least one point is unused -- avoid soft block
     int scoreEnd = 0;
-    for (auto fp : fps_player_shuffled) {
+    for (auto fp : FORCE_POWERS_PLAYER) {
         int lvl = pState->forcePowerLevel[fp];
         scoreEnd += lvl;
     }
 
     // if blocked
-    if (scoreEnd == (fps_player_shuffled.size()) * 3) {
+    if (scoreEnd == (FORCE_POWERS_PLAYER.size()) * 3) {
         // remove random point from player force level
-        auto randomFP = fps_player_shuffled[GET_RANDOM(0, fps_player_shuffled.size() - 1)];
+        auto randomFP = FORCE_POWERS_PLAYER[GET_RANDOM(0, FORCE_POWERS_PLAYER.size() - 1)];
         pState->forcePowerLevel[randomFP] = pState->forcePowerLevel[randomFP] - 1;
     }
 
@@ -833,8 +870,8 @@ static void randomizeForcePowers(playerState_t* pState, std::string mapname="") 
 static void _setRandomWeapon(playerState_t* pState, json weaponsUpcomingLevel, int WP_enumType, const std::string WP_string) {
 
     int setting = weaponsUpcomingLevel.at(WP_string);
-    if(setting < 0) { setting = 0; }
-    if(setting > 1) { setting = 0; }
+    if (setting < 0) { setting = 0; }
+    if (setting > 1) { setting = 0; }
     // apply the setting with OR
     // if it was 1 it will remain 1
     // if it was 0 it will be 1
@@ -843,67 +880,80 @@ static void _setRandomWeapon(playerState_t* pState, json weaponsUpcomingLevel, i
     // ammo should be already applied
 }
 
-static void randomizeWeapons(playerState_t* pState, std::string mapname="") {
+static void randomizeWeapons(playerState_t* pState, std::string mapname = "") {
 
     // if the optional parameter is not specified, use the (hopefully) previously set global variable instead
-    if(mapname.length() == 0) { mapname = UPCOMING_MAP_NAME; }
+    if (mapname.length() == 0) { mapname = UPCOMING_MAP_NAME; }
 
     // has to be a valid mapname
     if (std::find(ALL_MAP_NAMES.begin(), ALL_MAP_NAMES.end(), mapname) == ALL_MAP_NAMES.end()) {
         return;
     }
 
-    // Clear out any weapons for the player
-    pState->stats[ STAT_WEAPONS ] = 0;
-    pState->weapon = WP_NONE;
+    // only check user specified mandatory weapons for e.g. hoth3 --> keep old weapons
+    bool preserveWeapons = false;
 
-    weaponRandomizationMode = SETTINGS_JSON.at("weaponRandomizationMode");
+    // it's a valid mapname but not a randomized one --> don't randomize and only check required weapons
+    if (std::find(RANDOMIZED_MAP_NAMES.begin(), RANDOMIZED_MAP_NAMES.end(), mapname) == RANDOMIZED_MAP_NAMES.end()) {
+        preserveWeapons = true;
+    }
 
-    if(weaponRandomizationMode == 0) {
-        // Give random ammo only - the rest will be handled via menu and settings file
-        for(auto i = 0; i < AMMO_MAX; i++) {
+    if(!preserveWeapons) {
+        // Clear out any weapons for the player
+        pState->stats[ STAT_WEAPONS ] = 0;
+        pState->weapon = WP_NONE;
 
-            // don't get like 500 rockets
-            if(i == AMMO_ROCKETS || i == AMMO_EMPLACED || i == AMMO_THERMAL || i == AMMO_TRIPMINE || i == AMMO_DETPACK) {
-                pState->ammo[i] = GET_RANDOM(0, 20);
+        weaponRandomizationMode = SETTINGS_JSON.at("weaponRandomizationMode");
+
+        if (weaponRandomizationMode == 0) {
+
+
+            // Give random ammo
+            for (auto i = 0; i < AMMO_MAX; i++) {
+
+                // don't get like 500 rockets
+                if (i == AMMO_ROCKETS || i == AMMO_EMPLACED || i == AMMO_THERMAL || i == AMMO_TRIPMINE || i == AMMO_DETPACK) {
+                    pState->ammo[i] = GET_RANDOM(0, 20);
+                }
+                else {
+                    pState->ammo[i] = GET_RANDOM(1, GET_RANDOM(100, 500));
+                }
             }
-            else {
-                pState->ammo[i] = GET_RANDOM(1, GET_RANDOM(100, 500));
+        }
+
+        // chaos mode
+        if (weaponRandomizationMode == 1) {
+            // get random amount of weapons
+            // this doesn't mean 3 added weapons max - e.g. there's a chance WP_SABER gets picked again
+            // with no effect in the end
+            for (int i = 0; i < GET_RANDOM(1, 3); i++) {
+
+                if (GET_RANDOM_MAX(100) > 70) { continue; }
+
+                auto randomWeapon = ALL_WEAPONS[GET_RANDOM(0, ALL_WEAPONS.size() - 1)];
+
+                if (randomWeapon < WP_NUM_WEAPONS)
+                {
+                    pState->stats[ STAT_WEAPONS ] |= ( 1 << randomWeapon );
+
+                }
             }
+
+            // Give random ammo
+            for (auto i = 0; i < AMMO_MAX; i++) {
+
+                // dont get like 500 rockets
+                if (i == AMMO_ROCKETS || i == AMMO_EMPLACED || i == AMMO_THERMAL || i == AMMO_TRIPMINE || i == AMMO_DETPACK) {
+                    pState->ammo[i] = GET_RANDOM(1, 20);
+                }
+                else {
+                    pState->ammo[i] = GET_RANDOM(1, GET_RANDOM(100, 500));
+                }
+            }
+
         }
     }
 
-    // chaos mode
-    if(weaponRandomizationMode == 1) {
-        // get random amount of weapons
-        // this doesn't mean 3 added weapons max - e.g. there's a chance WP_SABER gets picked again
-        // with no effect in the end
-        for(int i = 0; i < GET_RANDOM(1, 3); i++) {
-
-            if(GET_RANDOM_MAX(100) > 70) { continue; }
-
-            auto randomWeapon = ALL_WEAPONS[GET_RANDOM(0, ALL_WEAPONS.size()-1)];
-
-            if (randomWeapon<WP_NUM_WEAPONS)
-            {
-                pState->stats[ STAT_WEAPONS ] |= ( 1 << randomWeapon );
-
-            }
-        }
-
-        // Give random ammo
-        for(auto i = 0; i < AMMO_MAX; i++) {
-
-            // dont get like 500 rockets
-            if(i == AMMO_ROCKETS || i == AMMO_EMPLACED || i == AMMO_THERMAL || i == AMMO_TRIPMINE || i == AMMO_DETPACK) {
-                pState->ammo[i] = GET_RANDOM(1, 20);
-            }
-            else {
-                pState->ammo[i] = GET_RANDOM(1, GET_RANDOM(100, 500));
-            }
-        }
-
-    }
 
     // assure all user specified weapons are OK
     // if its a valid mapname, not like t1_inter
@@ -939,20 +989,20 @@ static void generateRandomWeaponMenu() {
     // set a pattern for each weapon
     std::vector<std::string> patternsShootable;
     // one pattern for each shootable weapon
-    for(int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_PEWPEW.size(); i++) {
+    for (int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_PEWPEW.size(); i++) {
         patternsShootable.push_back("");
     }
 
     std::vector<std::string> patternsThrowable;
     // one pattern for each throwable weapon
-    for(int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_THROW.size(); i++) {
+    for (int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_THROW.size(); i++) {
         patternsThrowable.push_back("\"0\"; ");
     }
 
 
     // for shootable weapons first
     // for each level: choose 2 shootable weapons (at least) and add them
-    for(int level = 0; level < 20; level++) {
+    for (int level = 0; level < 20; level++) {
 
         // choose 2 random weapons (or more)
         int amountOfWeapons = GET_RANDOM(2, GET_RANDOM(2, 4));
@@ -960,14 +1010,14 @@ static void generateRandomWeaponMenu() {
         // keep track which weapons we added to prevent duplicates and therefore blocks
         std::vector<int> affectedWeapons;
         // for each weapon
-        for(int weaponCount = 0; weaponCount < amountOfWeapons; weaponCount++) {
+        for (int weaponCount = 0; weaponCount < amountOfWeapons; weaponCount++) {
 
             int randomWeaponIndex = 0;
-            while(true) {
+            while (true) {
                 // get the random weapon
-                randomWeaponIndex = GET_RANDOM(0, patternsShootable.size()-1);
+                randomWeaponIndex = GET_RANDOM(0, patternsShootable.size() - 1);
                 // only if we haven't added it yet
-                if(std::find(affectedWeapons.begin(), affectedWeapons.end(), randomWeaponIndex) == affectedWeapons.end()) {
+                if (std::find(affectedWeapons.begin(), affectedWeapons.end(), randomWeaponIndex) == affectedWeapons.end()) {
                     break;
                 }
                 // else try again
@@ -984,14 +1034,14 @@ static void generateRandomWeaponMenu() {
     }
 
     // write the pattern for each level
-    for(int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_PEWPEW.size(); i++) {
+    for (int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_PEWPEW.size(); i++) {
         std::string currentPlaceholder = PLACEHOLDERS_WEAPON_SELECT_PEWPEW[i];
 
         // replace the current placeholder with the random pattern we generated
-        for( size_t pos = 0; ; pos += patternsShootable[i].length() ) {
+        for ( size_t pos = 0; ; pos += patternsShootable[i].length() ) {
             // Locate the substring to replace
             pos = CURRENT_WEAPON_MENU.find( currentPlaceholder, pos );
-            if( pos == std::string::npos ) break;
+            if ( pos == std::string::npos ) break;
             // Replace by erasing and inserting
             CURRENT_WEAPON_MENU.erase( pos, currentPlaceholder.length() );
             CURRENT_WEAPON_MENU.insert( pos, patternsShootable[i] );
@@ -1001,7 +1051,7 @@ static void generateRandomWeaponMenu() {
 
 
     // do the same for throwable weapons (we need at least one)
-    for(int level = 0; level < 20; level++) {
+    for (int level = 0; level < 20; level++) {
 
         // choose 1 random throwable weapons (or more)
         int amountOfWeapons = GET_RANDOM(1, GET_RANDOM(2, 3));
@@ -1009,14 +1059,14 @@ static void generateRandomWeaponMenu() {
         // keep track which weapons we added to prevent duplicates and therefore blocks
         std::vector<int> affectedWeapons;
         // for each weapon
-        for(int weaponCount = 0; weaponCount < amountOfWeapons; weaponCount++) {
+        for (int weaponCount = 0; weaponCount < amountOfWeapons; weaponCount++) {
 
             int randomWeaponIndex = 0;
-            while(true) {
+            while (true) {
                 // get the random weapon
-                randomWeaponIndex = GET_RANDOM(0, patternsThrowable.size()-1);
+                randomWeaponIndex = GET_RANDOM(0, patternsThrowable.size() - 1);
                 // only if we haven't added it yet
-                if(std::find(affectedWeapons.begin(), affectedWeapons.end(), randomWeaponIndex) == affectedWeapons.end()) {
+                if (std::find(affectedWeapons.begin(), affectedWeapons.end(), randomWeaponIndex) == affectedWeapons.end()) {
                     break;
                 }
                 // else try again
@@ -1033,14 +1083,14 @@ static void generateRandomWeaponMenu() {
     }
 
     // write the pattern for each level
-    for(int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_THROW.size(); i++) {
+    for (int i = 0; i < PLACEHOLDERS_WEAPON_SELECT_THROW.size(); i++) {
         std::string currentPlaceholder = PLACEHOLDERS_WEAPON_SELECT_THROW[i];
 
         // replace the current placeholder with the random pattern we generated
-        for( size_t pos = 0; ; pos += patternsThrowable[i].length() ) {
+        for ( size_t pos = 0; ; pos += patternsThrowable[i].length() ) {
             // Locate the substring to replace
             pos = CURRENT_WEAPON_MENU.find( currentPlaceholder, pos );
-            if( pos == std::string::npos ) break;
+            if ( pos == std::string::npos ) break;
             // Replace by erasing and inserting
             CURRENT_WEAPON_MENU.erase( pos, currentPlaceholder.length() );
             CURRENT_WEAPON_MENU.insert( pos, patternsThrowable[i] );

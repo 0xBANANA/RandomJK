@@ -433,7 +433,7 @@
     "t1_surprise": {
       "FP_JUMP": 0,
       "FP_PUSH": 1,
-      "FP_PULL": 1,
+      "FP_PULL": 0,
       "FP_SABERTHROW": 0,
       "FP_SABER_DEFENSE": 0,
       "FP_SABER_OFFENSE": 0,

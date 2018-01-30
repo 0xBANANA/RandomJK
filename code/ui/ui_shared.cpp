@@ -5869,6 +5869,7 @@ int PC_StartParseSession(const char *fileName,char **buffer)
 
     // display randomizer message on main menu
     if(strcmp(fileName, "ui/main.menu") == 0) {
+
         MAIN_MENU = std::string(*buffer);
 
 		size_t start_pos = 0;
@@ -5887,7 +5888,9 @@ int PC_StartParseSession(const char *fileName,char **buffer)
 				"\"SUCH RANDOM\"",
 		};
 
-		std::string repl = texts[GET_RANDOM_MAX(texts.size()-1)];
+		// get this via srand because the settings aren't loaded yet
+		srand(time(NULL));
+		std::string repl = texts[rand() % texts.size()];
 
 		while((start_pos = MAIN_MENU.find(pattern, start_pos)) != std::string::npos) {
 			MAIN_MENU.replace(start_pos, pattern.length(), repl);

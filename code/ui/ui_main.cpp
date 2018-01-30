@@ -42,8 +42,6 @@ USER INTERFACE MAIN
 
 // initialize the global variables
 bool _seeded = false;
-// obtain a random number from hardware
-std::random_device _random_device;
 // mersienne twister --> PRNG
 std::mt19937 _rng;
 
@@ -1117,7 +1115,7 @@ static qboolean UI_RunMenuScript ( const char **args )
             if (OVERWRITE_ALLOWED) {
 
                 // shuffle it like it has never been shuffled before
-                std::random_shuffle(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), GET_RANDOM_MAX);
+                std::shuffle(TIER_MAP_NAMES.begin(), TIER_MAP_NAMES.end(), _rng);
 
                 assert(TIER_MAP_NAMES.size() == 15);
 
