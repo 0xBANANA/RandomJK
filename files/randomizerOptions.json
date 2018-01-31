@@ -4,7 +4,7 @@
   "weaponRandomizationMode" : 0,
 
   "weapons": {
-    "t1_sour": {
+    "t1_sour_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -19,7 +19,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t1_surprise": {
+    "t1_surprise_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -34,7 +34,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t1_fatal": {
+    "t1_fatal_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -49,7 +49,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t1_danger": {
+    "t1_danger_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -64,7 +64,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t1_rail": {
+    "t1_rail_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -79,7 +79,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t2_rancor": {
+    "t2_rancor_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -94,7 +94,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t2_trip": {
+    "t2_trip_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -109,7 +109,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t2_wedge": {
+    "t2_wedge_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -124,7 +124,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t2_rogue": {
+    "t2_rogue_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -139,7 +139,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t2_dpred": {
+    "t2_dpred_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -154,7 +154,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t3_rift": {
+    "t3_rift_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -169,7 +169,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t3_stamp": {
+    "t3_stamp_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -184,7 +184,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t3_hevil": {
+    "t3_hevil_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -199,7 +199,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t3_byss": {
+    "t3_byss_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -214,7 +214,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "t3_bounty": {
+    "t3_bounty_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -229,7 +229,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "yavin1": {
+    "yavin1_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -244,7 +244,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "yavin1b": {
+    "yavin1b_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -259,7 +259,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "yavin2": {
+    "yavin2_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -274,7 +274,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "hoth2": {
+    "hoth2_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -289,7 +289,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "hoth3": {
+    "hoth3_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -304,7 +304,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "taspir1": {
+    "taspir1_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -319,7 +319,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "taspir2": {
+    "taspir2_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -334,7 +334,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "kor1": {
+    "kor1_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -349,7 +349,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "kor2": {
+    "kor2_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -364,7 +364,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "vjun1": {
+    "vjun1_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -379,7 +379,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "vjun2": {
+    "vjun2_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -394,7 +394,7 @@
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
     },
-    "vjun3": {
+    "vjun3_0": {
       "WP_SABER" : 1,
       "WP_BLASTER_PISTOL": 0,
       "WP_BLASTER": 0,
@@ -412,7 +412,7 @@
   },
 
   "forcePowers": {
-    "t1_sour": {
+    "t1_sour_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -430,8 +430,26 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t1_surprise": {
+    "t1_surprise_0": {
       "FP_JUMP": 0,
+      "FP_PUSH": 0,
+      "FP_PULL": 1,
+      "FP_SABERTHROW": 0,
+      "FP_SABER_DEFENSE": 0,
+      "FP_SABER_OFFENSE": 0,
+      "FP_SENSE": 0,
+      "FP_SPEED": 0,
+      "FP_HEAL": 0,
+      "FP_MINDTRICK": 0,
+      "FP_GRIP": 0,
+      "FP_LIGHTNING": 0,
+      "FP_RAGE": 0,
+      "FP_PROTECT": 0,
+      "FP_ABSORB": 0,
+      "FP_DRAIN": 0
+    },
+    "t1_surprise_1": {
+      "FP_JUMP": 1,
       "FP_PUSH": 1,
       "FP_PULL": 0,
       "FP_SABERTHROW": 0,
@@ -448,7 +466,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t1_fatal": {
+    "t1_fatal_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -466,7 +484,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t1_danger": {
+    "t1_danger_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -484,7 +502,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t1_rail": {
+    "t1_rail_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -502,7 +520,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t2_rancor": {
+    "t2_rancor_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -520,7 +538,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t2_trip": {
+    "t2_trip_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -538,7 +556,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t2_wedge": {
+    "t2_wedge_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -556,7 +574,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t2_rogue": {
+    "t2_rogue_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -574,7 +592,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t2_dpred": {
+    "t2_dpred_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -592,7 +610,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t3_rift": {
+    "t3_rift_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 1,
       "FP_PULL": 0,
@@ -610,7 +628,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t3_stamp": {
+    "t3_stamp_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -628,7 +646,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t3_hevil": {
+    "t3_hevil_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -646,7 +664,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t3_byss": {
+    "t3_byss_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -664,7 +682,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t3_bounty": {
+    "t3_bounty_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -682,7 +700,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "yavin1": {
+    "yavin1_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -700,7 +718,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "yavin1b": {
+    "yavin1b_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -718,7 +736,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "yavin2": {
+    "yavin2_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 1,
       "FP_PULL": 1,
@@ -736,7 +754,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "hoth2": {
+    "hoth2_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -754,7 +772,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "hoth3": {
+    "hoth3_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -772,7 +790,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "taspir1": {
+    "taspir1_0": {
       "FP_JUMP": 1,
       "FP_PUSH": 0,
       "FP_PULL": 1,
@@ -790,7 +808,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "taspir2": {
+    "taspir2_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -808,7 +826,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "kor1": {
+    "kor1_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -826,7 +844,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "kor2": {
+    "kor2_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -844,7 +862,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "vjun1": {
+    "vjun1_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,
@@ -862,10 +880,10 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "vjun2": {
+    "vjun2_0": {
       "FP_JUMP": 0,
-      "FP_PUSH": 2,
-      "FP_PULL": 2,
+      "FP_PUSH": 1,
+      "FP_PULL": 1,
       "FP_SABERTHROW": 0,
       "FP_SABER_DEFENSE": 0,
       "FP_SABER_OFFENSE": 0,
@@ -880,7 +898,7 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "vjun3": {
+    "vjun3_0": {
       "FP_JUMP": 0,
       "FP_PUSH": 0,
       "FP_PULL": 0,

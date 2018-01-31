@@ -49,6 +49,55 @@ In the file `randomizerOptions.json` you can choose the following force modes wi
 
 Additionally, the required force *levels* can be selected for each map and force power in the settings file. In there you can select the level from 0 to 3. This value will be guaranteed to be satisfied.
 
+# Randomization sets
+
+For each map, it's possible to define multiple possible minimal force/weapon sets, e.g.
+
+```
+    "t1_surprise_0": {
+      "FP_JUMP": 0,
+      "FP_PUSH": 0,
+      "FP_PULL": 1,
+      "FP_SABERTHROW": 0,
+      "FP_SABER_DEFENSE": 0,
+      "FP_SABER_OFFENSE": 0,
+      "FP_SENSE": 0,
+      "FP_SPEED": 0,
+      "FP_HEAL": 0,
+      "FP_MINDTRICK": 0,
+      "FP_GRIP": 0,
+      "FP_LIGHTNING": 0,
+      "FP_RAGE": 0,
+      "FP_PROTECT": 0,
+      "FP_ABSORB": 0,
+      "FP_DRAIN": 0
+    },
+
+    "t1_surprise_1": {
+      "FP_JUMP": 1,
+      "FP_PUSH": 1,
+      "FP_PULL": 0,
+      "FP_SABERTHROW": 0,
+      "FP_SABER_DEFENSE": 0,
+      "FP_SABER_OFFENSE": 0,
+      "FP_SENSE": 0,
+      "FP_SPEED": 0,
+      "FP_HEAL": 0,
+      "FP_MINDTRICK": 0,
+      "FP_GRIP": 0,
+      "FP_LIGHTNING": 0,
+      "FP_RAGE": 0,
+      "FP_PROTECT": 0,
+      "FP_ABSORB": 0,
+      "FP_DRAIN": 0
+    },
+```
+
+For each possible strategy, one set can be defined. The used set will be determined randomly at runtime.
+Currently, there is a limit of 100 possible sets per map, which should be enough <:
+
+If you add a set, make sure you use a unique index in the range of 0-99.
+
 # Weapons randomization
 
 This works comparable to the force randomization. The values in `randomizerOptions.json` range from 0 (weapon not required) to 1 (weapon required). The amount of ammo will always be random for weapons you didn't choose via the selection menu.

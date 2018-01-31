@@ -518,6 +518,28 @@ static void generateShuffledMenusFromTiers(std::vector<std::string> t1, std::vec
     assert(SHUFFLED_TIER_3.length() > 0);
 }
 
+// e.g. get either t1_surprise_0 or t1_surprise_1 force configuration
+static json getRandomSetForMap(std::string parentKey, std::string mapname) {
+
+    // constant value for now
+    int setsPerMap = 100;
+
+    json parentJSON = SETTINGS_JSON.at(parentKey);
+
+    std::vector<json> sets;
+
+    for(int i = 0; i < setsPerMap; i++) {
+        std::string mapSetName = mapname + "_" + std::to_string(i);
+        if (parentJSON.find(mapSetName) != parentJSON.end()) {
+            sets.push_back(parentJSON.at(mapSetName));
+        }
+    }
+
+    // return a random set
+    assert(sets.size() > 0);
+    return sets[GET_RANDOM_MAX(sets.size()-1)];
+
+}
 
 // Helper method to set force powers with error checking
 static void _setRandomForcePower(playerState_t* pState, json forcePowersUpcomingLevel, int FP_enumType, std::string FP_string) {
@@ -806,8 +828,7 @@ static void randomizeForcePowers(playerState_t* pState, std::string mapname = ""
     // if its a valid mapname, not like t1_inter
     if (std::find(ALL_MAP_NAMES.begin(), ALL_MAP_NAMES.end(), mapname) != ALL_MAP_NAMES.end()) {
 
-        json forcePowersJSON = SETTINGS_JSON.at("forcePowers");
-        json forcePowersUpcomingLevel = forcePowersJSON.at(mapname);
+        json forcePowersUpcomingLevel = getRandomSetForMap("forcePowers", mapname);
 
         // for each force power
         _setRandomForcePower(pState, forcePowersUpcomingLevel, FP_LEVITATION, "FP_JUMP");
@@ -959,8 +980,7 @@ static void randomizeWeapons(playerState_t* pState, std::string mapname = "") {
     // if its a valid mapname, not like t1_inter
     if (std::find(ALL_MAP_NAMES.begin(), ALL_MAP_NAMES.end(), mapname) != ALL_MAP_NAMES.end()) {
 
-        json weaponsJSON = SETTINGS_JSON.at("weapons");
-        json weaponsUpcomingLevel = weaponsJSON.at(mapname);
+        json weaponsUpcomingLevel = getRandomSetForMap("weapons", mapname);
 
         // for each weapon
         _setRandomWeapon(pState, weaponsUpcomingLevel, WP_SABER, "WP_SABER");
