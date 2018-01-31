@@ -49,6 +49,14 @@ In the file `randomizerOptions.json` you can choose the following force modes wi
 
 Additionally, the required force *levels* can be selected for each map and force power in the settings file. In there you can select the level from 0 to 3. This value will be guaranteed to be satisfied.
 
+# Weapons randomization
+
+This works comparable to the force randomization. The values in `randomizerOptions.json` range from 0 (weapon not required) to 1 (weapon required). The amount of ammo will always be random for weapons you didn't choose via the selection menu.
+
+In the file `randomizerOptions.json` you can choose the weapon modes with `weaponRandomizationMode`:
+- `0`: You can choose two shootable weapons and one throwable weapon from a random pool
+- `1`: Chaos mode: Like mode `0` but on top of that, random weapons will be added
+
 # Randomization sets
 
 For each map, it's possible to define multiple possible minimal force/weapon sets, e.g.
@@ -97,14 +105,6 @@ For each possible strategy, one set can be defined. The used set will be determi
 Currently, there is a limit of 100 possible sets per map, which should be enough <:
 
 If you add a set, make sure you use a unique index in the range of 0-99.
-
-# Weapons randomization
-
-This works comparable to the force randomization. The values in `randomizerOptions.json` range from 0 (weapon not required) to 1 (weapon required). The amount of ammo will always be random for weapons you didn't choose via the selection menu.
-
-In the file `randomizerOptions.json` you can choose the weapon modes with `weaponRandomizationMode`:
-- `0`: You can choose two shootable weapons and one throwable weapon from a random pool
-- `1`: Chaos mode: Like mode `0` but on top of that, random weapons will be added
 
 # Additional Notes
 * Considering map loading: If you load from a previous save game, **NO** randomization will be performed as the savegame will be treated as is. Quicksaves will be treated the same.
