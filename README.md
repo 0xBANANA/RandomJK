@@ -1,4 +1,4 @@
-# OpenJK - now with even moar randomness
+# RandomJK - OpenJK with even moar randomness
 
 This version of OpenJK has some additional single player features implemented:
 
