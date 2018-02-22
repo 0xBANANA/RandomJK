@@ -7,4 +7,4 @@ addons:
 
 script:
   - mkdir Build
-  - cd Build && cmake .. && make
+  - cd Build && cmake .. && make -j 4
