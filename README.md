@@ -1,5 +1,7 @@
 # RandomJK - OpenJK with even moar randomness
 
+[![Build Status](https://travis-ci.org/0xBANANA/RandomJK.png?branch=master)](https://travis-ci.org/0xBANANA/RandomJK)
+
 This version of OpenJK has some additional single player features implemented:
 
 * The missions of each tier will be randomized on every start of the single player game (after creating a character)
