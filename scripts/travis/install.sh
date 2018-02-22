@@ -37,7 +37,7 @@ case "${host}" in
 		;;
 
 	(i?86-linux-gnu)
-		# Install x86 libraries; remove anything that gets in the 
+		# Install x86 libraries; remove anything that gets in the
 		# way, and also Java because that would be upgraded and is
 		# quite large.
 		sudo apt-get -q -y install \
