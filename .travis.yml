@@ -3,7 +3,7 @@ sudo: required
 dist: trusty
 
 install:
-  - sudo apt update && sudo apt -y install cmake cpp g++ g++-multilib gcc git-core libc6-dev libgl1-mesa-dev libglib2.0-dev libglu1-mesa libglu1-mesa-dev libjpeg-turbo8-dev libpng12-dev libpulse-dev libsdl2-dev zlib1g-dev libegl1-mesa-dev libgles2-mesa-dev
+  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 && sudo apt-get update && sudo apt-get -y install cmake cpp g++ g++-multilib gcc git-core libc6-dev libgl1-mesa-dev libglib2.0-dev libglu1-mesa libglu1-mesa-dev libjpeg-turbo8-dev libpng12-dev libpulse-dev libsdl2-dev zlib1g-dev libegl1-mesa-dev libgles2-mesa-dev
 
 script:
   - git clone https://github.com/0xBANANA/RandomJK.git RandomJK
