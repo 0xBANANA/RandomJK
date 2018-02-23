@@ -26,4 +26,5 @@ before_script:
       zlib1g-dev
 
 script:
-  - mkdir Build && cd Build && cmake .. && make -j 4
+  - git clone https://github.com/0xBANANA/RandomJK.git RandomJK
+  - cd RandomJK && mkdir Build && cd Build && cmake .. && make -j 4
