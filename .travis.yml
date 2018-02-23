@@ -2,8 +2,8 @@ sudo: required
 dist: xenial
 
 before_script:
-  - apt update
-  - apt -y install \
+  - sudo apt update
+  - sudo apt -y install \
       cmake
       cpp \
       g++ \
