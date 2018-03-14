@@ -1,6 +1,6 @@
 # RandomJK - OpenJK with even moar randomness
 
-[![Build Status](https://travis-ci.org/0xBANANA/RandomJK.png?branch=master)](https://travis-ci.org/0xBANANA/RandomJK)
+[![Build Status](https://travis-ci.org/ps1337/RandomJK.png?branch=master)](https://travis-ci.org/ps1337/RandomJK)
 
 This version of OpenJK has some additional single player features implemented:
 
