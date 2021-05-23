@@ -14,7 +14,7 @@
       "WP_DEMP2": 0,
       "WP_FLECHETTE": 0,
       "WP_ROCKET_LAUNCHER": 0,
-      "WP_THERMAL": 0,
+      "WP_THERMAL": 1,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
@@ -29,7 +29,7 @@
       "WP_DEMP2": 0,
       "WP_FLECHETTE": 0,
       "WP_ROCKET_LAUNCHER": 0,
-      "WP_THERMAL": 0,
+      "WP_THERMAL": 1,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
@@ -74,7 +74,7 @@
       "WP_DEMP2": 0,
       "WP_FLECHETTE": 0,
       "WP_ROCKET_LAUNCHER": 0,
-      "WP_THERMAL": 0,
+      "WP_THERMAL": 1,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
       "WP_CONCUSSION": 0
@@ -167,7 +167,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0
+      "WP_CONCUSSION": 1
     },
     "t3_stamp_0": {
       "WP_SABER" : 1,
@@ -377,7 +377,7 @@
       "WP_THERMAL": 0,
       "WP_TRIP_MINE": 0,
       "WP_DET_PACK": 0,
-      "WP_CONCUSSION": 0
+      "WP_CONCUSSION": 1
     },
     "vjun2_0": {
       "WP_SABER" : 1,
@@ -503,7 +503,7 @@
       "FP_DRAIN": 0
     },
     "t1_rail_0": {
-      "FP_JUMP": 0,
+      "FP_JUMP": 1,
       "FP_PUSH": 0,
       "FP_PULL": 0,
       "FP_SABERTHROW": 0,
@@ -539,7 +539,7 @@
       "FP_DRAIN": 0
     },
     "t2_trip_0": {
-      "FP_JUMP": 0,
+      "FP_JUMP": 2,
       "FP_PUSH": 0,
       "FP_PULL": 0,
       "FP_SABERTHROW": 0,
@@ -556,8 +556,44 @@
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
-    "t2_wedge_0": {
+    "t2_trip_1": {
       "FP_JUMP": 0,
+      "FP_PUSH": 0,
+      "FP_PULL": 0,
+      "FP_SABERTHROW": 0,
+      "FP_SABER_DEFENSE": 0,
+      "FP_SABER_OFFENSE": 0,
+      "FP_SENSE": 0,
+      "FP_SPEED": 0,
+      "FP_HEAL": 0,
+      "FP_MINDTRICK": 0,
+      "FP_GRIP": 0,
+      "FP_LIGHTNING": 0,
+      "FP_RAGE": 3,
+      "FP_PROTECT": 0,
+      "FP_ABSORB": 0,
+      "FP_DRAIN": 0
+    },
+    "t2_wedge_0": {
+      "FP_JUMP": 1,
+      "FP_PUSH": 0,
+      "FP_PULL": 0,
+      "FP_SABERTHROW": 0,
+      "FP_SABER_DEFENSE": 0,
+      "FP_SABER_OFFENSE": 0,
+      "FP_SENSE": 0,
+      "FP_SPEED": 0,
+      "FP_HEAL": 0,
+      "FP_MINDTRICK": 0,
+      "FP_GRIP": 3,
+      "FP_LIGHTNING": 0,
+      "FP_RAGE": 0,
+      "FP_PROTECT": 0,
+      "FP_ABSORB": 0,
+      "FP_DRAIN": 0
+    },
+    "t2_wedge_1": {
+      "FP_JUMP": 2,
       "FP_PUSH": 0,
       "FP_PULL": 0,
       "FP_SABERTHROW": 0,
@@ -593,7 +629,7 @@
       "FP_DRAIN": 0
     },
     "t2_dpred_0": {
-      "FP_JUMP": 0,
+      "FP_JUMP": 2,
       "FP_PUSH": 0,
       "FP_PULL": 0,
       "FP_SABERTHROW": 0,
@@ -611,7 +647,7 @@
       "FP_DRAIN": 0
     },
     "t3_rift_0": {
-      "FP_JUMP": 0,
+      "FP_JUMP": 2,
       "FP_PUSH": 1,
       "FP_PULL": 0,
       "FP_SABERTHROW": 0,
@@ -621,7 +657,7 @@
       "FP_SPEED": 0,
       "FP_HEAL": 0,
       "FP_MINDTRICK": 0,
-      "FP_GRIP": 0,
+      "FP_GRIP": 3,
       "FP_LIGHTNING": 0,
       "FP_RAGE": 0,
       "FP_PROTECT": 0,
@@ -791,8 +827,8 @@
       "FP_DRAIN": 0
     },
     "taspir1_0": {
-      "FP_JUMP": 1,
-      "FP_PUSH": 0,
+      "FP_JUMP": 3,
+      "FP_PUSH": 1,
       "FP_PULL": 1,
       "FP_SABERTHROW": 0,
       "FP_SABER_DEFENSE": 0,
@@ -809,7 +845,7 @@
       "FP_DRAIN": 0
     },
     "taspir2_0": {
-      "FP_JUMP": 0,
+      "FP_JUMP": 1,
       "FP_PUSH": 0,
       "FP_PULL": 0,
       "FP_SABERTHROW": 0,
@@ -821,14 +857,32 @@
       "FP_MINDTRICK": 0,
       "FP_GRIP": 0,
       "FP_LIGHTNING": 0,
-      "FP_RAGE": 0,
+      "FP_RAGE": 3,
+      "FP_PROTECT": 0,
+      "FP_ABSORB": 0,
+      "FP_DRAIN": 0
+    },
+    "taspir2_1": {
+      "FP_JUMP": 2,
+      "FP_PUSH": 0,
+      "FP_PULL": 0,
+      "FP_SABERTHROW": 0,
+      "FP_SABER_DEFENSE": 0,
+      "FP_SABER_OFFENSE": 0,
+      "FP_SENSE": 0,
+      "FP_SPEED": 0,
+      "FP_HEAL": 0,
+      "FP_MINDTRICK": 0,
+      "FP_GRIP": 0,
+      "FP_LIGHTNING": 0,
+      "FP_RAGE": 3,
       "FP_PROTECT": 0,
       "FP_ABSORB": 0,
       "FP_DRAIN": 0
     },
     "kor1_0": {
-      "FP_JUMP": 0,
-      "FP_PUSH": 0,
+      "FP_JUMP": 2,
+      "FP_PUSH": 1,
       "FP_PULL": 0,
       "FP_SABERTHROW": 0,
       "FP_SABER_DEFENSE": 0,
@@ -845,7 +899,7 @@
       "FP_DRAIN": 0
     },
     "kor2_0": {
-      "FP_JUMP": 0,
+      "FP_JUMP": 1,
       "FP_PUSH": 0,
       "FP_PULL": 0,
       "FP_SABERTHROW": 0,
@@ -863,7 +917,7 @@
       "FP_DRAIN": 0
     },
     "vjun1_0": {
-      "FP_JUMP": 0,
+      "FP_JUMP": 1,
       "FP_PUSH": 0,
       "FP_PULL": 0,
       "FP_SABERTHROW": 0,
@@ -881,8 +935,26 @@
       "FP_DRAIN": 0
     },
     "vjun2_0": {
-      "FP_JUMP": 0,
+      "FP_JUMP": 1,
       "FP_PUSH": 1,
+      "FP_PULL": 3,
+      "FP_SABERTHROW": 0,
+      "FP_SABER_DEFENSE": 0,
+      "FP_SABER_OFFENSE": 0,
+      "FP_SENSE": 0,
+      "FP_SPEED": 0,
+      "FP_HEAL": 0,
+      "FP_MINDTRICK": 0,
+      "FP_GRIP": 3,
+      "FP_LIGHTNING": 0,
+      "FP_RAGE": 0,
+      "FP_PROTECT": 0,
+      "FP_ABSORB": 0,
+      "FP_DRAIN": 0
+    },
+    "vjun2_1": {
+      "FP_JUMP": 2,
+      "FP_PUSH": 0,
       "FP_PULL": 1,
       "FP_SABERTHROW": 0,
       "FP_SABER_DEFENSE": 0,
