@@ -235,6 +235,8 @@ const static std::vector<int> FORCE_POWERS_CORE = {
 
 
 const static std::vector<int> ALL_WEAPONS = {
+    WP_SABER,
+
     WP_BLASTER_PISTOL,
     WP_BLASTER,
     WP_DISRUPTOR,
@@ -618,6 +620,81 @@ static void _updateForceData(playerState_t *pState) {
     }
 }
 
+static double getProb(int fp, int lvl) {
+
+    std::string lvlstr = "LVL1";
+    switch (lvl) {
+    case 1:
+        lvlstr = "LVL1";
+        break;
+    case 2:
+        lvlstr = "LVL2";
+        break;
+    case 3:
+        lvlstr = "LVL3";
+
+    default:
+        break;
+    }
+
+    std::string fpstr = "FP_JUMP";
+    switch (fp) {
+    case FP_LEVITATION:
+        fpstr = "FP_JUMP";
+        break;
+    case FP_PUSH:
+        fpstr = "FP_PUSH";
+        break;
+    case FP_PULL:
+        fpstr = "FP_PULL";
+        break;
+    case FP_SABERTHROW:
+        fpstr = "FP_SABERTHROW";
+        break;
+    case FP_SABER_DEFENSE:
+        fpstr = "FP_SABER_DEFENSE";
+        break;
+    case FP_SABER_OFFENSE:
+        fpstr = "FP_SABER_OFFENSE";
+        break;
+    case FP_SEE:
+        fpstr = "FP_SENSE";
+        break;
+    case FP_SPEED:
+        fpstr = "FP_SPEED";
+        break;
+    case FP_HEAL:
+        fpstr = "FP_HEAL";
+        break;
+    case FP_TELEPATHY:
+        fpstr = "FP_MINDTRICK";
+        break;
+    case FP_GRIP:
+        fpstr = "FP_GRIP";
+        break;
+    case FP_LIGHTNING:
+        fpstr = "FP_LIGHTNING";
+        break;
+    case FP_RAGE:
+        fpstr = "FP_RAGE";
+        break;
+    case FP_PROTECT:
+        fpstr = "FP_PROTECT";
+        break;
+    case FP_ABSORB:
+        fpstr = "FP_ABSORB";
+        break;
+    case FP_DRAIN:
+        fpstr = "FP_DRAIN";
+        break;
+
+    default:
+        break;
+    }
+
+    return SETTINGS_JSON.at("probability").at(fpstr).at(lvlstr);
+}
+
 // returns the known force powers
 static void randomizeForcePowers(playerState_t* pState, std::string mapname = "") {
 
@@ -685,33 +762,28 @@ static void randomizeForcePowers(playerState_t* pState, std::string mapname = ""
             if (TIER_MISSIONS_COMPLETED >= 5 && TIER_MISSIONS_COMPLETED < 10) { corePointsToSpend = fps_core_shuffled.size() * 2; }
             if (TIER_MISSIONS_COMPLETED >= 10) { corePointsToSpend = fps_core_shuffled.size() *  3; }
 
+            // core
             for (auto fp : fps_core_shuffled) {
 
                 // finished
                 if (corePointsToSpend <= 0) { break; }
 
-                int randomLevel = Q_min(GET_RANDOM(1, 3), corePointsToSpend);
+                int randomLevel = 0;
+                int randNo = GET_RANDOM(0, 100);
 
-                // don't make it too easy ;)
-                if (fp == FP_LEVITATION) {
-                    int randNo = GET_RANDOM(0, 100);
+                if (randNo <= (getProb(fp, 1))) {
+                    randomLevel = 1;
+                }
 
-                    if (randNo > (100 - _forceJumpOneProbability)) {
-                        randomLevel = 1;
-                    }
+                if (randNo > (getProb(fp, 1))) {
+                    randomLevel = 2;
+                }
 
-                    if (randNo > (100 - _forceJumpTwoProbability)) {
-                        randomLevel = 2;
-                    }
-
-                    if (randomLevel > (100 - _forceJumpThreeProbability)) {
-                        randomLevel = 3;
-                    }
-
+                if (randomLevel > (getProb(fp, 1) + getProb(fp, 2))) {
+                    randomLevel = 3;
                 }
 
                 corePointsToSpend -= randomLevel;
-
 
                 pState->forcePowerLevel[fp] = randomLevel;
 
@@ -726,12 +798,26 @@ static void randomizeForcePowers(playerState_t* pState, std::string mapname = ""
                 }
             }
 
+            // player
             for (auto fp : fps_player_shuffled) {
 
                 // finished
                 if (playerPointsToSpend <= 0) { break; }
 
-                int randomLevel = Q_min(GET_RANDOM(1, 3), playerPointsToSpend);
+                int randomLevel = 0;
+                int randNo = GET_RANDOM(0, 100);
+
+                if (randNo <= (getProb(fp, 1))) {
+                    randomLevel = 1;
+                }
+
+                if (randNo > (getProb(fp, 1))) {
+                    randomLevel = 2;
+                }
+
+                if (randomLevel > (getProb(fp, 1) + getProb(fp, 2))) {
+                    randomLevel = 3;
+                }
                 playerPointsToSpend -= randomLevel;
 
                 pState->forcePowerLevel[fp] = randomLevel;
@@ -757,27 +843,18 @@ static void randomizeForcePowers(playerState_t* pState, std::string mapname = ""
                 if (GET_RANDOM_MAX(100) > 60) { continue; }
 
                 int randomLevel = 0;
-                // don't make it too easy ;)
-                if (fp == FP_LEVITATION) {
-                    int randNo = GET_RANDOM(0, 100);
+                int randNo = GET_RANDOM(0, 100);
 
-                    if (randNo > (100 - _forceJumpOneProbability)) {
-                        randomLevel = 1;
-                    }
+                if (randNo <= (getProb(fp, 1))) {
+                    randomLevel = 1;
+                }
 
-                    if (randNo > (100 - _forceJumpTwoProbability)) {
-                        randomLevel = 2;
-                    }
+                if (randNo > (getProb(fp, 1))) {
+                    randomLevel = 2;
+                }
 
-                    if (randomLevel > (100 - _forceJumpThreeProbability)) {
-                        randomLevel = 3;
-                    }
-
-                } else {
-
-
-                    // from 0..3
-                    randomLevel = GET_RANDOM(0, GET_RANDOM(1, 3));
+                if (randomLevel > (getProb(fp, 1) + getProb(fp, 2))) {
+                    randomLevel = 3;
                 }
 
                 pState->forcePowerLevel[fp] = randomLevel;
@@ -803,7 +880,20 @@ static void randomizeForcePowers(playerState_t* pState, std::string mapname = ""
             for (auto fp : fps_player_shuffled) {
                 if (maxPoints == 0) { break; }
 
-                int randomLevel = Q_min(GET_RANDOM(0, GET_RANDOM(1, GET_RANDOM(2, 3))), maxPoints);
+                int randomLevel = 0;
+                int randNo = GET_RANDOM(0, 100);
+
+                if (randNo <= (getProb(fp, 1))) {
+                    randomLevel = 1;
+                }
+
+                if (randNo > (getProb(fp, 1))) {
+                    randomLevel = 2;
+                }
+
+                if (randomLevel > (getProb(fp, 1) + getProb(fp, 2))) {
+                    randomLevel = 3;
+                }
 
                 maxPoints -= randomLevel;
 

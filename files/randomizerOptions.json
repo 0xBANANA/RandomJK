@@ -3,6 +3,89 @@
   "forceRandomizationMode" : 0,
   "weaponRandomizationMode" : 0,
 
+  "probability": {
+    "FP_HEAL": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_JUMP": {
+      "LVL1": 60.0,
+      "LVL2": 30.0,
+      "LVL3": 10.0
+    },
+    "FP_SPEED": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_PUSH": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_PULL": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_MINDTRICK": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_GRIP": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_LIGHTNING": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_SABERTHROW": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_SABER_DEFENSE": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_SABER_OFFENSE": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_RAGE": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_PROTECT": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_ABSORB": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_DRAIN": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    },
+    "FP_SENSE": {
+      "LVL1": 33.0,
+      "LVL2": 33.0,
+      "LVL3": 33.0
+    }
+  },
+
   "weapons": {
     "t1_sour_0": {
       "WP_SABER" : 1,

@@ -108,6 +108,14 @@ Currently, there is a limit of 100 possible sets per map, which should be enough
 
 If you add a set, make sure you use a unique index in the range of 0-99.
 
+# Probabilities
+
+They can be set for each force level in the `randomizerOptions.json` file.
+These are applied when randomizing the force levels, not when randomizing the
+actual force powers that are available. This means, that setting something to
+`100.00` does *not* make the force power appear every time. Instead, it ensures
+the respective for level *in case* the force power is available.
+
 # Additional Notes
 * Considering map loading: If you load from a previous save game, **NO** randomization will be performed as the savegame will be treated as is. Quicksaves will be treated the same.
 * Please note that for yavin1b, the force powers currently won't get randomized. Starting from yavin2, randomizations kicks in.
@@ -115,7 +123,10 @@ If you add a set, make sure you use a unique index in the range of 0-99.
 
 # Building
 
-Please refer to the original notes on the build process of OpenJK. I added an option to the CMake project which allows you to pass the installation directory with an environment variable. Check the `CMakeList` files for additional info.
+1. Please refer to the original notes on the build process of OpenJK.
+2. Define WINDOWS_IGNORE_PACKING_MISMATCH
+
+I added an option to the CMake project which allows you to pass the installation directory with an environment variable. Check the `CMakeList` files for additional info.
 
 **After compiling this project, copy the files of the** `files` **folder into the same directory your JKA executable lives in. If you don't do this, the game will crash as intended.** Please refer to the troubleshooting sections in case of problems.
 
@@ -123,7 +134,7 @@ Please refer to the original notes on the build process of OpenJK. I added an op
 Thanks go out to Raven, the JACoders and the JKA speedrunning community.
 Additionally, to nlohmann for the great JSON library.
 
-~ Joe Bananas (@JoeBananas1337_)
+~ CaptnBanana (@CaptnBanana)
 
 # Todos
 * Clean this project from MP files and folders
